@@ -54,6 +54,13 @@
 
     git branch -d myBranch # deletes local branch
     git push origin --delete myBranch # deletes remote branch (better to do on github)
+
+    git stash # stashes all current changes (useful if you want to switch branches without including existing changes)
+    git checkout someNewBranch
+    # ...
+    git checkout previousBranch
+    git stash apply # reapplies all stashed changes
+    git stash drop # removes latest stashed changes
     ```
 
 ## Making Changes
