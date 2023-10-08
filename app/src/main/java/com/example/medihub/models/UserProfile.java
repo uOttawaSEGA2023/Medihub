@@ -52,6 +52,9 @@ public class UserProfile {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+    public void setHealthCardNumber(String healthCardNumber) {
+        this.healthCardNumber = healthCardNumber;
+    }
     public void setAddress(String address) {
         this.address = address;
     }
