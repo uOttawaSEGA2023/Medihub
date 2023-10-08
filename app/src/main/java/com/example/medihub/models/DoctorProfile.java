@@ -3,6 +3,7 @@ package com.example.medihub.models;
 import com.example.medihub.enums.DoctorSpecialty;
 import com.example.medihub.enums.UserRole;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 
 public class DoctorProfile extends UserProfile {
@@ -50,9 +51,17 @@ public class DoctorProfile extends UserProfile {
                 "\nSpecialties: " + specialties.toString();
     }
 
-    // TODO: IMPLEMENT VALIDATE FUNCTION
     @Override
-    public String[] validate() {
-        return null;
+    public ArrayList<String> validate() {
+        ArrayList<String> errors = super.validate();
+
+        // make sure there are 1 or more specialties
+        if (specialties == null || specialties.isEmpty()) {
+            errors.add("invalid specialties (make sure there is at least one specialty)");
+        }
+
+        // TODO: Add employee number validation if required
+
+        return errors;
     }
 }

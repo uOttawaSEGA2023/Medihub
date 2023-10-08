@@ -2,6 +2,8 @@ package com.example.medihub.models;
 
 import com.example.medihub.enums.UserRole;
 
+import java.util.ArrayList;
+
 public class PatientProfile extends UserProfile {
     // CONSTRUCTORS
 
@@ -18,7 +20,7 @@ public class PatientProfile extends UserProfile {
 
     // TODO: IMPLEMENT VALIDATE FUNCTION
     @Override
-    public String[] validate() {
-        return null;
+    public ArrayList<String> validate() {
+        return super.validate();
     }
 }

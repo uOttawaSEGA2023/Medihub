@@ -1,6 +1,8 @@
 package com.example.medihub.models;
 
 import com.example.medihub.enums.UserRole;
+import android.util.Patterns;
+import java.util.ArrayList;
 
 public class UserProfile {
     // INSTANCE VARIABLES
@@ -11,6 +13,14 @@ public class UserProfile {
     private String healthCardNumber;
     private String address;
     private String phoneNumber;
+
+    // STATIC VARIABLES
+
+    // health card number regex obtained from ontario gov website:
+    // https://health.gov.on.ca/en/pro/publications/ohip/ebs_hcv_specs.aspx#:~:text=The%20health%20number%20is%20a,face%20of%20every%20health%20card.&text=Version%20code%20is%20an%20alphabetic,red%20and%20white%E2%80%9D)%20cards.
+    private static final String HEALTH_CARD_REGEX = "[1-9]\\d{9}";
+    private static final String NAME_REGEX = "^[A-Za-z-']{1,30}$";
+
 
     // CONSTRUCTORS
 
@@ -73,8 +83,27 @@ public class UserProfile {
                 "\nPhone Number: " + getPhoneNumber();
     }
 
-    // TODO: IMPLEMENT VALIDATE FUNCTION
-    public String[] validate() {
-        return null;
+    public ArrayList<String> validate() {
+        ArrayList<String> errors = new ArrayList<>();
+
+        if (role == null) {
+            errors.add("invalid user role");
+        }
+        if (phoneNumber == null || !Patterns.PHONE.matcher(phoneNumber).matches()) {
+            errors.add("invalid phone number");
+        }
+        if (healthCardNumber == null || !healthCardNumber.matches(HEALTH_CARD_REGEX)) {
+            errors.add("invalid health card number (format: only digits no dashes)");
+        }
+        // TODO: (maybe remove name validations)
+        if (firstName == null || !firstName.matches(NAME_REGEX)) {
+            errors.add("invalid first name (no special characters allowed)");
+        }
+        if (lastName == null || !lastName.matches(NAME_REGEX)) {
+            errors.add("invalid last name (no special characters allowed)");
+        }
+        // TODO: (maybe, if required) add address validation
+
+        return errors;
     }
 }
