@@ -18,7 +18,6 @@ public class PatientProfile extends UserProfile {
         return super.toString();
     }
 
-    // TODO: IMPLEMENT VALIDATE FUNCTION
     @Override
     public ArrayList<String> validate() {
         return super.validate();
