@@ -24,8 +24,14 @@
         <activity
             android:name=".RegistrationOptionActivity">
         </activity>
-        <activity android:name=".PatientRegistrationActivity"></activity>
-        <activity android:name=".DoctorRegistrationActivity"></activity>
+        <activity
+            android:name=".PatientRegistrationActivity">
+
+        </activity>
+        <activity
+            android:name=".DoctorRegistrationActivity">
+
+        </activity>
         <activity
             android:name=".LoginActivity">
         </activity>
