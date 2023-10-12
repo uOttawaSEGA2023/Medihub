@@ -4,7 +4,7 @@ import com.example.medihub.enums.UserRole;
 
 import java.util.ArrayList;
 
-public class PatientProfile extends UserProfile {
+public class    PatientProfile extends UserProfile {
     // CONSTRUCTORS
 
     public PatientProfile(UserRole role, String firstName, String lastName, String healthCardNumber, String address, String phoneNumber) {
