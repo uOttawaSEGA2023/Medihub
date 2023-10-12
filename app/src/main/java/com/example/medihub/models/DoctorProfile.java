@@ -8,14 +8,12 @@ import java.util.EnumSet;
 
 public class DoctorProfile extends UserProfile {
     // INSTANCE VARIABLES
-
     private String employeeNumber;
     private EnumSet<DoctorSpecialty> specialties;
 
     // CONSTRUCTORS
-
-    public DoctorProfile(UserRole role, String firstName, String lastName, String healthCardNumber, String address, String phoneNumber, String employeeNumber, EnumSet<DoctorSpecialty> specialties) {
-        super(role, firstName, lastName, healthCardNumber, address, phoneNumber);
+    public DoctorProfile(UserRole role, String firstName, String lastName, String address, String phoneNumber, String employeeNumber, EnumSet<DoctorSpecialty> specialties) {
+        super(role, firstName, lastName, address, phoneNumber);
         this.employeeNumber = employeeNumber;
         this.specialties = specialties;
     }
@@ -43,7 +41,6 @@ public class DoctorProfile extends UserProfile {
     }
 
     // METHODS
-
     @Override
     public String toString() {
         return super.toString() +
