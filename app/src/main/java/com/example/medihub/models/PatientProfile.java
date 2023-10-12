@@ -3,8 +3,9 @@ package com.example.medihub.models;
 import com.example.medihub.enums.UserRole;
 
 import java.util.ArrayList;
+import com.example.medihub.interfaces.Model;
 
-public class PatientProfile extends UserProfile {
+public class PatientProfile extends UserProfile implements Model {
     // INSTANCE VARIABLES
     private String healthCardNumber;
 

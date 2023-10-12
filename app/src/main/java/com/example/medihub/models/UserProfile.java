@@ -3,8 +3,9 @@ package com.example.medihub.models;
 import com.example.medihub.enums.UserRole;
 import android.util.Patterns;
 import java.util.ArrayList;
+import com.example.medihub.interfaces.Model;
 
-public class UserProfile {
+public class UserProfile implements Model {
     // INSTANCE VARIABLES
     private UserRole role;
     private String firstName;
@@ -64,6 +65,7 @@ public class UserProfile {
                 "\nAddress: " + getAddress() +
                 "\nPhone Number: " + getPhoneNumber();
     }
+
 
     public ArrayList<String> validate() {
         ArrayList<String> errors = new ArrayList<>();

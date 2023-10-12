@@ -2,11 +2,12 @@ package com.example.medihub.models;
 
 import com.example.medihub.enums.DoctorSpecialty;
 import com.example.medihub.enums.UserRole;
+import com.example.medihub.interfaces.Model;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
 
-public class DoctorProfile extends UserProfile {
+public class DoctorProfile extends UserProfile implements Model {
     // INSTANCE VARIABLES
     private String employeeNumber;
     private EnumSet<DoctorSpecialty> specialties;
