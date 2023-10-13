@@ -13,6 +13,8 @@ public class DoctorProfile extends UserProfile implements Model {
     private EnumSet<DoctorSpecialty> specialties;
 
     // CONSTRUCTORS
+    public DoctorProfile() {}
+
     public DoctorProfile(UserRole role, String firstName, String lastName, String address, String phoneNumber, String employeeNumber, EnumSet<DoctorSpecialty> specialties) {
         super(role, firstName, lastName, address, phoneNumber);
         this.employeeNumber = employeeNumber;

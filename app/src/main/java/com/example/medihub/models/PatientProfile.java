@@ -14,6 +14,8 @@ public class PatientProfile extends UserProfile implements Model {
     private static final String HEALTH_CARD_REGEX = "[1-9]\\d{9}";
 
     // CONSTRUCTORS
+    public PatientProfile() {}
+
     public PatientProfile(UserRole role, String firstName, String lastName, String address, String phoneNumber, String healthCardNumber) {
         super(role, firstName, lastName, address, phoneNumber);
         this.healthCardNumber = healthCardNumber;

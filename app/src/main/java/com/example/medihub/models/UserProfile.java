@@ -18,6 +18,8 @@ public class UserProfile implements Model {
 
 
     // CONSTRUCTORS
+    public UserProfile() {}
+
     public UserProfile(UserRole role, String firstName, String lastName, String address, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
