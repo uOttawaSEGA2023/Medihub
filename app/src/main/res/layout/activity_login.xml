@@ -67,7 +67,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textEmail" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/buttonCreateAccount"
         android:layout_width="168dp"
         android:layout_height="48dp"
         android:layout_marginStart="125dp"
@@ -87,7 +87,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="162dp"
         android:text="Login"
-        app:layout_constraintBottom_toTopOf="@+id/button5"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCreateAccount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textPassword" />
