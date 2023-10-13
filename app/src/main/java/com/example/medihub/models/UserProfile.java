@@ -3,6 +3,8 @@ package com.example.medihub.models;
 import com.example.medihub.enums.UserRole;
 import android.util.Patterns;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.example.medihub.interfaces.Model;
 
 public class UserProfile implements Model {
@@ -14,11 +16,11 @@ public class UserProfile implements Model {
     private String phoneNumber;
 
     // STATIC VARIABLES
-    private static final String NAME_REGEX = "^[A-Za-z-']{1,30}$";
+    private static final String POSTAL_CODE_REGEX = "^[A-Z][0-9][A-Z] [0-9][A-Z][0-9]$";
 
 
     // CONSTRUCTORS
-    public UserProfile() {}
+    public UserProfile(UserRole role) { this.role = role; }
 
     public UserProfile(UserRole role, String firstName, String lastName, String address, String phoneNumber) {
         this.firstName = firstName;
@@ -41,8 +43,8 @@ public class UserProfile implements Model {
     public String getPhoneNumber() {
         return phoneNumber;
     }
-    public String getRole() {
-        return role.toString();
+    public UserRole getRole() {
+        return role;
     }
 
     // SETTERS
@@ -62,30 +64,22 @@ public class UserProfile implements Model {
     // METHODS
     @Override
     public String toString() {
-        return getRole() + " User Profile: " +
+        return getRole().toString() + " User Profile: " +
                 "\nName: " + getFirstName() + " " + getLastName() +
                 "\nAddress: " + getAddress() +
                 "\nPhone Number: " + getPhoneNumber();
     }
 
 
-    public ArrayList<String> validate() {
-        ArrayList<String> errors = new ArrayList<>();
+    public HashMap<String, String> validate() {
+        HashMap<String, String> errors = new HashMap<>();
 
-        if (role == null) {
-            errors.add("invalid user role");
-        }
         if (phoneNumber == null || !Patterns.PHONE.matcher(phoneNumber).matches()) {
-            errors.add("invalid phone number");
+            errors.put("phoneNumber", "invalid phone number");
         }
-        // TODO: (maybe remove name validations)
-        if (firstName == null || !firstName.matches(NAME_REGEX)) {
-            errors.add("invalid first name (no special characters allowed)");
+        if (address == null || !address.matches(POSTAL_CODE_REGEX)) {
+            errors.put("address", "invalid postal code address (format: A1A A1A)");
         }
-        if (lastName == null || !lastName.matches(NAME_REGEX)) {
-            errors.add("invalid last name (no special characters allowed)");
-        }
-        // TODO: (maybe, if required) add address validation
 
         return errors;
     }

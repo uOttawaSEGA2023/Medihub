@@ -3,6 +3,8 @@ package com.example.medihub.models;
 import com.example.medihub.enums.UserRole;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.example.medihub.interfaces.Model;
 
 public class PatientProfile extends UserProfile implements Model {
@@ -14,10 +16,12 @@ public class PatientProfile extends UserProfile implements Model {
     private static final String HEALTH_CARD_REGEX = "[1-9]\\d{9}";
 
     // CONSTRUCTORS
-    public PatientProfile() {}
+    public PatientProfile() {
+        super(UserRole.patient);
+    }
 
-    public PatientProfile(UserRole role, String firstName, String lastName, String address, String phoneNumber, String healthCardNumber) {
-        super(role, firstName, lastName, address, phoneNumber);
+    public PatientProfile(String firstName, String lastName, String address, String phoneNumber, String healthCardNumber) {
+        super(UserRole.patient, firstName, lastName, address, phoneNumber);
         this.healthCardNumber = healthCardNumber;
     }
 
@@ -40,11 +44,14 @@ public class PatientProfile extends UserProfile implements Model {
     }
 
     @Override
-    public ArrayList<String> validate() {
-        ArrayList<String> errors = super.validate();
+    public HashMap<String, String> validate() {
+        HashMap<String, String> errors = super.validate();
 
+        if (getRole() == null || getRole() != UserRole.patient) {
+            errors.put("role", "incorrect user role (should be patient)");
+        }
         if (healthCardNumber == null || !healthCardNumber.matches(HEALTH_CARD_REGEX)) {
-            errors.add("invalid health card number (format: only digits no dashes)");
+            errors.put("healthCardNumber", "invalid health card number (format: only digits no dashes)");
         }
 
         return errors;
