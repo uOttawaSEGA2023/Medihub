@@ -7,19 +7,20 @@ import com.example.medihub.interfaces.Model;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.List;
 
 public class DoctorProfile extends UserProfile implements Model {
     // INSTANCE VARIABLES
     private String employeeNumber;
-    private EnumSet<DoctorSpecialty> specialties;
+    private List<DoctorSpecialty> specialties;
 
     // CONSTRUCTORS
     public DoctorProfile() {
         super(UserRole.doctor);
-        this.specialties = EnumSet.noneOf(DoctorSpecialty.class);
+        this.specialties = new ArrayList<>();
     }
 
-    public DoctorProfile(String firstName, String lastName, String address, String phoneNumber, String employeeNumber, EnumSet<DoctorSpecialty> specialties) {
+    public DoctorProfile(String firstName, String lastName, String address, String phoneNumber, String employeeNumber, ArrayList<DoctorSpecialty> specialties) {
         super(UserRole.doctor, firstName, lastName, address, phoneNumber);
         this.employeeNumber = employeeNumber;
         this.specialties = specialties;
@@ -29,7 +30,7 @@ public class DoctorProfile extends UserProfile implements Model {
     public String getEmployeeNumber() {
         return employeeNumber;
     }
-    public EnumSet<DoctorSpecialty> getSpecialties() {
+    public List<DoctorSpecialty> getSpecialties() {
         return specialties;
     }
 
@@ -37,11 +38,13 @@ public class DoctorProfile extends UserProfile implements Model {
     public void setEmployeeNumber(String employeeNumber) {
         this.employeeNumber = employeeNumber;
     }
-    public void setSpecialties(EnumSet<DoctorSpecialty> specialties) {
+    public void setSpecialties(ArrayList<DoctorSpecialty> specialties) {
         this.specialties = specialties;
     }
     public void addSpecialty(DoctorSpecialty specialty) {
-        this.specialties.add(specialty);
+        if (!this.specialties.contains(specialty)) {
+            this.specialties.add(specialty);
+        }
     }
     public void removeSpecialty(DoctorSpecialty specialty) {
         this.specialties.remove(specialty);
@@ -78,7 +81,7 @@ public class DoctorProfile extends UserProfile implements Model {
     public HashMap<String, Object> toMap() {
         HashMap<String, Object> objMap = super.toMap();
         objMap.put("employeeNumber", getEmployeeNumber());
-        objMap.put("specialties", new ArrayList<>(this.specialties));  // convert to list (collection not supported)
+        objMap.put("specialties", getSpecialties());
 
         return objMap;
     }
