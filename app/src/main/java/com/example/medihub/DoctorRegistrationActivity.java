@@ -219,7 +219,7 @@ public class DoctorRegistrationActivity extends AppCompatActivity  {
                                 Intent welcomeIntent = new Intent(DoctorRegistrationActivity.this, WelcomeActivity.class);
                                 startActivity(welcomeIntent);
 
-                                finish();
+                                DoctorRegistrationActivity.this.finish();
                             } else {
                                 Toast.makeText(DoctorRegistrationActivity.this, "Authentication failed, please try again later", Toast.LENGTH_LONG).show();
                             }
