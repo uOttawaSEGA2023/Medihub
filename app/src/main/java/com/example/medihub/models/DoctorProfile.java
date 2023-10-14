@@ -4,8 +4,8 @@ import com.example.medihub.enums.DoctorSpecialty;
 import com.example.medihub.enums.UserRole;
 import com.example.medihub.interfaces.Model;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashMap;
 
 public class DoctorProfile extends UserProfile implements Model {
     // INSTANCE VARIABLES
@@ -13,8 +13,13 @@ public class DoctorProfile extends UserProfile implements Model {
     private EnumSet<DoctorSpecialty> specialties;
 
     // CONSTRUCTORS
-    public DoctorProfile(UserRole role, String firstName, String lastName, String address, String phoneNumber, String employeeNumber, EnumSet<DoctorSpecialty> specialties) {
-        super(role, firstName, lastName, address, phoneNumber);
+    public DoctorProfile() {
+        super(UserRole.doctor);
+        this.specialties = EnumSet.noneOf(DoctorSpecialty.class);
+    }
+
+    public DoctorProfile(String firstName, String lastName, String address, String phoneNumber, String employeeNumber, EnumSet<DoctorSpecialty> specialties) {
+        super(UserRole.doctor, firstName, lastName, address, phoneNumber);
         this.employeeNumber = employeeNumber;
         this.specialties = specialties;
     }
@@ -50,15 +55,20 @@ public class DoctorProfile extends UserProfile implements Model {
     }
 
     @Override
-    public ArrayList<String> validate() {
-        ArrayList<String> errors = super.validate();
+    public HashMap<String, String> validate() {
+        HashMap<String, String> errors = super.validate();
+
+        if (getRole() == null || getRole() != UserRole.doctor) {
+            errors.put("role", "incorrect user role (should be doctor)");
+        }
 
         // make sure there are 1 or more specialties
         if (specialties == null || specialties.isEmpty()) {
-            errors.add("invalid specialties (make sure there is at least one specialty)");
+            errors.put("specialties", "invalid specialties (make sure there is at least one specialty)");
         }
-
-        // TODO: Add employee number validation if required
+        if (employeeNumber == null || employeeNumber.isEmpty()) {
+            errors.put("employeeNumber", "employee number can't be blank");
+        }
 
         return errors;
     }

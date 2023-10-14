@@ -1,7 +1,7 @@
 package com.example.medihub.interfaces;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface Model {
-    public ArrayList<String> validate();
+    public HashMap<String, String> validate();
 }
