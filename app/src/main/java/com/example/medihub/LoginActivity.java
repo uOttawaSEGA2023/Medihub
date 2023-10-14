@@ -1,6 +1,7 @@
 package com.example.medihub;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 
 import android.os.Bundle;
@@ -45,6 +46,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 //ADD AUTHENTICATION HERE
 
+                //ASSUME LOGIN WORKS
+
+               openWelcomeActivity();
+
+
 
             }
         });
@@ -53,6 +59,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public void openRegistrationOptionActivity() {
         Intent intent = new Intent(this, RegistrationOptionActivity.class);
+        startActivity(intent);
+    }
+
+    public void openWelcomeActivity() {
+        Intent intent = new Intent(this, WelcomeActivity.class);
         startActivity(intent);
     }
 }
