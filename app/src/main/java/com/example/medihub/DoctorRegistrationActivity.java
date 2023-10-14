@@ -134,14 +134,12 @@ public class DoctorRegistrationActivity extends AppCompatActivity  {
                         // clear error message for all checkboxes
                         for (View v : specialtiesLayout.getTouchables()) {
                             if (v instanceof CheckBox) {
-                                ((CheckBox)v).setError("");
+                                ((CheckBox)v).setError(null);
                             }
                         }
                     }
                 }
-                Log.i("validate: ", userProfileErrors.toString());
-                Log.i("specialties: ", doctorProfile.getSpecialties().toString());
-                Log.i("test: ", doctorProfile.getSpecialties().isEmpty() ? "true" : "false");
+                Log.i("validation: ", userProfileErrors.toString());
 
                 if (!hasErrors) {
                     // TODO: add user to firebase
