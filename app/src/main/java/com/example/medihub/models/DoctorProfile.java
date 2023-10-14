@@ -4,6 +4,7 @@ import com.example.medihub.enums.DoctorSpecialty;
 import com.example.medihub.enums.UserRole;
 import com.example.medihub.interfaces.Model;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 
@@ -71,5 +72,14 @@ public class DoctorProfile extends UserProfile implements Model {
         }
 
         return errors;
+    }
+
+    @Override
+    public HashMap<String, Object> toMap() {
+        HashMap<String, Object> objMap = super.toMap();
+        objMap.put("employeeNumber", getEmployeeNumber());
+        objMap.put("specialties", new ArrayList<>(this.specialties));  // convert to list (collection not supported)
+
+        return objMap;
     }
 }
