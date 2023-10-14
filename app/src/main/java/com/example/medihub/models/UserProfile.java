@@ -17,6 +17,7 @@ public class UserProfile implements Model {
 
     // STATIC VARIABLES
     private static final String POSTAL_CODE_REGEX = "^[A-Z][0-9][A-Z] [0-9][A-Z][0-9]$";
+    public static final int MIN_PASSWORD_LENGTH = 8;
 
 
     // CONSTRUCTORS
@@ -74,11 +75,17 @@ public class UserProfile implements Model {
     public HashMap<String, String> validate() {
         HashMap<String, String> errors = new HashMap<>();
 
+        if (firstName == null || firstName.isEmpty()) {
+            errors.put("firstName", "first name can't be blank");
+        }
+        if (lastName == null || lastName.isEmpty()) {
+            errors.put("lastName", "last name can't be blank");
+        }
         if (phoneNumber == null || !Patterns.PHONE.matcher(phoneNumber).matches()) {
             errors.put("phoneNumber", "invalid phone number");
         }
         if (address == null || !address.matches(POSTAL_CODE_REGEX)) {
-            errors.put("address", "invalid postal code address (format: A1A A1A)");
+            errors.put("address", "invalid postal code address (format: A1A 1A1)");
         }
 
         return errors;

@@ -15,6 +15,7 @@ public class DoctorProfile extends UserProfile implements Model {
     // CONSTRUCTORS
     public DoctorProfile() {
         super(UserRole.doctor);
+        this.specialties = EnumSet.noneOf(DoctorSpecialty.class);
     }
 
     public DoctorProfile(String firstName, String lastName, String address, String phoneNumber, String employeeNumber, EnumSet<DoctorSpecialty> specialties) {
@@ -64,6 +65,9 @@ public class DoctorProfile extends UserProfile implements Model {
         // make sure there are 1 or more specialties
         if (specialties == null || specialties.isEmpty()) {
             errors.put("specialties", "invalid specialties (make sure there is at least one specialty)");
+        }
+        if (employeeNumber == null || employeeNumber.isEmpty()) {
+            errors.put("employeeNumber", "employee number can't be blank");
         }
 
         return errors;
