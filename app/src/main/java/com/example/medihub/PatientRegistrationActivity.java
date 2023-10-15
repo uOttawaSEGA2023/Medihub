@@ -33,7 +33,7 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDB;
-    private DoctorProfile patientProfile;
+    private UserProfile patientProfile;
 
     private Button register;
     private EditText last_name;
@@ -106,13 +106,13 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
     private boolean validatePatientProfile()
     {
         boolean hasErrors = false;
-        UserProfile user = new PatientProfile(first_name.getText().toString(),
+        patientProfile = new PatientProfile(first_name.getText().toString(),
                 last_name.getText().toString(),
                 address.getText().toString(),
                 phone.getText().toString(),
                 healthcard.getText().toString());
 
-        HashMap<String, String> errors = user.validate();
+        HashMap<String, String> errors = patientProfile.validate();
         if (!errors.isEmpty()) {
             hasErrors = true;
 
@@ -153,6 +153,7 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
                             Log.i("current user:", user.toString());
 
                             if (user.getUid() != null) {
+                                Log.i("asdasd2", "createed patient");
                                 addPatientToDatabase(user.getUid());
 
                                 // redirect to login page
@@ -175,7 +176,9 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
     }
 
     private void addPatientToDatabase(String userId) {
+
         firebaseDB = FirebaseDatabase.getInstance();
+
         DatabaseReference usersRef = firebaseDB.getReference("users");
 
         usersRef.child(userId).setValue(patientProfile.toMap());
