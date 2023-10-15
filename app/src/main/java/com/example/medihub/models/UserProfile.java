@@ -2,12 +2,14 @@ package com.example.medihub.models;
 
 import com.example.medihub.enums.UserRole;
 import android.util.Patterns;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.example.medihub.interfaces.Model;
 
-public class UserProfile implements Model {
+public class UserProfile implements Model, Serializable {
     // INSTANCE VARIABLES
     private UserRole role;
     private String firstName;

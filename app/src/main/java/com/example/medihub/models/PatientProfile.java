@@ -2,12 +2,13 @@ package com.example.medihub.models;
 
 import com.example.medihub.enums.UserRole;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.example.medihub.interfaces.Model;
 
-public class PatientProfile extends UserProfile implements Model {
+public class PatientProfile extends UserProfile implements Model, Serializable {
     // INSTANCE VARIABLES
     private String healthCardNumber;
 
