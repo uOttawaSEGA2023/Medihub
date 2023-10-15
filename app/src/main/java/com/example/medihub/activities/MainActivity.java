@@ -1,8 +1,9 @@
-package com.example.medihub;
+package com.example.medihub.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.medihub.R;
 import com.example.medihub.enums.UserRole;
 import com.example.medihub.models.DoctorProfile;
 import com.example.medihub.models.PatientProfile;
