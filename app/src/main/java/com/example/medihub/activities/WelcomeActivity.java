@@ -1,15 +1,18 @@
-package com.example.medihub;
+package com.example.medihub.activities;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.medihub.R;
+import com.example.medihub.models.DoctorProfile;
+import com.example.medihub.models.PatientProfile;
+import com.example.medihub.models.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,7 +28,9 @@ public class WelcomeActivity extends AppCompatActivity {
     private Button buttonLogOut;
     private FirebaseUser user;
     private FirebaseDatabase firebaseDB;
-
+    private Button homeButton;
+    private Intent homeIntent = null;
+    private UserProfile userProfile;
 
 
     @Override
@@ -38,6 +43,7 @@ public class WelcomeActivity extends AppCompatActivity {
         user = auth.getCurrentUser();
         firebaseDB = FirebaseDatabase.getInstance();
         textWelcome = findViewById(R.id.textWelcome);
+        homeButton = findViewById(R.id.homeButton);
 
         String userId = auth.getUid();
         DatabaseReference dbReference = firebaseDB.getReference("users").child(userId);
@@ -52,7 +58,24 @@ public class WelcomeActivity extends AppCompatActivity {
                     Log.d("role", role + "");
                     Log.d("name", name + "");
 
-                    textWelcome.setText("Welcome, " + name + "(" + role + ")");
+                    // Welcome to MediHub! You are logged in as a <role>
+                    textWelcome.setText("Welcome to MediHub " + name + "! You are logged in as "
+                            + (role.equals("admin") ? "an " + role : "a " + role));
+
+                    switch (role) {
+                        case "admin":
+                            homeIntent = new Intent(WelcomeActivity.this, AdminActivity.class);
+                            userProfile = dataSnapshot.getValue(UserProfile.class);
+                            break;
+                        case "patient":
+                            homeIntent = new Intent(WelcomeActivity.this, PatientActivity.class);
+                            userProfile = dataSnapshot.getValue(PatientProfile.class);
+                            break;
+                        case "doctor":
+                            homeIntent = new Intent(WelcomeActivity.this, DoctorActivity.class);
+                            userProfile = dataSnapshot.getValue(DoctorProfile.class);
+                            break;
+                    }
                 }
             }
 
@@ -76,10 +99,19 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
 
+        homeButton.setOnClickListener(new View.OnClickListener() {
 
-
-
-        }
+            @Override
+            public void onClick(View view) {
+                if (homeIntent != null) {
+                    homeIntent.putExtra("user", userProfile);
+                    startActivity(homeIntent);
+                } else {
+                    Toast.makeText(WelcomeActivity.this, "Redirect failed, please try again later.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
 
     public void startLoginActivity()
     {

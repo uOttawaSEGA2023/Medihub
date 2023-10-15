@@ -1,4 +1,4 @@
-package com.example.medihub;
+package com.example.medihub.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.medihub.R;
 import com.example.medihub.enums.DoctorSpecialty;
 import com.example.medihub.models.DoctorProfile;
 import com.example.medihub.models.UserProfile;
@@ -26,8 +27,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.HashMap;
 
 public class DoctorRegistrationActivity extends AppCompatActivity  {
