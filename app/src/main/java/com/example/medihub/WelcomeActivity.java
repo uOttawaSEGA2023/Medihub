@@ -15,10 +15,10 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-    TextView textView;
-    FirebaseAuth auth;
-    Button button;
-    FirebaseUser user;
+    private TextView textWelcome;
+    private FirebaseAuth auth;
+    private Button buttonLogOut;
+    private FirebaseUser user;
 
 
 
@@ -28,26 +28,37 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         auth = FirebaseAuth.getInstance();
-        button = findViewById(R.id.buttonLogOut);
+        buttonLogOut = findViewById(R.id.buttonLogOut);
         user = auth.getCurrentUser();
 
-        //The user is not logged in
-        if (user == null) {
+        //CHANGE TEXT AND DISPLAY ROLE AND WELCOME MESSAGE
+        //textWelcome.setText("Welcome " + user.getRole());
 
+        buttonLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                FirebaseAuth.getInstance().signOut();
+
+                startLoginActivity();
+            }
+        });
 
 
 
 
         }
 
-    }
-
     public void startLoginActivity()
     {
-        Intent intent = new Intent(this, DoctorRegistrationActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
+    }
+
     }
 
 
-}
+
+
+

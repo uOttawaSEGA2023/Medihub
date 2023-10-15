@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import android.os.Bundle;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,19 +26,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText textPassword;
 
     @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-
-            openWelcomeActivity();
-
-        }
-    }
-
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -78,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
 
-                mAuth.signInWithEmailAndPassword(email, password)
+                mAuth.signInWithEmailAndPassword(userEmail, userPassword)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -113,6 +103,6 @@ public class LoginActivity extends AppCompatActivity {
     public void openWelcomeActivity() {
         Intent intent = new Intent(this, WelcomeActivity.class);
         startActivity(intent);
-        finish());
+        finish();
     }
 }
