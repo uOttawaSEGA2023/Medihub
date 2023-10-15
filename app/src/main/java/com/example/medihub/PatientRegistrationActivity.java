@@ -194,7 +194,7 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
 
     public void welcomePage()
     {
-        Intent welcomeIntent = new Intent(DoctorRegistrationActivity.this, WelcomeActivity.class);
+        Intent welcomeIntent = new Intent(this, WelcomeActivity.class);
         startActivity(welcomeIntent);
     }
 
