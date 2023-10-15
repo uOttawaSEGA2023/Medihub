@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         Log.i("Current User", currentUser == null ? "null" : currentUser.toString());
 
+
         // redirect user to login page if they are not signed in
         if (currentUser == null) {
             // create a new login intent and start it
