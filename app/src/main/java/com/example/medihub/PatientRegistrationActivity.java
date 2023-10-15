@@ -66,7 +66,8 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
                 boolean hasErrors;
 
                 // USER INPUT VALIDATION
-                hasErrors = validateEmailAndPassword() || validatePatientProfile();
+                hasErrors = validateEmailAndPassword();
+                hasErrors = validatePatientProfile() || hasErrors;
 
                 if (!hasErrors) // add user
                 {
@@ -156,8 +157,8 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
                                 Log.i("asdasd2", "createed patient");
                                 addPatientToDatabase(user.getUid());
 
-                                // redirect to login page
-                                startLogin();
+                                // redirect to welcome page
+                                welcomePage();
 
                                 PatientRegistrationActivity.this.finish();
                             }
@@ -189,6 +190,12 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
     {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    public void welcomePage()
+    {
+        Intent welcomeIntent = new Intent(DoctorRegistrationActivity.this, WelcomeActivity.class);
+        startActivity(welcomeIntent);
     }
 
 
