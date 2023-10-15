@@ -55,12 +55,12 @@ public class MainActivity extends AppCompatActivity {
             String userId = mAuth.getCurrentUser().getUid();
             DatabaseReference dbReference = firebaseDB.getReference("users").child(userId);
 
-            dbReference.addListenerForSingleValueEvent(oneTimeListener);
+            dbReference.addListenerForSingleValueEvent(redirectListener);
             dbReference.addValueEventListener(listener);
         }
     }
 
-    private ValueEventListener oneTimeListener = new ValueEventListener() {
+    private ValueEventListener redirectListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
             if (snapshot.exists()) {
