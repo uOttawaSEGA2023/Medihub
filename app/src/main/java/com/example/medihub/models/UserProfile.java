@@ -23,6 +23,8 @@ public class UserProfile implements Model, Serializable {
 
 
     // CONSTRUCTORS
+    public UserProfile() {}
+
     public UserProfile(UserRole role) { this.role = role; }
 
     public UserProfile(UserRole role, String firstName, String lastName, String address, String phoneNumber) {
