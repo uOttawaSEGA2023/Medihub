@@ -1,14 +1,20 @@
 package com.example.medihub;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -17,6 +23,17 @@ public class LoginActivity extends AppCompatActivity {
     private Button buttonLogin;
     private EditText textEmail;
     private EditText textPassword;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+
+            openWelcomeActivity();
+
+        }
+    }
 
 
     @Override
@@ -44,11 +61,41 @@ public class LoginActivity extends AppCompatActivity {
                 String userEmail = textEmail.getText().toString();
                 String userPassword = textPassword.getText().toString();
 
-                //ADD AUTHENTICATION HERE
+                if (userEmail.isEmpty() && userPassword.isEmpty() == false) {
 
-                //ASSUME LOGIN WORKS
+                    Toast.makeText(LoginActivity.this, "Enter email", Toast.LENGTH_SHORT).show();
+                    return;
 
-               openWelcomeActivity();
+                } else if (userPassword.isEmpty() && userEmail.isEmpty() == false) {
+
+                    Toast.makeText(LoginActivity.this, "Enter password", Toast.LENGTH_SHORT).show();
+                    return;
+
+                } else if (userPassword.isEmpty() && userEmail.isEmpty()) {
+
+                    Toast.makeText(LoginActivity.this, "Enter email and password", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+
+                mAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+
+                                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                                    openWelcomeActivity();
+                                } else {
+
+                                    Toast.makeText(LoginActivity.this, "Email or Password is Incorrect",
+                                            Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+                        });
+
+
 
 
 
@@ -60,10 +107,12 @@ public class LoginActivity extends AppCompatActivity {
     public void openRegistrationOptionActivity() {
         Intent intent = new Intent(this, RegistrationOptionActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void openWelcomeActivity() {
         Intent intent = new Intent(this, WelcomeActivity.class);
         startActivity(intent);
+        finish());
     }
 }
