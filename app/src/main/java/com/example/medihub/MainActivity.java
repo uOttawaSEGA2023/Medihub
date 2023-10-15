@@ -79,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
                     newIntent = new Intent(MainActivity.this, AdminActivity.class);
                 }
 
+                // pass the user object as an extra
+                newIntent.putExtra("user", currentUserProfile);
+
                 startActivity(newIntent);
                 finish();
             }
