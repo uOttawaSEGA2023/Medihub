@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.medihub.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,7 +26,8 @@ public class WelcomeActivity extends AppCompatActivity {
     private Button buttonLogOut;
     private FirebaseUser user;
     private FirebaseDatabase firebaseDB;
-
+    private Button homeButton;
+    private Intent homeIntent = null;
 
 
     @Override
@@ -38,6 +40,7 @@ public class WelcomeActivity extends AppCompatActivity {
         user = auth.getCurrentUser();
         firebaseDB = FirebaseDatabase.getInstance();
         textWelcome = findViewById(R.id.textWelcome);
+        homeButton = findViewById(R.id.homeButton);
 
         String userId = auth.getUid();
         DatabaseReference dbReference = firebaseDB.getReference("users").child(userId);
@@ -52,7 +55,21 @@ public class WelcomeActivity extends AppCompatActivity {
                     Log.d("role", role + "");
                     Log.d("name", name + "");
 
-                    textWelcome.setText("Welcome, " + name + "(" + role + ")");
+                    // Welcome to MediHub! You are logged in as a <role>
+                    textWelcome.setText("Welcome to MediHub " + name + "! You are logged in as "
+                            + (role.equals("admin") ? "an " + role : "a " + role));
+
+                    switch (role) {
+                        case "admin":
+                            homeIntent = new Intent(WelcomeActivity.this, AdminActivity.class);
+                            break;
+                        case "patient":
+                            homeIntent = new Intent(WelcomeActivity.this, PatientActivity.class);
+                            break;
+                        case "doctor":
+                            homeIntent = new Intent(WelcomeActivity.this, DoctorActivity.class);
+                            break;
+                    }
                 }
             }
 
@@ -76,10 +93,18 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
 
+        homeButton.setOnClickListener(new View.OnClickListener() {
 
-
-
-        }
+            @Override
+            public void onClick(View view) {
+                if (homeIntent != null) {
+                    startActivity(homeIntent);
+                } else {
+                    Toast.makeText(WelcomeActivity.this, "Redirect failed, please try again later.", Toast.LENGTH_LONG);
+                }
+            }
+        });
+    }
 
     public void startLoginActivity()
     {
