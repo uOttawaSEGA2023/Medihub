@@ -1,4 +1,4 @@
-package com.example.medihub.activities;
+package com.example.medihub.activities.registrations;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.medihub.R;
+import com.example.medihub.activities.admin.AdminActivity;
+import com.example.medihub.activities.doctor.DoctorActivity;
+import com.example.medihub.activities.patient.PatientActivity;
 import com.example.medihub.models.DoctorProfile;
 import com.example.medihub.models.PatientProfile;
 import com.example.medihub.models.UserProfile;

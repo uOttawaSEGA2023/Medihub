@@ -1,4 +1,4 @@
-package com.example.medihub.activities;
+package com.example.medihub.activities.registrations;
 
 import android.content.Intent;
 import android.os.Bundle;

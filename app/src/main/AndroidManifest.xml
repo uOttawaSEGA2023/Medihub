@@ -13,13 +13,13 @@
         android:theme="@style/Theme.MediHub"
         tools:targetApi="31">
         <activity
-            android:name=".activities.AdminActivity"
+            android:name=".activities.admin.AdminActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.DoctorActivity"
+            android:name=".activities.doctor.DoctorActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.PatientActivity"
+            android:name=".activities.patient.PatientActivity"
             android:exported="false" />
         <activity
             android:name=".activities.MainActivity"
@@ -30,11 +30,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.RegistrationOptionActivity" />
-        <activity android:name=".activities.PatientRegistrationActivity" />
-        <activity android:name=".activities.DoctorRegistrationActivity" />
-        <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.WelcomeActivity" />
+        <activity android:name=".activities.registrations.RegistrationOptionActivity" />
+        <activity android:name=".activities.registrations.PatientRegistrationActivity" />
+        <activity android:name=".activities.registrations.DoctorRegistrationActivity" />
+        <activity android:name=".activities.registrations.LoginActivity" />
+        <activity android:name=".activities.registrations.WelcomeActivity" />
     </application>
 
 </manifest>

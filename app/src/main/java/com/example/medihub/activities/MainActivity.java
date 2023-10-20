@@ -4,6 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medihub.R;
+import com.example.medihub.activities.admin.AdminActivity;
+import com.example.medihub.activities.doctor.DoctorActivity;
+import com.example.medihub.activities.patient.PatientActivity;
+import com.example.medihub.activities.registrations.LoginActivity;
 import com.example.medihub.enums.UserRole;
 import com.example.medihub.models.DoctorProfile;
 import com.example.medihub.models.PatientProfile;
@@ -27,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseDatabase firebaseDB;
     private UserProfile currentUserProfile;
+
+    private ValueEventListener redirectListener, listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,63 @@ public class MainActivity extends AppCompatActivity {
 
         // fetch user profile information
         else {
+            redirectListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        UserRole role = UserRole.valueOf(snapshot.child("role").getValue(String.class));
+
+                        Intent newIntent;
+
+                        if (role == UserRole.patient) {
+                            currentUserProfile = snapshot.getValue(PatientProfile.class);
+                            newIntent = new Intent(MainActivity.this, PatientActivity.class);
+                        } else if (role == UserRole.doctor) {
+                            currentUserProfile = snapshot.getValue(DoctorProfile.class);
+                            newIntent = new Intent(MainActivity.this, DoctorActivity.class);
+                        } else {
+                            currentUserProfile = snapshot.getValue(UserProfile.class);
+                            newIntent = new Intent(MainActivity.this, AdminActivity.class);
+                        }
+
+                        // pass the user object as an extra
+                        newIntent.putExtra("user", currentUserProfile);
+
+                        startActivity(newIntent);
+                        finish();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.i("ran on cancelled", error.toString());
+                }
+            };
+
+            listener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        UserRole role = UserRole.valueOf(snapshot.child("role").getValue(String.class));
+
+                        if (role == UserRole.patient) {
+                            currentUserProfile = snapshot.getValue(PatientProfile.class);
+                        } else if (role == UserRole.doctor) {
+                            currentUserProfile = snapshot.getValue(DoctorProfile.class);
+                        } else {
+                            currentUserProfile = snapshot.getValue(UserProfile.class);
+                        }
+
+                        Log.i("current user profile: ", currentUserProfile == null ? "null" : currentUserProfile.toString());
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.i("ran on cancelled", error.toString());
+                }
+            };
+
             String userId = mAuth.getCurrentUser().getUid();
             DatabaseReference dbReference = firebaseDB.getReference("users").child(userId);
 
@@ -65,61 +128,4 @@ public class MainActivity extends AppCompatActivity {
             dbReference.addValueEventListener(listener);
         }
     }
-
-    private ValueEventListener redirectListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot snapshot) {
-            if (snapshot.exists()) {
-                UserRole role = UserRole.valueOf(snapshot.child("role").getValue(String.class));
-
-                Intent newIntent;
-
-                if (role == UserRole.patient) {
-                    currentUserProfile = snapshot.getValue(PatientProfile.class);
-                    newIntent = new Intent(MainActivity.this, PatientActivity.class);
-                } else if (role == UserRole.doctor) {
-                    currentUserProfile = snapshot.getValue(DoctorProfile.class);
-                    newIntent = new Intent(MainActivity.this, DoctorActivity.class);
-                } else {
-                    currentUserProfile = snapshot.getValue(UserProfile.class);
-                    newIntent = new Intent(MainActivity.this, AdminActivity.class);
-                }
-
-                // pass the user object as an extra
-                newIntent.putExtra("user", currentUserProfile);
-
-                startActivity(newIntent);
-                finish();
-            }
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError error) {
-            Log.i("ran on cancelled", error.toString());
-        }
-    };
-
-    private ValueEventListener listener = new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot snapshot) {
-            if (snapshot.exists()) {
-                UserRole role = UserRole.valueOf(snapshot.child("role").getValue(String.class));
-
-                if (role == UserRole.patient) {
-                    currentUserProfile = snapshot.getValue(PatientProfile.class);
-                } else if (role == UserRole.doctor) {
-                    currentUserProfile = snapshot.getValue(DoctorProfile.class);
-                } else {
-                    currentUserProfile = snapshot.getValue(UserProfile.class);
-                }
-
-                Log.i("current user profile: ", currentUserProfile == null ? "null" : currentUserProfile.toString());
-            }
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError error) {
-            Log.i("ran on cancelled", error.toString());
-        }
-    };
 }

@@ -1,4 +1,4 @@
-package com.example.medihub.activities;
+package com.example.medihub.activities.doctor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,12 +8,13 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.medihub.R;
-import com.example.medihub.models.UserProfile;
+import com.example.medihub.activities.registrations.LoginActivity;
+import com.example.medihub.models.DoctorProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class AdminActivity extends AppCompatActivity {
-    private UserProfile user;
+public class DoctorActivity extends AppCompatActivity {
+    private DoctorProfile user;
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDB;
 
@@ -23,9 +24,9 @@ public class AdminActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin);
+        setContentView(R.layout.activity_doctor);
 
-        user = (UserProfile) getIntent().getSerializableExtra("user");
+        user = (DoctorProfile) getIntent().getSerializableExtra("user");
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDB = FirebaseDatabase.getInstance();
 
@@ -50,10 +51,10 @@ public class AdminActivity extends AppCompatActivity {
         if (firebaseAuth.getCurrentUser() != null) {
             firebaseAuth.signOut();
 
-            Intent loginIntent = new Intent(AdminActivity.this, LoginActivity.class);
+            Intent loginIntent = new Intent(DoctorActivity.this, LoginActivity.class);
             startActivity(loginIntent);
 
-            AdminActivity.this.finish();
+            DoctorActivity.this.finish();
         }
     }
 }
