@@ -18,7 +18,7 @@ public class UserProfile implements Model, Serializable {
     private String phoneNumber;
 
     // STATIC VARIABLES
-    private static final String POSTAL_CODE_REGEX = "^[A-Z][0-9][A-Z] [0-9][A-Z][0-9]$";
+    protected static final String POSTAL_CODE_REGEX = "^[A-Z][0-9][A-Z] [0-9][A-Z][0-9]$";
     public static final int MIN_PASSWORD_LENGTH = 8;
 
 

@@ -14,7 +14,7 @@ public class PatientProfile extends UserProfile implements Model, Serializable {
 
     // health card number regex obtained from ontario gov website:
     // https://health.gov.on.ca/en/pro/publications/ohip/ebs_hcv_specs.aspx#:~:text=The%20health%20number%20is%20a,face%20of%20every%20health%20card.&text=Version%20code%20is%20an%20alphabetic,red%20and%20white%E2%80%9D)%20cards.
-    private static final String HEALTH_CARD_REGEX = "[1-9]\\d{8}";
+    protected static final String HEALTH_CARD_REGEX = "[1-9]\\d{8}";
 
     // CONSTRUCTORS
     public PatientProfile() {
