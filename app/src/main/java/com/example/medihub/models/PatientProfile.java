@@ -57,12 +57,4 @@ public class PatientProfile extends UserProfile implements Model, Serializable {
 
         return errors;
     }
-
-    @Override
-    public HashMap<String, Object> toMap() {
-        HashMap<String, Object> objMap = super.toMap();
-        objMap.put("healthCardNumber", healthCardNumber);
-
-        return objMap;
-    }
 }

@@ -178,7 +178,7 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
 
         DatabaseReference usersRef = firebaseDB.getReference("users");
 
-        usersRef.child(userId).setValue(patientProfile.toMap());
+        usersRef.child(userId).setValue(patientProfile);
     }
 
 

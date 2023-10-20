@@ -77,13 +77,4 @@ public class DoctorProfile extends UserProfile implements Model, Serializable {
 
         return errors;
     }
-
-    @Override
-    public HashMap<String, Object> toMap() {
-        HashMap<String, Object> objMap = super.toMap();
-        objMap.put("employeeNumber", getEmployeeNumber());
-        objMap.put("specialties", getSpecialties());
-
-        return objMap;
-    }
 }

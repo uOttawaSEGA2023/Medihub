@@ -94,15 +94,4 @@ public class UserProfile implements Model, Serializable {
 
         return errors;
     }
-
-    public HashMap<String, Object> toMap() {
-        HashMap<String, Object> objMap = new HashMap<>();
-        objMap.put("role", getRole().toString());
-        objMap.put("firstName", getFirstName());
-        objMap.put("lastName", getLastName());
-        objMap.put("address", getAddress());
-        objMap.put("phoneNumber", getPhoneNumber());
-
-        return objMap;
-    }
 }

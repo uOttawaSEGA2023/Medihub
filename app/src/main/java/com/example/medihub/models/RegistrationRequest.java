@@ -116,11 +116,6 @@ public class RegistrationRequest implements Model, Serializable {
         return errors;
     }
 
-    @Override
-    public HashMap<String, Object> toMap() {
-        return null;
-    }
-
     public UserProfile createUser() {
         UserProfile user = null;
 
