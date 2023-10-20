@@ -18,7 +18,7 @@ public class UserProfile implements Model, Serializable {
     private String phoneNumber;
 
     // STATIC VARIABLES
-    private static final String POSTAL_CODE_REGEX = "^[A-Z][0-9][A-Z] [0-9][A-Z][0-9]$";
+    protected static final String POSTAL_CODE_REGEX = "^[A-Z][0-9][A-Z] [0-9][A-Z][0-9]$";
     public static final int MIN_PASSWORD_LENGTH = 8;
 
 
@@ -93,16 +93,5 @@ public class UserProfile implements Model, Serializable {
         }
 
         return errors;
-    }
-
-    public HashMap<String, Object> toMap() {
-        HashMap<String, Object> objMap = new HashMap<>();
-        objMap.put("role", getRole().toString());
-        objMap.put("firstName", getFirstName());
-        objMap.put("lastName", getLastName());
-        objMap.put("address", getAddress());
-        objMap.put("phoneNumber", getPhoneNumber());
-
-        return objMap;
     }
 }

@@ -97,7 +97,6 @@ public class LoginActivity extends AppCompatActivity {
     public void openRegistrationOptionActivity() {
         Intent intent = new Intent(this, RegistrationOptionActivity.class);
         startActivity(intent);
-        finish();
     }
 
     public void openWelcomeActivity() {

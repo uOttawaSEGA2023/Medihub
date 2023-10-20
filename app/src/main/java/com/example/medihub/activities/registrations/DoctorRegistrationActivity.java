@@ -237,6 +237,6 @@ public class DoctorRegistrationActivity extends AppCompatActivity  {
         firebaseDB = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = firebaseDB.getReference("users");
 
-        usersRef.child(userId).setValue(doctorProfile.toMap());
+        usersRef.child(userId).setValue(doctorProfile);
     }
 }
