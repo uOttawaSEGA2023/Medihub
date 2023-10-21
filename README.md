@@ -23,7 +23,7 @@
 - [X] Optional BONUS - The group uses a DB (5/100)
 
 ## Project Deliverable 2 Checklist
-- [ ] The updated UML Class diagram of your domain model is valid. (10/100)
+- [X] The updated UML Class diagram of your domain model is valid. (10/100)
 - [ ] The APK is submitted. (5/100)
 - [ ] When a Patient or Doctor register, their account information is stored in the DB (along with an indicator of whether their account registration has been approved, rejected, or not processed yet). (15/100)
 - [ ] The Administrator can view the list of registration requests. (5/100)
