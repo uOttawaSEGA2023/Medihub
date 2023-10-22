@@ -29,7 +29,7 @@ public class RegistrationRequest implements Model, Serializable {
         this.lastName = lastName;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.status = RegistrationStatus.awaiting;
+        this.status = RegistrationStatus.pending;
 
         if (isPatient) {
             this.healthCardNumber = healthCardNumber;
@@ -77,7 +77,7 @@ public class RegistrationRequest implements Model, Serializable {
     }
 
     public boolean decline() {
-        if (status == RegistrationStatus.awaiting) {
+        if (status == RegistrationStatus.pending) {
             status = RegistrationStatus.declined;
             return true;
         }
