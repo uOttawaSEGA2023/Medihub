@@ -2,12 +2,14 @@ package com.example.medihub.models;
 
 import com.example.medihub.enums.UserRole;
 import android.util.Patterns;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.example.medihub.interfaces.Model;
 
-public class UserProfile implements Model {
+public class UserProfile implements Model, Serializable {
     // INSTANCE VARIABLES
     private UserRole role;
     private String firstName;
@@ -16,11 +18,13 @@ public class UserProfile implements Model {
     private String phoneNumber;
 
     // STATIC VARIABLES
-    private static final String POSTAL_CODE_REGEX = "^[A-Z][0-9][A-Z] [0-9][A-Z][0-9]$";
+    protected static final String POSTAL_CODE_REGEX = "^[A-Z][0-9][A-Z] [0-9][A-Z][0-9]$";
     public static final int MIN_PASSWORD_LENGTH = 8;
 
 
     // CONSTRUCTORS
+    public UserProfile() {}
+
     public UserProfile(UserRole role) { this.role = role; }
 
     public UserProfile(UserRole role, String firstName, String lastName, String address, String phoneNumber) {
@@ -89,16 +93,5 @@ public class UserProfile implements Model {
         }
 
         return errors;
-    }
-
-    public HashMap<String, Object> toMap() {
-        HashMap<String, Object> objMap = new HashMap<>();
-        objMap.put("role", getRole().toString());
-        objMap.put("firstName", getFirstName());
-        objMap.put("lastName", getLastName());
-        objMap.put("address", getAddress());
-        objMap.put("phoneNumber", getPhoneNumber());
-
-        return objMap;
     }
 }

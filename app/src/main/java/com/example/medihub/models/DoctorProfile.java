@@ -4,12 +4,13 @@ import com.example.medihub.enums.DoctorSpecialty;
 import com.example.medihub.enums.UserRole;
 import com.example.medihub.interfaces.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 
-public class DoctorProfile extends UserProfile implements Model {
+public class DoctorProfile extends UserProfile implements Model, Serializable {
     // INSTANCE VARIABLES
     private String employeeNumber;
     private List<DoctorSpecialty> specialties;
@@ -75,14 +76,5 @@ public class DoctorProfile extends UserProfile implements Model {
         }
 
         return errors;
-    }
-
-    @Override
-    public HashMap<String, Object> toMap() {
-        HashMap<String, Object> objMap = super.toMap();
-        objMap.put("employeeNumber", getEmployeeNumber());
-        objMap.put("specialties", getSpecialties());
-
-        return objMap;
     }
 }

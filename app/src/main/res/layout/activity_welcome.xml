@@ -6,26 +6,47 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonLogOut"
         android:layout_width="88dp"
         android:layout_height="48dp"
-        android:layout_marginStart="162dp"
-        android:layout_marginTop="311dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginBottom="372dp"
-        android:text="Button"
+        android:layout_marginStart="307dp"
+        android:layout_marginTop="667dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Log Out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextText"
+    <TextView
+        android:id="@+id/textWelcome"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center_horizontal"
+        android:text="Welcome NAME"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/homeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Name"
-        tools:layout_editor_absoluteX="100dp"
-        tools:layout_editor_absoluteY="189dp" />
+        android:layout_marginStart="162dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="162dp"
+        android:background="@drawable/round_corner_blue"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="Go to Homepage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textWelcome" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
