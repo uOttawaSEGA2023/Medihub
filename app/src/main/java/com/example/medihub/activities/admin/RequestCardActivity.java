@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -34,7 +35,7 @@ public class RequestCardActivity extends AppCompatActivity {
 
     private void showRequestCard()
     {
-        ConstraintLayout request_window = findViewById(R.id.request_card_1);
+        ConstraintLayout request_window = findViewById(R.id.successContraintLayout);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_card, request_window);
         Button confirmDone = findViewById(R.id.buttonConfirm);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -53,6 +54,7 @@ public class RequestCardActivity extends AppCompatActivity {
         {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
+        Log.d("asdasd", "showRequestCard: SHOWS");
         alertDialog.show();
     }
 }
