@@ -28,6 +28,7 @@ public class RequestCardActivity extends AppCompatActivity {
         show_card_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 showRequestCard();
             }
         });
@@ -37,12 +38,11 @@ public class RequestCardActivity extends AppCompatActivity {
     {
         ConstraintLayout request_window = findViewById(R.id.successContraintLayout);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_card, request_window);
-        Button confirmDone = findViewById(R.id.buttonConfirm);
+        Button confirmDone = view.findViewById(R.id.buttonConfirm);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(view);
 
         final AlertDialog alertDialog = builder.create();
-
         confirmDone.findViewById(R.id.buttonConfirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,11 +50,12 @@ public class RequestCardActivity extends AppCompatActivity {
                 Toast.makeText(RequestCardActivity.this, "confirm", Toast.LENGTH_SHORT).show();
             }
         });
+
         if (alertDialog.getWindow()!=null)
         {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
-        Log.d("asdasd", "showRequestCard: SHOWS");
         alertDialog.show();
     }
+
 }
