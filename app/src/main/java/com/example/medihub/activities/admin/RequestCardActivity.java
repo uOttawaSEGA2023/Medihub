@@ -48,17 +48,27 @@ public class RequestCardActivity extends AppCompatActivity {
     private void showRequestCard() {
         ConstraintLayout request_window = findViewById(R.id.successContraintLayout);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_card, request_window);
-        Button confirmDone = view.findViewById(R.id.buttonConfirm);
+        Button authorize = view.findViewById(R.id.buttonConfirm);
+        Button deny = view.findViewById(R.id.buttonDeny);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(view);
 
         final AlertDialog alertDialog = builder.create();
-        confirmDone.setOnClickListener(new View.OnClickListener() {
+        authorize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 alertDialog.dismiss();
                 hideOverlay(); // Hide the overlay when the Confirm button is clicked
-                Toast.makeText(RequestCardActivity.this, "confirm", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RequestCardActivity.this, "AUTHORIZED", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        deny.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+                hideOverlay(); // Hide the overlay when the Confirm button is clicked
+                Toast.makeText(RequestCardActivity.this, "DENIED", Toast.LENGTH_SHORT).show();
             }
         });
 
