@@ -30,6 +30,7 @@ public class RegistrationRequest implements Model, Serializable {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.status = RegistrationStatus.pending;
+        this.isPatient = isPatient;
 
         if (isPatient) {
             this.healthCardNumber = healthCardNumber;
@@ -130,5 +131,10 @@ public class RegistrationRequest implements Model, Serializable {
         }
 
         return user;
+    }
+
+    public void setStatus(RegistrationStatus new_status)
+    {
+        this.status = new_status;
     }
 }
