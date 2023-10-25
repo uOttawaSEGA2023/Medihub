@@ -56,12 +56,15 @@ public class RequestCardActivity extends AppCompatActivity
         overlay = findViewById(R.id.overlay);
 
         // Retrieve the RegistrationRequest from the intent
-        request = new ArrayList<RegistrationRequest>();
-        request.add(new RegistrationRequest(true , "fefty", "wacky", "A1A 1A1",
-                "123456789", "123456789", "123", new ArrayList<DoctorSpecialty>()));
-        request.add(new RegistrationRequest(true));
+        request = getIntent().getParcelableExtra("request");
 
-//        request = getIntent().getParcelableExtra("request");
+        // BELOW IS FOR TESTING
+//        request = new ArrayList<RegistrationRequest>();
+//        request.add(new RegistrationRequest(true , "fefty", "wacky", "A1A 1A1",
+//                "123456789", "123456789", "123", new ArrayList<DoctorSpecialty>()));
+//        request.add(new RegistrationRequest(true));
+
+
 
 
         recyclerView = findViewById(R.id.requestView);
