@@ -107,7 +107,7 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (homeIntent != null) {
-                    homeIntent.putExtra("user", userProfile);
+                    homeIntent.putExtra("current user", userProfile);
                     startActivity(homeIntent);
                 } else {
                     Toast.makeText(WelcomeActivity.this, "Redirect failed, please try again later.", Toast.LENGTH_LONG).show();

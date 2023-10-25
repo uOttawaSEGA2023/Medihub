@@ -30,7 +30,7 @@ public class AdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
-        user = (UserProfile) getIntent().getSerializableExtra("user");
+        user = (UserProfile) getIntent().getSerializableExtra("current user");
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDB = FirebaseDatabase.getInstance();
 
@@ -55,6 +55,7 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent inboxIntent = new Intent(AdminActivity.this, RequestCardActivity.class);
+                inboxIntent.putExtra("current user", user);
                 startActivity(inboxIntent);
             }
         });

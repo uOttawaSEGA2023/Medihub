@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         // pass the user object as an extra
-                        newIntent.putExtra("user", currentUserProfile);
+                        newIntent.putExtra("current user", currentUserProfile);
 
                         startActivity(newIntent);
                         finish();

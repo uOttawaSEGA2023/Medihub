@@ -27,6 +27,7 @@ import com.example.medihub.activities.registrations.WelcomeActivity;
 import com.example.medihub.enums.DoctorSpecialty;
 import com.example.medihub.enums.RegistrationStatus;
 import com.example.medihub.models.RegistrationRequest;
+import com.example.medihub.models.UserProfile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ public class RequestCardActivity extends AppCompatActivity
     private ArrayList<RegistrationRequest> request;
     private RecyclerView recyclerView;
     private recycleAdapter.RecyclerViewClickListener listener;
+    private UserProfile admin;
 
     recycleAdapter adapter;
 
@@ -64,8 +66,8 @@ public class RequestCardActivity extends AppCompatActivity
 //                "123456789", "123456789", "123", new ArrayList<DoctorSpecialty>()));
 //        request.add(new RegistrationRequest(true));
 
-
-
+        // Retrieve current user from intent
+        admin = (UserProfile) getIntent().getSerializableExtra("current user");
 
         recyclerView = findViewById(R.id.requestView);
 
@@ -80,7 +82,8 @@ public class RequestCardActivity extends AppCompatActivity
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent backIntent = new Intent(RequestCardActivity.this, WelcomeActivity.class);
+                Intent backIntent = new Intent(RequestCardActivity.this, AdminActivity.class);
+                backIntent.putExtra("current user", admin);
                 startActivity(backIntent);
             }
         });
@@ -128,15 +131,15 @@ public class RequestCardActivity extends AppCompatActivity
                 role1 = "Patient";
             else
                 role1 = "Doctor";
-            role.setText(role1);
+            role.append(role1);
 
             TextView name = view.findViewById(R.id.preview_card_name);
             String name1 = request.get(position).getFirstName() + " " + request.get(position).getLastName();
-            name.setText(name1);
+            name.append(name1);
 
             TextView email = view.findViewById(R.id.preview_card_email);
             String email1 = "testingtesting@gmail.com";
-            email.setText(email1);
+            email.append(email1);
 
             setStatus(position, view);
         }
@@ -199,7 +202,7 @@ public class RequestCardActivity extends AppCompatActivity
         if (request.get(position).getStatus()!=null) {
             TextView status = view.findViewById(R.id.preview_card_status);
             String status1 = request.get(position).getStatus().toString();
-            status.setText(status1);
+            status.append(status1);
         }
     }
 
