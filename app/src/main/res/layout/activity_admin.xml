@@ -45,6 +45,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
+                <Button
+                    android:id="@+id/inboxButton"
+                    android:layout_width="103dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_corner_blue"
+                    android:text="INBOX"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/logoutButton"
+                    app:layout_constraintHorizontal_bias="0.519"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
