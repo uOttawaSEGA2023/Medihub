@@ -153,8 +153,8 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
                                 Log.i("asdasd2", "createed patient");
                                 addPatientToDatabase(user.getUid());
 
-                                // redirect to welcome page
-                                welcomePage();
+                                // redirect to login
+                                startLogin();
 
                                 PatientRegistrationActivity.this.finish();
                             }
@@ -176,7 +176,7 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
 
         firebaseDB = FirebaseDatabase.getInstance();
 
-        DatabaseReference usersRef = firebaseDB.getReference("users");
+        DatabaseReference usersRef = firebaseDB.getReference("registration_requests");
 
         usersRef.child(userId).setValue(patientProfile);
     }
