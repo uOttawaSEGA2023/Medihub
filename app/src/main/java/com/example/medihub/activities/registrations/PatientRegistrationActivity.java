@@ -155,8 +155,8 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
                                 Log.i("asdasd2", "createed patient");
                                 addPatientToDatabase(user.getUid());
 
-                                // redirect to welcome page
-                                welcomePage();
+                                // redirect to login
+                                startLogin();
 
                                 PatientRegistrationActivity.this.finish();
                             }
@@ -178,7 +178,7 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
 
         firebaseDB = FirebaseDatabase.getInstance();
 
-        DatabaseReference usersRef = firebaseDB.getReference("users");
+        DatabaseReference usersRef = firebaseDB.getReference("registration_requests");
 
         ArrayList NA = new ArrayList(); //RANDOM ARRAYLIST AS A FILLER SINCE THIS IS A PATIENT
         RegistrationRequest temp = new RegistrationRequest(true, patientProfile.getFirstName(), patientProfile.getLastName(), patientProfile.getAddress(), patientProfile.getPhoneNumber(), healthcard.getText().toString(), "NA", NA);

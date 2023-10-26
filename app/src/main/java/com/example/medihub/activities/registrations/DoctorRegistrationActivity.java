@@ -216,9 +216,9 @@ public class DoctorRegistrationActivity extends AppCompatActivity  {
                             if (user.getUid() != null) {
                                 addDoctorToDatabase(user.getUid());
 
-                                // redirect to welcome page
-                                Intent welcomeIntent = new Intent(DoctorRegistrationActivity.this, WelcomeActivity.class);
-                                startActivity(welcomeIntent);
+                                // redirect to login page
+                                Intent loginIntent = new Intent(DoctorRegistrationActivity.this, LoginActivity.class);
+                                startActivity(loginIntent);
 
                                 DoctorRegistrationActivity.this.finish();
                             } else {
@@ -237,7 +237,7 @@ public class DoctorRegistrationActivity extends AppCompatActivity  {
      */
     private void addDoctorToDatabase(String userId) {
         firebaseDB = FirebaseDatabase.getInstance();
-        DatabaseReference usersRef = firebaseDB.getReference("users");
+        DatabaseReference usersRef = firebaseDB.getReference("registration_requests");
 
         ////boolean isPatient, String firstName, String lastName, String address,
         //        //                               String phoneNumber, String healthCardNumber, String employeeNumber,
