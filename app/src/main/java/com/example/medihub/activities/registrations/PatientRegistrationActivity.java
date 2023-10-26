@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medihub.R;
 import com.example.medihub.models.PatientProfile;
+import com.example.medihub.models.RegistrationRequest;
 import com.example.medihub.models.UserProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PatientRegistrationActivity extends AppCompatActivity  {
@@ -178,7 +180,10 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
 
         DatabaseReference usersRef = firebaseDB.getReference("users");
 
-        usersRef.child(userId).setValue(patientProfile);
+        ArrayList NA = new ArrayList(); //RANDOM ARRAYLIST AS A FILLER SINCE THIS IS A PATIENT
+        RegistrationRequest temp = new RegistrationRequest(true, patientProfile.getFirstName(), patientProfile.getLastName(), patientProfile.getAddress(), patientProfile.getPhoneNumber(), healthcard.getText().toString(), "NA", NA);
+
+        usersRef.child(userId).setValue(temp);
     }
 
 
