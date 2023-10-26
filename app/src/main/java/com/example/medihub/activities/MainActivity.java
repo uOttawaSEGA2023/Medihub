@@ -113,6 +113,14 @@ public class MainActivity extends AppCompatActivity {
 
                         Log.i("current user profile: ", currentUserProfile == null ? "null" : currentUserProfile.toString());
                     }
+                    else{
+                        Intent logout = new Intent(MainActivity.this,LoginActivity.class);
+                        mAuth.signOut();
+                        startActivity(logout);
+
+                        Log.i("user does not exist","not exist");
+                        MainActivity.this.finish();
+                    }
                 }
 
                 @Override
@@ -123,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
             String userId = mAuth.getCurrentUser().getUid();
             DatabaseReference dbReference = firebaseDB.getReference("users").child(userId);
+            Log.i("dbReference",dbReference.toString());
 
             dbReference.addListenerForSingleValueEvent(redirectListener);
             dbReference.addValueEventListener(listener);
