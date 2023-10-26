@@ -175,7 +175,7 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
     }
 
     private void addPatientToDatabase(String userId) {
-        
+
         firebaseDB = FirebaseDatabase.getInstance();
 
         DatabaseReference usersRef = firebaseDB.getReference("users");
