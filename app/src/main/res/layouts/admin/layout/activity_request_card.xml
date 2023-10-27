@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutDialog"
         android:layout_width="300dp"
-        android:layout_height="360dp"
+        android:layout_height="500dp"
         android:background="@drawable/request_window"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,6 +25,8 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/layoutDialog" />
 
 
@@ -32,85 +34,135 @@
             android:id="@+id/preview_card_role"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
             android:text="Role: "
             android:textColor="@color/black"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/buttonConfirm"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            tools:layout_editor_absoluteX="0dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/preview_card_status" />
 
         <TextView
             android:id="@+id/preview_card_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
             android:text="Name: "
             android:textColor="@color/black"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/buttonConfirm"
-            app:layout_constraintTop_toBottomOf="@id/preview_card_role"
-            app:layout_constraintVertical_bias="0.0"
-            tools:layout_editor_absoluteX="0dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/preview_card_role" />
 
         <TextView
             android:id="@+id/preview_card_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
             android:text="Email: "
             android:textColor="@color/black"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/buttonConfirm"
-            app:layout_constraintTop_toBottomOf="@id/preview_card_name"
-            app:layout_constraintVertical_bias="0.0"
-            tools:layout_editor_absoluteX="0dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/preview_card_name" />
+
+        <TextView
+            android:id="@+id/preview_card_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:text="Phone: "
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/preview_card_email" />
+
+        <TextView
+            android:id="@+id/preview_card_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:text="Address: "
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/preview_card_phone" />
+
+        <TextView
+            android:id="@+id/preview_card_extra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:text="extra field 1"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/preview_card_address" />
+
+        <TextView
+            android:id="@+id/preview_card_extra2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:text="extra field 2"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/preview_card_extra" />
 
         <TextView
             android:id="@+id/preview_card_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
             android:text="Status: "
             android:textColor="@color/black"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/buttonConfirm"
-            app:layout_constraintTop_toBottomOf="@id/preview_card_email"
-            app:layout_constraintVertical_bias="0.0"
-            tools:layout_editor_absoluteX="0dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <Button
             android:id="@+id/buttonConfirm"
             android:layout_width="130dp"
             android:layout_height="45dp"
-            android:layout_marginTop="136dp"
+            android:layout_marginTop="30dp"
             android:background="@drawable/round_corner_green"
             android:text="AUTHORIZE"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/preview_card_role" />
+            app:layout_constraintTop_toBottomOf="@+id/preview_card_extra2" />
 
         <Button
             android:id="@+id/buttonDeny"
             android:layout_width="130dp"
             android:layout_height="45dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/round_corner_red"
             android:text="DENY"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonConfirm"
-            app:layout_constraintVertical_bias="0.515" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonConfirm" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

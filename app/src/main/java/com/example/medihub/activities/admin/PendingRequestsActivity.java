@@ -143,10 +143,25 @@ public class PendingRequestsActivity extends AppCompatActivity
         {
             TextView role = view.findViewById(R.id.preview_card_role);
             String role1;
-            if (rq.isPatient())
+            if (rq.isPatient()) {
                 role1 = "Patient";
-            else
+
+                TextView extra1 = view.findViewById(R.id.preview_card_extra);
+                TextView extra2 = view.findViewById(R.id.preview_card_extra2);
+
+                extra1.setText("Health Card Number: " + rq.getHealthCardNumber());
+                extra2.setText("");
+            }
+            else {
                 role1 = "Doctor";
+
+                TextView extra1 = view.findViewById(R.id.preview_card_extra);
+                TextView extra2 = view.findViewById(R.id.preview_card_extra2);
+
+                extra1.setText("Employee Number: " + rq.getEmployeeNumber());
+                String specString = rq.getSpecialties().toString();
+                extra2.setText("Specialties: " + specString.substring(1,specString.length()-1));
+            }
             role.append(role1);
 
             TextView name = view.findViewById(R.id.preview_card_name);
@@ -156,6 +171,14 @@ public class PendingRequestsActivity extends AppCompatActivity
             TextView email = view.findViewById(R.id.preview_card_email);
             String email1 = rq.getEmail();
             email.append(email1);
+
+            TextView phone = view.findViewById(R.id.preview_card_phone);
+            String phone1 = rq.getPhoneNumber();
+            phone.append(phone1);
+
+            TextView address = view.findViewById(R.id.preview_card_address);
+            String address1 = rq.getAddress();
+            address.append(address1);
 
             setStatus(position, view);
         }
