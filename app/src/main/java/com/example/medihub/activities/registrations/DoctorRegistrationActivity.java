@@ -219,6 +219,7 @@ public class DoctorRegistrationActivity extends AppCompatActivity  {
                                 // redirect to login page
                                 Intent loginIntent = new Intent(DoctorRegistrationActivity.this, LoginActivity.class);
                                 startActivity(loginIntent);
+                                Toast.makeText(getApplicationContext(), "Your information has been saved. Please wait for an admin to review your registration.", Toast.LENGTH_LONG).show();
 
                                 DoctorRegistrationActivity.this.finish();
                             } else {
@@ -238,10 +239,6 @@ public class DoctorRegistrationActivity extends AppCompatActivity  {
     private void addDoctorToDatabase(String userId) {
         firebaseDB = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = firebaseDB.getReference("registration_requests");
-
-        ////boolean isPatient, String firstName, String lastName, String address,
-        //        //                               String phoneNumber, String healthCardNumber, String employeeNumber,
-        //        //                               ArrayList<DoctorSpecialty> specialties
 
         ArrayList<DoctorSpecialty> doctorSpecialties = new ArrayList<>();
 
