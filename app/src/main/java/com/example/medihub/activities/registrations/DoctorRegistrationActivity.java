@@ -251,6 +251,5 @@ public class DoctorRegistrationActivity extends AppCompatActivity  {
         RegistrationRequest temp = new RegistrationRequest(false, doctorProfile.getFirstName(), doctorProfile.getLastName(), doctorProfile.getAddress(), doctorProfile.getPhoneNumber(), "NA", employeeNumber.getText().toString(), doctorSpecialties);
 
         usersRef.child(userId).setValue(temp);
-
     }
 }
