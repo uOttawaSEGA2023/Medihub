@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medihub.R;
 import com.example.medihub.enums.RegistrationStatus;
-import com.example.medihub.activities.admin.RequestCardActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -18,7 +17,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import android.os.Bundle;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -113,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                         openWelcomeActivity();
                     }
                     else if(registrationStatus==RegistrationStatus.pending){
-                        Toast.makeText(getApplicationContext(), "The current registration has not been approved yet. Status" + registrationStatus.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "The current registration has not been approved yet. Status: " + registrationStatus.toString(), Toast.LENGTH_SHORT).show();
                     }
                     else if(registrationStatus==RegistrationStatus.declined){
                         Toast.makeText(getApplicationContext(), "The current registration has been rejected. You can contact the Administrator by phone at 1011011001", Toast.LENGTH_SHORT).show();

@@ -13,7 +13,7 @@
         android:theme="@style/Theme.MediHub"
         tools:targetApi="31">
         <activity
-            android:name=".activities.admin.RequestCardActivity"
+            android:name=".activities.admin.PendingRequestsActivity"
             android:exported="false" />
         <activity
             android:name=".activities.admin.AdminActivity"

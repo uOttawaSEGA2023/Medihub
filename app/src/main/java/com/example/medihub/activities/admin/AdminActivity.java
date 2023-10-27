@@ -54,7 +54,7 @@ public class AdminActivity extends AppCompatActivity {
         inboxButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent inboxIntent = new Intent(AdminActivity.this, RequestCardActivity.class);
+                Intent inboxIntent = new Intent(AdminActivity.this, PendingRequestsActivity.class);
                 inboxIntent.putExtra("current user", user);
                 startActivity(inboxIntent);
             }

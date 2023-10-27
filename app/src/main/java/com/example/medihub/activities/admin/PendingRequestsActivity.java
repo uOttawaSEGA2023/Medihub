@@ -22,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.medihub.R;
+import com.example.medihub.adapters.recycleAdapter;
+import com.example.medihub.enums.DoctorSpecialty;
 import com.example.medihub.enums.RegistrationStatus;
 import com.example.medihub.models.RegistrationRequest;
 import com.example.medihub.models.UserProfile;
@@ -34,7 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class RequestCardActivity extends AppCompatActivity
+public class PendingRequestsActivity extends AppCompatActivity
 {
 
     Button backButton;
@@ -78,10 +80,10 @@ public class RequestCardActivity extends AppCompatActivity
         overlay = findViewById(R.id.overlay);
 
         // BELOW IS FOR TESTING
-//        request = new ArrayList<RegistrationRequest>();
-//        request.add(new RegistrationRequest(true , "fefty", "wacky", "A1A 1A1",
+//        pendingRequests = new ArrayList<RegistrationRequest>();
+//        pendingRequests.add(new RegistrationRequest(true , "fefty", "wacky", "A1A 1A1",
 //                "123456789", "123456789", "123", new ArrayList<DoctorSpecialty>()));
-//        request.add(new RegistrationRequest(true));
+//        pendingRequests.add(new RegistrationRequest(true));
 
         // Retrieve current user from intent
         admin = (UserProfile) getIntent().getSerializableExtra("current user");
@@ -99,7 +101,7 @@ public class RequestCardActivity extends AppCompatActivity
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent backIntent = new Intent(RequestCardActivity.this, AdminActivity.class);
+                Intent backIntent = new Intent(PendingRequestsActivity.this, AdminActivity.class);
                 backIntent.putExtra("current user", admin);
                 startActivity(backIntent);
             }
@@ -137,7 +139,7 @@ public class RequestCardActivity extends AppCompatActivity
 
     private void showRequestCard(int position) {
         ConstraintLayout request_window = findViewById(R.id.successContraintLayout);
-        View view = LayoutInflater.from(this).inflate(R.layout.activity_card, request_window);
+        View view = LayoutInflater.from(this).inflate(R.layout.activity_pending_requests, request_window);
 
 
         if (pendingRequests.get(position)!=null)
@@ -177,7 +179,7 @@ public class RequestCardActivity extends AppCompatActivity
                 adapter.updateStatus(position, RegistrationStatus.approved);
                 alertDialog.dismiss();
                 hideOverlay(); // Hide the overlay when the Confirm button is clicked
-                Toast.makeText(RequestCardActivity.this, "Approved Registration", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PendingRequestsActivity.this, "Approved Registration", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -190,13 +192,13 @@ public class RequestCardActivity extends AppCompatActivity
                     pendingRequests.get(position).decline();
                     alertDialog.dismiss();
                     hideOverlay(); // Hide the overlay when the Confirm button is clicked
-                    Toast.makeText(RequestCardActivity.this, "Denied Registration", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PendingRequestsActivity.this, "Denied Registration", Toast.LENGTH_SHORT).show();
                 }
                 else // DON'T ALLOW DENYING APPROVED REQUESTS
                 {
                     alertDialog.dismiss();
                     hideOverlay(); // Hide the overlay when the Confirm button is clicked
-                    Toast.makeText(RequestCardActivity.this, "CANNOT DENY APPROVED REQUEST", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PendingRequestsActivity.this, "CANNOT DENY APPROVED REQUEST", Toast.LENGTH_SHORT).show();
                 }
             }
         });
