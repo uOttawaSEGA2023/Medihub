@@ -136,12 +136,16 @@ public class DoctorRegistrationActivity extends AppCompatActivity  {
         boolean hasErrors = false;
 
         // build DoctorProfile record
-        doctorProfile = new DoctorProfile();
-        doctorProfile.setFirstName(firstName.getText().toString());
-        doctorProfile.setLastName(lastName.getText().toString());
-        doctorProfile.setPhoneNumber(phone.getText().toString());
-        doctorProfile.setAddress(address.getText().toString());
-        doctorProfile.setEmployeeNumber(employeeNumber.getText().toString());
+        doctorProfile = new DoctorProfile(
+                firstName.getText().toString(),
+                lastName.getText().toString(),
+                address.getText().toString(),
+                phone.getText().toString(),
+                email.getText().toString(),
+                employeeNumber.getText().toString(),
+                new ArrayList<DoctorSpecialty>()
+        );
+
         for (View v : specialtiesLayout.getTouchables()) {  // add specialties to record
             if (v instanceof CheckBox && ((CheckBox)v).isChecked()) {
                 String specialtyString = ((CheckBox)v).getText().toString().replaceAll(" ", "_");
@@ -249,7 +253,7 @@ public class DoctorRegistrationActivity extends AppCompatActivity  {
             }
         }
 
-        RegistrationRequest temp = new RegistrationRequest(false, doctorProfile.getFirstName(), doctorProfile.getLastName(), doctorProfile.getAddress(), doctorProfile.getPhoneNumber(), "NA", employeeNumber.getText().toString(), doctorSpecialties);
+        RegistrationRequest temp = new RegistrationRequest(false, doctorProfile.getFirstName(), doctorProfile.getLastName(), doctorProfile.getAddress(), doctorProfile.getPhoneNumber(), doctorProfile.getEmail(), null, employeeNumber.getText().toString(), doctorSpecialties);
 
         usersRef.child(userId).setValue(temp);
     }

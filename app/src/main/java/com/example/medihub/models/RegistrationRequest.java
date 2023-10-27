@@ -11,26 +11,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RegistrationRequest implements Model, Serializable {
-    private boolean isPatient;
+    private boolean patient;
     private RegistrationStatus status;
-    private String firstName, lastName, address, phoneNumber, healthCardNumber, employeeNumber;
+    private String firstName, lastName, address, phoneNumber, healthCardNumber, employeeNumber, email;
     private ArrayList<DoctorSpecialty> specialties;
 
     public RegistrationRequest() {}
 
     public RegistrationRequest(boolean isPatient) {
-        this.isPatient = isPatient;
+        this.patient = isPatient;
     }
 
     public RegistrationRequest(boolean isPatient, String firstName, String lastName, String address,
-                               String phoneNumber, String healthCardNumber, String employeeNumber,
+                               String phoneNumber, String email, String healthCardNumber, String employeeNumber,
                                ArrayList<DoctorSpecialty> specialties) {
+        this.patient = isPatient;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.email = email;
         this.status = RegistrationStatus.pending;
-        this.isPatient = isPatient;
 
         if (isPatient) {
             this.healthCardNumber = healthCardNumber;
@@ -52,6 +53,7 @@ public class RegistrationRequest implements Model, Serializable {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+    public String getEmail() { return email; }
     public String getHealthCardNumber() {
         return healthCardNumber;
     }
@@ -65,7 +67,7 @@ public class RegistrationRequest implements Model, Serializable {
         return status;
     }
     public boolean isPatient() {
-        return isPatient;
+        return patient;
     }
 
     public boolean approve() {
@@ -105,13 +107,16 @@ public class RegistrationRequest implements Model, Serializable {
         if (phoneNumber == null || !Patterns.PHONE.matcher(phoneNumber).matches())
             errors.put("phoneNumber", "invalid phone number");
 
-        if (isPatient && (healthCardNumber == null || !healthCardNumber.matches(PatientProfile.HEALTH_CARD_REGEX)))
+        if (email == null || !Patterns.EMAIL_ADDRESS.matcher(email).matches())
+            errors.put("email", "invalid email");
+
+        if (patient && (healthCardNumber == null || !healthCardNumber.matches(PatientProfile.HEALTH_CARD_REGEX)))
             errors.put("healthCardNumber", "invalid health card number (format: only digits no dashes)");
 
-        if (!isPatient && (specialties == null || specialties.isEmpty()))
+        if (!patient && (specialties == null || specialties.isEmpty()))
             errors.put("specialties", "invalid specialties (make sure there is at least one specialty)");
 
-        if (!isPatient && (employeeNumber == null || employeeNumber.isEmpty()))
+        if (!patient && (employeeNumber == null || employeeNumber.isEmpty()))
             errors.put("employeeNumber", "employee number can't be blank");
 
         return errors;
@@ -121,12 +126,12 @@ public class RegistrationRequest implements Model, Serializable {
         UserProfile user = null;
 
         if (validate().isEmpty()) {
-            UserRole role = isPatient ? UserRole.patient : UserRole.doctor;
+            UserRole role = patient ? UserRole.patient : UserRole.doctor;
 
             if (role == UserRole.patient) {
-                user = new PatientProfile(firstName, lastName, address, phoneNumber, healthCardNumber);
+                user = new PatientProfile(firstName, lastName, address, phoneNumber, email, healthCardNumber);
             } else {
-                user = new DoctorProfile(firstName, lastName, address, phoneNumber, employeeNumber, specialties);
+                user = new DoctorProfile(firstName, lastName, address, phoneNumber, email, employeeNumber, specialties);
             }
         }
 
@@ -136,5 +141,19 @@ public class RegistrationRequest implements Model, Serializable {
     public void setStatus(RegistrationStatus new_status)
     {
         this.status = new_status;
+    }
+
+    @Override
+    public String toString() {
+        return "RegistrationRequest: " +
+                "\nStatus: " + getStatus().toString() +
+                "\nPatient: " + isPatient() +
+                "\nName: " + getFirstName() + " " + getLastName() +
+                "\nAddress: " + getAddress() +
+                "\nPhone Number: " + getPhoneNumber() +
+                "\nEmail: " + getEmail() +
+                "\nHealth Card Number: " + getHealthCardNumber() +
+                "\nSpecialties: " + getSpecialties() +
+                "\nEmployee Number: " + getEmployeeNumber();
     }
 }

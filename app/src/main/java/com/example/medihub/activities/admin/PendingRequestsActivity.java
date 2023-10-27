@@ -23,10 +23,10 @@ import android.widget.Toast;
 
 import com.example.medihub.R;
 import com.example.medihub.adapters.recycleAdapter;
-import com.example.medihub.enums.DoctorSpecialty;
 import com.example.medihub.enums.RegistrationStatus;
 import com.example.medihub.models.RegistrationRequest;
 import com.example.medihub.models.UserProfile;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,6 +48,7 @@ public class PendingRequestsActivity extends AppCompatActivity
     private UserProfile admin;
     private DatabaseReference dbReference;
     private Query pendingRequestsQuery;
+    private FirebaseAuth mAuth;
 
     recycleAdapter adapter;
 
@@ -61,12 +62,21 @@ public class PendingRequestsActivity extends AppCompatActivity
         dbReference = FirebaseDatabase.getInstance().getReference();
         pendingRequestsQuery = dbReference.child("registration_requests").orderByChild("status").equalTo(RegistrationStatus.pending.toString());
 
+        mAuth = FirebaseAuth.getInstance();
+
         pendingRequestsQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot requestSnapshot : snapshot.getChildren()) {
-                    RegistrationRequest rq = requestSnapshot.getValue(RegistrationRequest.class);
-                    pendingRequests.add(rq);
+                if (snapshot.exists()) {
+                    for (DataSnapshot requestSnapshot : snapshot.getChildren()) {
+                        RegistrationRequest rq = requestSnapshot.getValue(RegistrationRequest.class);
+                        pendingRequests.add(rq);
+                    }
+
+                    if (pendingRequests != null && !pendingRequests.isEmpty())
+                        setAdapter();
+                    else
+                        Log.d("regis req", "request arraylist is null");
                 }
             }
 
@@ -79,24 +89,10 @@ public class PendingRequestsActivity extends AppCompatActivity
         backButton = findViewById(R.id.backToHomePageFromInboxButton);
         overlay = findViewById(R.id.overlay);
 
-        // BELOW IS FOR TESTING
-//        pendingRequests = new ArrayList<RegistrationRequest>();
-//        pendingRequests.add(new RegistrationRequest(true , "fefty", "wacky", "A1A 1A1",
-//                "123456789", "123456789", "123", new ArrayList<DoctorSpecialty>()));
-//        pendingRequests.add(new RegistrationRequest(true));
-
         // Retrieve current user from intent
         admin = (UserProfile) getIntent().getSerializableExtra("current user");
 
         recyclerView = findViewById(R.id.requestView);
-
-        if (pendingRequests !=null)
-        {
-            setAdapter();
-        }
-        else
-            Log.d("regis req", "request arraylist is null");
-
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,26 +135,50 @@ public class PendingRequestsActivity extends AppCompatActivity
 
     private void showRequestCard(int position) {
         ConstraintLayout request_window = findViewById(R.id.successContraintLayout);
-        View view = LayoutInflater.from(this).inflate(R.layout.activity_pending_requests, request_window);
+        View view = LayoutInflater.from(this).inflate(R.layout.activity_request_card, request_window);
 
+        RegistrationRequest rq = pendingRequests.get(position);
 
-        if (pendingRequests.get(position)!=null)
+        if (rq != null)
         {
             TextView role = view.findViewById(R.id.preview_card_role);
             String role1;
-            if (pendingRequests.get(position).isPatient())
+            if (rq.isPatient()) {
                 role1 = "Patient";
-            else
+
+                TextView extra1 = view.findViewById(R.id.preview_card_extra);
+                TextView extra2 = view.findViewById(R.id.preview_card_extra2);
+
+                extra1.setText("Health Card Number: " + rq.getHealthCardNumber());
+                extra2.setText("");
+            }
+            else {
                 role1 = "Doctor";
+
+                TextView extra1 = view.findViewById(R.id.preview_card_extra);
+                TextView extra2 = view.findViewById(R.id.preview_card_extra2);
+
+                extra1.setText("Employee Number: " + rq.getEmployeeNumber());
+                String specString = rq.getSpecialties().toString();
+                extra2.setText("Specialties: " + specString.substring(1,specString.length()-1));
+            }
             role.append(role1);
 
             TextView name = view.findViewById(R.id.preview_card_name);
-            String name1 = pendingRequests.get(position).getFirstName() + " " + pendingRequests.get(position).getLastName();
+            String name1 = rq.getFirstName() + " " + rq.getLastName();
             name.append(name1);
 
             TextView email = view.findViewById(R.id.preview_card_email);
-            String email1 = "testingtesting@gmail.com";
+            String email1 = rq.getEmail();
             email.append(email1);
+
+            TextView phone = view.findViewById(R.id.preview_card_phone);
+            String phone1 = rq.getPhoneNumber();
+            phone.append(phone1);
+
+            TextView address = view.findViewById(R.id.preview_card_address);
+            String address1 = rq.getAddress();
+            address.append(address1);
 
             setStatus(position, view);
         }
@@ -169,8 +189,6 @@ public class PendingRequestsActivity extends AppCompatActivity
         builder.setView(view);
 
         final AlertDialog alertDialog = builder.create();
-
-
 
         authorize.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -224,6 +242,4 @@ public class PendingRequestsActivity extends AppCompatActivity
             status.append(status1);
         }
     }
-
-
 }
