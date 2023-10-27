@@ -83,8 +83,6 @@ public class LoginActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     checkRegistrationRequest();
-
-
                                 } else {
                                     Toast.makeText(LoginActivity.this, "Email or Password is Incorrect",
                                             Toast.LENGTH_SHORT).show();
@@ -118,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "doesnt exist", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "couldn't find registration request", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -127,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-        }
+    }
 
 
 
