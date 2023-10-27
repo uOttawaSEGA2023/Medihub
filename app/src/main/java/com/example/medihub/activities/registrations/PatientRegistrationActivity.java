@@ -190,14 +190,7 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
     public void startLogin()
     {
         Intent intent = new Intent(this, LoginActivity.class);
+        Toast.makeText(getApplicationContext(), "Your information has been saved. Please wait for an admin to review your registration.", Toast.LENGTH_LONG).show();
         startActivity(intent);
     }
-
-    public void welcomePage()
-    {
-        Intent welcomeIntent = new Intent(this, WelcomeActivity.class);
-        startActivity(welcomeIntent);
-    }
-
-
 }
