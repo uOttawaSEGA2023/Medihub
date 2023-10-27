@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.medihub.R;
 import com.example.medihub.enums.DoctorSpecialty;
 import com.example.medihub.models.DoctorProfile;
+import com.example.medihub.models.RegistrationRequest;
 import com.example.medihub.models.UserProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,6 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DoctorRegistrationActivity extends AppCompatActivity  {
@@ -237,6 +239,18 @@ public class DoctorRegistrationActivity extends AppCompatActivity  {
         firebaseDB = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = firebaseDB.getReference("registration_requests");
 
-        usersRef.child(userId).setValue(doctorProfile);
+        ArrayList<DoctorSpecialty> doctorSpecialties = new ArrayList<>();
+
+        for (View v : specialtiesLayout.getTouchables()) {
+            if (v instanceof CheckBox && ((CheckBox)v).isChecked()) {
+                String specialtyString = ((CheckBox)v).getText().toString().replaceAll(" ", "_");
+                doctorSpecialties.add(DoctorSpecialty.valueOf(specialtyString));
+            }
+        }
+
+        RegistrationRequest temp = new RegistrationRequest(false, doctorProfile.getFirstName(), doctorProfile.getLastName(), doctorProfile.getAddress(), doctorProfile.getPhoneNumber(), "NA", employeeNumber.getText().toString(), doctorSpecialties);
+
+        usersRef.child(userId).setValue(temp);
+
     }
 }
