@@ -30,16 +30,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    sourceSets {
-        getByName("main") {
-            res {
-                srcDirs("src/main/res", "src/main/res/layouts/admin",
-                    "src/main/res/layouts/patient", "src/main/res/layouts/doctor", "src/main/res/layouts/registrations",
-                    "src/main/res/layouts/default"
-                )
-            }
-        }
-    }
 }
 
 dependencies {
