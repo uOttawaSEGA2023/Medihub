@@ -23,7 +23,10 @@ import android.widget.Toast;
 
 import com.example.medihub.R;
 import com.example.medihub.adapters.recycleAdapter;
+import com.example.medihub.enums.DoctorSpecialty;
 import com.example.medihub.enums.RegistrationStatus;
+import com.example.medihub.models.DoctorProfile;
+import com.example.medihub.models.PatientProfile;
 import com.example.medihub.models.RegistrationRequest;
 import com.example.medihub.models.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,6 +52,8 @@ public class PendingRequestsActivity extends AppCompatActivity
     private DatabaseReference dbReference;
     private Query pendingRequestsQuery;
     private FirebaseAuth mAuth;
+
+    private FirebaseDatabase firebaseDB;
 
     recycleAdapter adapter;
 
@@ -198,6 +203,37 @@ public class PendingRequestsActivity extends AppCompatActivity
                 alertDialog.dismiss();
                 hideOverlay(); // Hide the overlay when the Confirm button is clicked
                 Toast.makeText(PendingRequestsActivity.this, "Approved Registration", Toast.LENGTH_SHORT).show();
+
+                rq.approve();
+
+
+                if (rq.isPatient() == true) {
+
+                    PatientProfile user = new PatientProfile(rq.getFirstName(), rq.getLastName(), rq.getAddress(), rq.getPhoneNumber(), rq.getEmail(), rq.getHealthCardNumber());
+
+                    firebaseDB = FirebaseDatabase.getInstance();
+
+                    DatabaseReference usersRef = firebaseDB.getReference("users");
+
+                    usersRef.child(USERIDGOESHERECHARLEY).setValue(user);
+
+
+                } else if (rq.isPatient() == false){
+
+                    DoctorProfile user = new DoctorProfile(rq.getFirstName(), rq.getLastName(), rq.getAddress(), rq.getPhoneNumber(), rq.getEmail(), rq.getEmployeeNumber(), rq.getSpecialties());
+
+                    firebaseDB = FirebaseDatabase.getInstance();
+
+                    DatabaseReference usersRef = firebaseDB.getReference("users");
+
+                    usersRef.child(USERIDGOESHERECHARLEY).setValue(user);
+
+                } else {
+
+                    Toast.makeText(PendingRequestsActivity.this, "ERROR: THE USER IS NULL", Toast.LENGTH_SHORT).show();
+
+                }
+
             }
         });
 
@@ -211,6 +247,9 @@ public class PendingRequestsActivity extends AppCompatActivity
                     alertDialog.dismiss();
                     hideOverlay(); // Hide the overlay when the Confirm button is clicked
                     Toast.makeText(PendingRequestsActivity.this, "Denied Registration", Toast.LENGTH_SHORT).show();
+
+                    rq.decline();
+
                 }
                 else // DON'T ALLOW DENYING APPROVED REQUESTS
                 {
