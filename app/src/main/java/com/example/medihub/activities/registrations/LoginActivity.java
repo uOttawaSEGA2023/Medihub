@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medihub.R;
 import com.example.medihub.enums.RegistrationStatus;
+import com.example.medihub.enums.UserRole;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -82,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    checkRegistrationRequest();
+                                    checkUser();
                                 } else {
                                     Toast.makeText(LoginActivity.this, "Email or Password is Incorrect",
                                             Toast.LENGTH_SHORT).show();
@@ -93,6 +94,34 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
+    public void checkUser() {
+        String userId = mAuth.getUid();
+        DatabaseReference userReference = firebaseDB.getReference("users").child(userId);
+
+        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String strRole = snapshot.child("role").getValue(String.class);
+                    UserRole role = UserRole.valueOf(strRole);
+
+                    if (role == UserRole.admin) {  // user is admin, log in
+                        openWelcomeActivity();
+                    } else {
+                        checkRegistrationRequest();
+                    }
+                } else {
+                    checkRegistrationRequest();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
     public void checkRegistrationRequest() {
         String userId = mAuth.getUid();
@@ -126,8 +155,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
 
     public void openRegistrationOptionActivity() {
