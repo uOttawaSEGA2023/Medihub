@@ -39,7 +39,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class PendingRequestsActivity extends AppCompatActivity
+public class PendingRejectedActivity extends AppCompatActivity
 {
 
     Button backButton;
@@ -65,7 +65,7 @@ public class PendingRequestsActivity extends AppCompatActivity
 
         pendingRequests = new ArrayList<>();
         dbReference = FirebaseDatabase.getInstance().getReference();
-        pendingRequestsQuery = dbReference.child("registration_requests").orderByChild("status").equalTo(RegistrationStatus.pending.toString());
+        pendingRequestsQuery = dbReference.child("registration_requests").orderByChild("status").equalTo(RegistrationStatus.declined.toString());
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -106,7 +106,7 @@ public class PendingRequestsActivity extends AppCompatActivity
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent backIntent = new Intent(PendingRequestsActivity.this, AdminActivity.class);
+                Intent backIntent = new Intent(PendingRejectedActivity.this, AdminActivity.class);
                 backIntent.putExtra("current user", admin);
                 startActivity(backIntent);
             }
@@ -202,13 +202,8 @@ public class PendingRequestsActivity extends AppCompatActivity
 
         if (rq.getStatus() == RegistrationStatus.declined) {
 
-            authorize.setVisibility(View.GONE);
-
-
-        } else if (rq.getStatus() == RegistrationStatus.approved) {
-
             deny.setVisibility(View.GONE);
-            authorize.setVisibility(View.GONE);
+
 
         }
 
@@ -220,7 +215,7 @@ public class PendingRequestsActivity extends AppCompatActivity
                 adapter.updateStatus(position, RegistrationStatus.approved);
                 alertDialog.dismiss();
                 hideOverlay(); // Hide the overlay when the Confirm button is clicked
-                Toast.makeText(PendingRequestsActivity.this, "Approved Registration", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PendingRejectedActivity.this, "Approved Registration", Toast.LENGTH_SHORT).show();
 
                 if (rq.isPatient() == true) {
 
@@ -248,7 +243,7 @@ public class PendingRequestsActivity extends AppCompatActivity
 
                     usersRef.child(rq.getKey()).setValue(user);
 
-                    rq.setStatus(RegistrationStatus.declined);
+                    rq.setStatus(RegistrationStatus.approved);
                     DatabaseReference registerTemp = firebaseDB.getReference("registration_requests");
                     registerTemp.child(rq.getKey()).setValue(rq);
 
@@ -256,36 +251,13 @@ public class PendingRequestsActivity extends AppCompatActivity
 
                 } else {
 
-                    Toast.makeText(PendingRequestsActivity.this, "ERROR: THE USER IS NULL", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PendingRejectedActivity.this, "ERROR: THE USER IS NULL", Toast.LENGTH_SHORT).show();
 
                 }
 
             }
         });
 
-        deny.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (pendingRequests.get(position).getStatus()!=RegistrationStatus.approved)
-                {
-                    adapter.updateStatus(position, RegistrationStatus.declined);
-                    pendingRequests.get(position).decline();
-                    alertDialog.dismiss();
-                    hideOverlay(); // Hide the overlay when the Confirm button is clicked
-                    Toast.makeText(PendingRequestsActivity.this, "Denied Registration", Toast.LENGTH_SHORT).show();
-
-                    rq.setStatus(RegistrationStatus.declined);
-                    Log.d("Decline", rq.getStatus() + "");
-
-                }
-                else // DON'T ALLOW DENYING APPROVED REQUESTS
-                {
-                    alertDialog.dismiss();
-                    hideOverlay(); // Hide the overlay when the Confirm button is clicked
-                    Toast.makeText(PendingRequestsActivity.this, "CANNOT DENY APPROVED REQUEST", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
