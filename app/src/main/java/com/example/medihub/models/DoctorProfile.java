@@ -77,4 +77,7 @@ public class DoctorProfile extends UserProfile implements Model, Serializable {
 
         return errors;
     }
+
+    public String getKey() { return super.getKey(); }
+    public void setKey(String key) { super.setKey(key); }
 }

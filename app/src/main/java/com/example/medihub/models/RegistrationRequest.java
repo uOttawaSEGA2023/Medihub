@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RegistrationRequest implements Model, Serializable {
+    private String key;
     private boolean patient;
     private RegistrationStatus status;
     private String firstName, lastName, address, phoneNumber, healthCardNumber, employeeNumber, email;
@@ -156,4 +157,6 @@ public class RegistrationRequest implements Model, Serializable {
                 "\nSpecialties: " + getSpecialties() +
                 "\nEmployee Number: " + getEmployeeNumber();
     }
+    public String getKey() { return key; }
+    public void setKey(String key) { this.key = key; }
 }

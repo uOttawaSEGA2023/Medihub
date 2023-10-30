@@ -11,6 +11,7 @@ import com.example.medihub.interfaces.Model;
 
 public class UserProfile implements Model, Serializable {
     // INSTANCE VARIABLES
+    private String key;
     private UserRole role;
     private String firstName;
     private String lastName;
@@ -98,4 +99,7 @@ public class UserProfile implements Model, Serializable {
 
         return errors;
     }
+
+    public String getKey() { return key; }
+    public void setKey(String key) { this.key = key; }
 }
