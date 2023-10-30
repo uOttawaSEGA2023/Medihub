@@ -248,7 +248,7 @@ public class PendingRequestsActivity extends AppCompatActivity
 
                     usersRef.child(rq.getKey()).setValue(user);
 
-                    rq.setStatus(RegistrationStatus.declined);
+                    rq.setStatus(RegistrationStatus.approved);
                     DatabaseReference registerTemp = firebaseDB.getReference("registration_requests");
                     registerTemp.child(rq.getKey()).setValue(rq);
 
