@@ -147,6 +147,7 @@ public class PendingRequestsActivity extends AppCompatActivity
         View view = LayoutInflater.from(this).inflate(R.layout.activity_request_card, request_window);
 
         RegistrationRequest rq = pendingRequests.get(position);
+        Log.i("RQ KEY:", rq.getKey());
 
         if (rq != null)
         {
@@ -219,7 +220,7 @@ public class PendingRequestsActivity extends AppCompatActivity
 
                     DatabaseReference usersRef = firebaseDB.getReference("users");
 
-                    usersRef.child(USERIDGOESHERECHARLEY).setValue(user);
+                    usersRef.child("TODO").setValue(user);
 
 
                 } else if (rq.isPatient() == false){
@@ -230,7 +231,7 @@ public class PendingRequestsActivity extends AppCompatActivity
 
                     DatabaseReference usersRef = firebaseDB.getReference("users");
 
-                    usersRef.child(USERIDGOESHERECHARLEY).setValue(user);
+                    usersRef.child("TODO").setValue(user);
 
                 } else {
 
