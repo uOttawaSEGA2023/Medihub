@@ -209,9 +209,6 @@ public class PendingRequestsActivity extends AppCompatActivity
                 hideOverlay(); // Hide the overlay when the Confirm button is clicked
                 Toast.makeText(PendingRequestsActivity.this, "Approved Registration", Toast.LENGTH_SHORT).show();
 
-                rq.approve();
-
-
                 if (rq.isPatient() == true) {
 
                     PatientProfile user = new PatientProfile(rq.getFirstName(), rq.getLastName(), rq.getAddress(), rq.getPhoneNumber(), rq.getEmail(), rq.getHealthCardNumber());
@@ -219,8 +216,13 @@ public class PendingRequestsActivity extends AppCompatActivity
                     firebaseDB = FirebaseDatabase.getInstance();
 
                     DatabaseReference usersRef = firebaseDB.getReference("users");
-
                     usersRef.child(rq.getKey()).setValue(user);
+
+                    rq.setStatus(RegistrationStatus.approved);
+                    DatabaseReference registerTemp = firebaseDB.getReference("registration_requests");
+                    registerTemp.child(rq.getKey()).setValue(rq);
+
+
 
 
                 } else if (rq.isPatient() == false){
@@ -232,6 +234,12 @@ public class PendingRequestsActivity extends AppCompatActivity
                     DatabaseReference usersRef = firebaseDB.getReference("users");
 
                     usersRef.child(rq.getKey()).setValue(user);
+
+                    rq.setStatus(RegistrationStatus.declined);
+                    DatabaseReference registerTemp = firebaseDB.getReference("registration_requests");
+                    registerTemp.child(rq.getKey()).setValue(rq);
+
+
 
                 } else {
 
@@ -253,7 +261,8 @@ public class PendingRequestsActivity extends AppCompatActivity
                     hideOverlay(); // Hide the overlay when the Confirm button is clicked
                     Toast.makeText(PendingRequestsActivity.this, "Denied Registration", Toast.LENGTH_SHORT).show();
 
-                    rq.decline();
+                    rq.setStatus(RegistrationStatus.declined);
+                    Log.d("Decline", rq.getStatus() + "");
 
                 }
                 else // DON'T ALLOW DENYING APPROVED REQUESTS
