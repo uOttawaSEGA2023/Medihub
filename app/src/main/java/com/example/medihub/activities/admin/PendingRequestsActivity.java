@@ -200,6 +200,19 @@ public class PendingRequestsActivity extends AppCompatActivity
 
         final AlertDialog alertDialog = builder.create();
 
+        if (rq.getStatus() == RegistrationStatus.declined) {
+
+            authorize.setVisibility(View.GONE);
+
+
+        } else if (rq.getStatus() == RegistrationStatus.approved) {
+
+            deny.setVisibility(View.GONE);
+            authorize.setVisibility(View.GONE);
+
+        }
+
+
         authorize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
