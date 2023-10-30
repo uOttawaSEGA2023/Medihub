@@ -80,10 +80,12 @@ public class WelcomeActivity extends AppCompatActivity {
                         homeIntent = new Intent(WelcomeActivity.this, DoctorActivity.class);
                         userProfile = dataSnapshot.getValue(DoctorProfile.class);
 
-
                     }
 
-                    }
+                    if (userProfile != null)
+                        userProfile.setKey(dataSnapshot.getKey());
+
+                }
 
             }
 

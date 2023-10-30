@@ -75,7 +75,11 @@ public class PendingRequestsActivity extends AppCompatActivity
                 if (snapshot.exists()) {
                     for (DataSnapshot requestSnapshot : snapshot.getChildren()) {
                         RegistrationRequest rq = requestSnapshot.getValue(RegistrationRequest.class);
-                        pendingRequests.add(rq);
+
+                        if (rq != null) {
+                            rq.setKey(requestSnapshot.getKey());
+                            pendingRequests.add(rq);
+                        }
                     }
 
                     if (pendingRequests != null && !pendingRequests.isEmpty())
