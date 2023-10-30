@@ -21,8 +21,9 @@ public class AdminActivity extends AppCompatActivity {
 
     // UI elements
     private Button logoutButton;
-
-    private Button inboxButton;
+    private Button approve;
+    private Button pending;
+    private Button declined;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -43,7 +44,9 @@ public class AdminActivity extends AppCompatActivity {
         }
 
         logoutButton = findViewById(R.id.logoutButton);
-        inboxButton = findViewById(R.id.inboxButton);
+        approve = findViewById(R.id.btnApproved);
+        pending = findViewById(R.id.btnPending);
+        declined = findViewById(R.id.btnDeclined);
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,10 +54,28 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
 
-        inboxButton.setOnClickListener(new View.OnClickListener() {
+        pending.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent inboxIntent = new Intent(AdminActivity.this, PendingRequestsActivity.class);
+                inboxIntent.putExtra("current user", user);
+                startActivity(inboxIntent);
+            }
+        });
+
+        approve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent inboxIntent = new Intent(AdminActivity.this, PendingAcceptedActivity.class);
+                inboxIntent.putExtra("current user", user);
+                startActivity(inboxIntent);
+            }
+        });
+
+        declined.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent inboxIntent = new Intent(AdminActivity.this, PendingRejectedActivity.class);
                 inboxIntent.putExtra("current user", user);
                 startActivity(inboxIntent);
             }
