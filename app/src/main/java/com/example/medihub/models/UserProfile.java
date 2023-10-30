@@ -17,6 +17,7 @@ public class UserProfile implements Model, Serializable {
     private String lastName;
     private String address;
     private String phoneNumber;
+    private String email;
 
     // STATIC VARIABLES
     protected static final String POSTAL_CODE_REGEX = "^[A-Z][0-9][A-Z] [0-9][A-Z][0-9]$";
@@ -28,12 +29,13 @@ public class UserProfile implements Model, Serializable {
 
     public UserProfile(UserRole role) { this.role = role; }
 
-    public UserProfile(UserRole role, String firstName, String lastName, String address, String phoneNumber) {
+    public UserProfile(UserRole role, String firstName, String lastName, String address, String phoneNumber, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.role = role;
+        this.email = email;
     }
 
     // GETTERS
@@ -49,6 +51,7 @@ public class UserProfile implements Model, Serializable {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+    public String getEmail() { return email; }
     public UserRole getRole() {
         return role;
     }
@@ -72,6 +75,7 @@ public class UserProfile implements Model, Serializable {
     public String toString() {
         return getRole().toString() + " User Profile: " +
                 "\nName: " + getFirstName() + " " + getLastName() +
+                "\nEmail: " + getEmail() +
                 "\nAddress: " + getAddress() +
                 "\nPhone Number: " + getPhoneNumber();
     }
