@@ -14,7 +14,7 @@ public class RegistrationRequest implements Model, Serializable {
     private String key;
     private boolean patient;
     private RegistrationStatus status;
-    private String firstName, lastName, address, phoneNumber, healthCardNumber, employeeNumber, email;
+    private String firstName, lastName, address, phoneNumber, healthCardNumber, employeeNumber;
     private ArrayList<DoctorSpecialty> specialties;
 
     public RegistrationRequest() {}
@@ -24,14 +24,13 @@ public class RegistrationRequest implements Model, Serializable {
     }
 
     public RegistrationRequest(boolean isPatient, String firstName, String lastName, String address,
-                               String phoneNumber, String email, String healthCardNumber, String employeeNumber,
+                               String phoneNumber, String healthCardNumber, String employeeNumber,
                                ArrayList<DoctorSpecialty> specialties) {
         this.patient = isPatient;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.email = email;
         this.status = RegistrationStatus.pending;
 
         if (isPatient) {
@@ -54,7 +53,6 @@ public class RegistrationRequest implements Model, Serializable {
     public String getPhoneNumber() {
         return phoneNumber;
     }
-    public String getEmail() { return email; }
     public String getHealthCardNumber() {
         return healthCardNumber;
     }
@@ -108,9 +106,6 @@ public class RegistrationRequest implements Model, Serializable {
         if (phoneNumber == null || !Patterns.PHONE.matcher(phoneNumber).matches())
             errors.put("phoneNumber", "invalid phone number");
 
-        if (email == null || !Patterns.EMAIL_ADDRESS.matcher(email).matches())
-            errors.put("email", "invalid email");
-
         if (patient && (healthCardNumber == null || !healthCardNumber.matches(PatientProfile.HEALTH_CARD_REGEX)))
             errors.put("healthCardNumber", "invalid health card number (format: only digits no dashes)");
 
@@ -130,9 +125,9 @@ public class RegistrationRequest implements Model, Serializable {
             UserRole role = patient ? UserRole.patient : UserRole.doctor;
 
             if (role == UserRole.patient) {
-                user = new PatientProfile(firstName, lastName, address, phoneNumber, email, healthCardNumber);
+                user = new PatientProfile(firstName, lastName, address, phoneNumber, healthCardNumber);
             } else {
-                user = new DoctorProfile(firstName, lastName, address, phoneNumber, email, employeeNumber, specialties);
+                user = new DoctorProfile(firstName, lastName, address, phoneNumber, employeeNumber, specialties);
             }
         }
 
@@ -152,7 +147,6 @@ public class RegistrationRequest implements Model, Serializable {
                 "\nName: " + getFirstName() + " " + getLastName() +
                 "\nAddress: " + getAddress() +
                 "\nPhone Number: " + getPhoneNumber() +
-                "\nEmail: " + getEmail() +
                 "\nHealth Card Number: " + getHealthCardNumber() +
                 "\nSpecialties: " + getSpecialties() +
                 "\nEmployee Number: " + getEmployeeNumber();

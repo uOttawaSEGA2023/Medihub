@@ -21,8 +21,8 @@ public class PatientProfile extends UserProfile implements Model, Serializable {
         super(UserRole.patient);
     }
 
-    public PatientProfile(String firstName, String lastName, String address, String phoneNumber, String email, String healthCardNumber) {
-        super(UserRole.patient, firstName, lastName, address, phoneNumber, email);
+    public PatientProfile(String firstName, String lastName, String address, String phoneNumber, String healthCardNumber) {
+        super(UserRole.patient, firstName, lastName, address, phoneNumber);
         this.healthCardNumber = healthCardNumber;
     }
 

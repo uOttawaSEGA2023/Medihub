@@ -109,7 +109,6 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
                 last_name.getText().toString(),
                 address.getText().toString(),
                 phone.getText().toString(),
-                email.getText().toString(),
                 healthcard.getText().toString());
 
         HashMap<String, String> errors = patientProfile.validate();
@@ -182,7 +181,7 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
         DatabaseReference usersRef = firebaseDB.getReference("registration_requests");
 
         ArrayList NA = new ArrayList(); //RANDOM ARRAYLIST AS A FILLER SINCE THIS IS A PATIENT
-        RegistrationRequest temp = new RegistrationRequest(true, patientProfile.getFirstName(), patientProfile.getLastName(), patientProfile.getAddress(), patientProfile.getPhoneNumber(), email.getText().toString(), healthcard.getText().toString(), "NA", NA);
+        RegistrationRequest temp = new RegistrationRequest(true, patientProfile.getFirstName(), patientProfile.getLastName(), patientProfile.getAddress(), patientProfile.getPhoneNumber(), healthcard.getText().toString(), "NA", NA);
 
         usersRef.child(userId).setValue(temp);
     }

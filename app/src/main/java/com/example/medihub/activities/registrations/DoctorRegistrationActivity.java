@@ -141,7 +141,6 @@ public class DoctorRegistrationActivity extends AppCompatActivity  {
                 lastName.getText().toString(),
                 address.getText().toString(),
                 phone.getText().toString(),
-                email.getText().toString(),
                 employeeNumber.getText().toString(),
                 new ArrayList<DoctorSpecialty>()
         );
@@ -253,7 +252,7 @@ public class DoctorRegistrationActivity extends AppCompatActivity  {
             }
         }
 
-        RegistrationRequest temp = new RegistrationRequest(false, doctorProfile.getFirstName(), doctorProfile.getLastName(), doctorProfile.getAddress(), doctorProfile.getPhoneNumber(), doctorProfile.getEmail(), null, employeeNumber.getText().toString(), doctorSpecialties);
+        RegistrationRequest temp = new RegistrationRequest(false, doctorProfile.getFirstName(), doctorProfile.getLastName(), doctorProfile.getAddress(), doctorProfile.getPhoneNumber(), null, employeeNumber.getText().toString(), doctorSpecialties);
 
         usersRef.child(userId).setValue(temp);
     }

@@ -174,8 +174,7 @@ public class PendingRequestsActivity extends AppCompatActivity
             name.append(name1);
 
             TextView email = view.findViewById(R.id.preview_card_email);
-            String email1 = rq.getEmail();
-            email.append(email1);
+            email.append("TODO: ADD LATER");
 
             TextView phone = view.findViewById(R.id.preview_card_phone);
             String phone1 = rq.getPhoneNumber();
@@ -209,24 +208,24 @@ public class PendingRequestsActivity extends AppCompatActivity
 
                 if (rq.isPatient() == true) {
 
-                    PatientProfile user = new PatientProfile(rq.getFirstName(), rq.getLastName(), rq.getAddress(), rq.getPhoneNumber(), rq.getEmail(), rq.getHealthCardNumber());
+                    PatientProfile user = new PatientProfile(rq.getFirstName(), rq.getLastName(), rq.getAddress(), rq.getPhoneNumber(), rq.getHealthCardNumber());
 
                     firebaseDB = FirebaseDatabase.getInstance();
 
                     DatabaseReference usersRef = firebaseDB.getReference("users");
 
-                    usersRef.child(USERIDGOESHERECHARLEY).setValue(user);
+                    usersRef.child("TODO: ADD LATER").setValue(user);
 
 
                 } else if (rq.isPatient() == false){
 
-                    DoctorProfile user = new DoctorProfile(rq.getFirstName(), rq.getLastName(), rq.getAddress(), rq.getPhoneNumber(), rq.getEmail(), rq.getEmployeeNumber(), rq.getSpecialties());
+                    DoctorProfile user = new DoctorProfile(rq.getFirstName(), rq.getLastName(), rq.getAddress(), rq.getPhoneNumber(), rq.getEmployeeNumber(), rq.getSpecialties());
 
                     firebaseDB = FirebaseDatabase.getInstance();
 
                     DatabaseReference usersRef = firebaseDB.getReference("users");
 
-                    usersRef.child(USERIDGOESHERECHARLEY).setValue(user);
+                    usersRef.child("TODO: ADD LATER").setValue(user);
 
                 } else {
 

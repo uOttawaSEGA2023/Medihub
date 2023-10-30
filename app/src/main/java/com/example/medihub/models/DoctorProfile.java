@@ -21,8 +21,8 @@ public class DoctorProfile extends UserProfile implements Model, Serializable {
         this.specialties = new ArrayList<>();
     }
 
-    public DoctorProfile(String firstName, String lastName, String address, String phoneNumber, String email, String employeeNumber, ArrayList<DoctorSpecialty> specialties) {
-        super(UserRole.doctor, firstName, lastName, address, phoneNumber, email);
+    public DoctorProfile(String firstName, String lastName, String address, String phoneNumber, String employeeNumber, ArrayList<DoctorSpecialty> specialties) {
+        super(UserRole.doctor, firstName, lastName, address, phoneNumber);
         this.employeeNumber = employeeNumber;
         this.specialties = specialties;
     }
