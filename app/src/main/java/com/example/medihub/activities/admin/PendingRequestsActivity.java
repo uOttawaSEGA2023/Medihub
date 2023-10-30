@@ -220,7 +220,7 @@ public class PendingRequestsActivity extends AppCompatActivity
 
                     DatabaseReference usersRef = firebaseDB.getReference("users");
 
-                    usersRef.child("TODO").setValue(user);
+                    usersRef.child(rq.getKey()).setValue(user);
 
 
                 } else if (rq.isPatient() == false){
@@ -231,7 +231,7 @@ public class PendingRequestsActivity extends AppCompatActivity
 
                     DatabaseReference usersRef = firebaseDB.getReference("users");
 
-                    usersRef.child("TODO").setValue(user);
+                    usersRef.child(rq.getKey()).setValue(user);
 
                 } else {
 
