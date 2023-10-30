@@ -54,32 +54,37 @@ public class WelcomeActivity extends AppCompatActivity {
         ValueEventListener userValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 if (dataSnapshot.exists()) {
+
                     String role = dataSnapshot.child("role").getValue(String.class);
+
                     String name = dataSnapshot.child("firstName").getValue(String.class);
 
-                    Log.d("role", role + "");
-                    Log.d("name", name + "");
+                    String msg = "Welcome to MediHub " + name + "! You are logged in as a " + role;
 
-                    // Welcome to MediHub! You are logged in as a <role>
-                    textWelcome.setText("Welcome to MediHub " + name + "! You are logged in as "
-                            + (role.equals("admin") ? "an " + role : "a " + role));
+                    textWelcome.setText(msg);
 
-                    switch (role) {
-                        case "admin":
-                            homeIntent = new Intent(WelcomeActivity.this, AdminActivity.class);
-                            userProfile = dataSnapshot.getValue(UserProfile.class);
-                            break;
-                        case "patient":
-                            homeIntent = new Intent(WelcomeActivity.this, PatientActivity.class);
-                            userProfile = dataSnapshot.getValue(PatientProfile.class);
-                            break;
-                        case "doctor":
-                            homeIntent = new Intent(WelcomeActivity.this, DoctorActivity.class);
-                            userProfile = dataSnapshot.getValue(DoctorProfile.class);
-                            break;
+                    if (role.equals("admin")) {
+
+                        homeIntent = new Intent(WelcomeActivity.this, AdminActivity.class);
+                        userProfile = dataSnapshot.getValue(UserProfile.class);
+
+                    } else if (role.equals("patient")) {
+
+                        homeIntent = new Intent(WelcomeActivity.this, PatientActivity.class);
+                        userProfile = dataSnapshot.getValue(PatientProfile.class);
+
+                    } else if (role.equals("doctor")) {
+
+                        homeIntent = new Intent(WelcomeActivity.this, DoctorActivity.class);
+                        userProfile = dataSnapshot.getValue(DoctorProfile.class);
+
+
                     }
-                }
+
+                    }
+
             }
 
             @Override
