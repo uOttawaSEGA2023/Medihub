@@ -142,10 +142,14 @@
 
         <Button
             android:id="@+id/buttonConfirm"
-            android:layout_width="130dp"
-            android:layout_height="45dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:background="@drawable/round_corner_green"
+            android:paddingLeft="20sp"
+            android:paddingTop="20sp"
+            android:paddingRight="20sp"
+            android:paddingBottom="20sp"
             android:text="AUTHORIZE"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -154,8 +158,12 @@
 
         <Button
             android:id="@+id/buttonDeny"
-            android:layout_width="130dp"
-            android:layout_height="45dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20sp"
+            android:paddingTop="20sp"
+            android:paddingRight="20sp"
+            android:paddingBottom="20sp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="30dp"
             android:background="@drawable/round_corner_red"
