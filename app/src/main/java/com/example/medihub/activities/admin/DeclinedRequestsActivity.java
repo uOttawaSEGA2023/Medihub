@@ -81,12 +81,8 @@ public class DeclinedRequestsActivity extends AppCompatActivity
                             pendingRequests.add(rq);
                         }
                     }
-
-                    if (pendingRequests != null && !pendingRequests.isEmpty())
-                        setAdapter();
-                    else
-                        Log.d("regis req", "request arraylist is null");
                 }
+                setAdapter();
             }
 
             @Override
