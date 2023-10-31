@@ -22,10 +22,10 @@
             android:name=".activities.doctor.DoctorActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.admin.PendingAcceptedActivity"
+            android:name=".activities.admin.ApprovedRequestsActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.admin.PendingRejectedActivity"
+            android:name=".activities.admin.DeclinedRequestsActivity"
             android:exported="false" />
 
         <activity

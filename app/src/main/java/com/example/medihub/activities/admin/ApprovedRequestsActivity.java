@@ -19,14 +19,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.medihub.R;
 import com.example.medihub.adapters.recycleAdapter;
-import com.example.medihub.enums.DoctorSpecialty;
 import com.example.medihub.enums.RegistrationStatus;
-import com.example.medihub.models.DoctorProfile;
-import com.example.medihub.models.PatientProfile;
 import com.example.medihub.models.RegistrationRequest;
 import com.example.medihub.models.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class PendingAcceptedActivity extends AppCompatActivity
+public class ApprovedRequestsActivity extends AppCompatActivity
 {
 
     Button backButton;
@@ -107,7 +103,7 @@ public class PendingAcceptedActivity extends AppCompatActivity
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent backIntent = new Intent(PendingAcceptedActivity.this, AdminActivity.class);
+                Intent backIntent = new Intent(ApprovedRequestsActivity.this, AdminActivity.class);
                 backIntent.putExtra("current user", admin);
                 startActivity(backIntent);
             }

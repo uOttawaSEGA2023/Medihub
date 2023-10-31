@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 import com.example.medihub.R;
 import com.example.medihub.adapters.recycleAdapter;
-import com.example.medihub.enums.DoctorSpecialty;
 import com.example.medihub.enums.RegistrationStatus;
 import com.example.medihub.models.DoctorProfile;
 import com.example.medihub.models.PatientProfile;
@@ -39,7 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class PendingRejectedActivity extends AppCompatActivity
+public class DeclinedRequestsActivity extends AppCompatActivity
 {
 
     Button backButton;
@@ -107,7 +106,7 @@ public class PendingRejectedActivity extends AppCompatActivity
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent backIntent = new Intent(PendingRejectedActivity.this, AdminActivity.class);
+                Intent backIntent = new Intent(DeclinedRequestsActivity.this, AdminActivity.class);
                 backIntent.putExtra("current user", admin);
                 startActivity(backIntent);
             }
@@ -216,10 +215,10 @@ public class PendingRejectedActivity extends AppCompatActivity
                 adapter.updateStatus(position, RegistrationStatus.approved);
                 alertDialog.dismiss();
                 hideOverlay(); // Hide the overlay when the Confirm button is clicked
-                Toast.makeText(PendingRejectedActivity.this, "Approved Registration", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DeclinedRequestsActivity.this, "Approved Registration", Toast.LENGTH_SHORT).show();
 
                 if (rq == null) {
-                    Toast.makeText(PendingRejectedActivity.this, "ERROR: THE USER IS NULL", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DeclinedRequestsActivity.this, "ERROR: THE USER IS NULL", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

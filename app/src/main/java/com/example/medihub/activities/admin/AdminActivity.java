@@ -66,7 +66,7 @@ public class AdminActivity extends AppCompatActivity {
         approve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent inboxIntent = new Intent(AdminActivity.this, PendingAcceptedActivity.class);
+                Intent inboxIntent = new Intent(AdminActivity.this, ApprovedRequestsActivity.class);
                 inboxIntent.putExtra("current user", user);
                 startActivity(inboxIntent);
             }
@@ -75,7 +75,7 @@ public class AdminActivity extends AppCompatActivity {
         declined.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent inboxIntent = new Intent(AdminActivity.this, PendingRejectedActivity.class);
+                Intent inboxIntent = new Intent(AdminActivity.this, DeclinedRequestsActivity.class);
                 inboxIntent.putExtra("current user", user);
                 startActivity(inboxIntent);
             }
