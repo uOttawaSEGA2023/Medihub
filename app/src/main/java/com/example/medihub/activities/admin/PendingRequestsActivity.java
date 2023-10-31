@@ -275,6 +275,10 @@ public class PendingRequestsActivity extends AppCompatActivity
                     Toast.makeText(PendingRequestsActivity.this, "Denied Registration", Toast.LENGTH_SHORT).show();
 
                     rq.setStatus(RegistrationStatus.declined);
+
+                    DatabaseReference registrationRequestRef = firebaseDB.getReference("registration_requests");
+                    registrationRequestRef.child(rq.getKey()).setValue(rq);
+
                     Log.d("Decline", rq.getStatus() + "");
 
                 }
