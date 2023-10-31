@@ -36,74 +36,82 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <LinearLayout
+                    android:id="@+id/RegistrationRequestContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="30dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Registration Requests"
+                            android:textSize="20sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <Button
+                            android:id="@+id/btnDeclined"
+                            android:layout_width="150dp"
+                            android:layout_height="55dp"
+                            android:layout_marginStart="130dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="131dp"
+                            android:background="@drawable/round_corner_red"
+                            android:text="Declined"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+                        <Button
+                            android:id="@+id/btnPending"
+                            android:layout_width="150dp"
+                            android:layout_height="55dp"
+                            android:layout_marginStart="130dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="131dp"
+                            android:background="@drawable/round_corner_blue"
+                            android:text="Pending"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/btnDeclined" />
+
+                        <Button
+                            android:id="@+id/btnApproved"
+                            android:layout_width="150dp"
+                            android:layout_height="55dp"
+                            android:layout_marginStart="130dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="131dp"
+                            android:background="@drawable/round_corner_green"
+                            android:text="Approved"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/btnPending" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
                 <Button
                     android:id="@+id/logoutButton"
                     android:layout_width="103dp"
                     android:layout_height="48dp"
-                    android:layout_marginTop="171dp"
-                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="50dp"
                     android:background="@drawable/background_red"
                     android:text="Logout"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-                <Button
-                    android:id="@+id/btnApproved"
-                    android:layout_width="96dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="290dp"
-                    android:layout_marginBottom="17dp"
-                    android:text="Approved"
-                    app:layout_constraintBottom_toTopOf="@+id/btnPending"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-                <Button
-                    android:id="@+id/btnPending"
-                    android:layout_width="88dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="17dp"
-                    android:layout_marginEnd="298dp"
-                    android:layout_marginBottom="11dp"
-                    android:text="Pending"
-                    app:layout_constraintBottom_toTopOf="@+id/btnDeclined"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/btnApproved" />
-
-                <Button
-                    android:id="@+id/btnDeclined"
-                    android:layout_width="105dp"
-                    android:layout_height="54dp"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="196dp"
-                    android:layout_marginBottom="1dp"
-                    android:text="Declined"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/logoutButton"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/btnPending" />
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="85dp"
-                    android:layout_height="19dp"
-                    android:layout_marginStart="33dp"
-                    android:layout_marginEnd="293dp"
-                    android:layout_marginBottom="3dp"
-                    android:text="Request Type"
-                    app:layout_constraintBottom_toTopOf="@+id/btnApproved"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                    app:layout_constraintTop_toBottomOf="@+id/RegistrationRequestContainer" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
