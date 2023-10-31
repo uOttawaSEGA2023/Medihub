@@ -218,43 +218,31 @@ public class PendingRejectedActivity extends AppCompatActivity
                 hideOverlay(); // Hide the overlay when the Confirm button is clicked
                 Toast.makeText(PendingRejectedActivity.this, "Approved Registration", Toast.LENGTH_SHORT).show();
 
-                if (rq.isPatient() == true) {
-
-                    PatientProfile user = new PatientProfile(rq.getFirstName(), rq.getLastName(), rq.getAddress(), rq.getPhoneNumber(), rq.getEmail(), rq.getHealthCardNumber());
-
-                    firebaseDB = FirebaseDatabase.getInstance();
-
-                    DatabaseReference usersRef = firebaseDB.getReference("users");
-                    usersRef.child(rq.getKey()).setValue(user);
-
-                    rq.setStatus(RegistrationStatus.approved);
-                    DatabaseReference registerTemp = firebaseDB.getReference("registration_requests");
-                    registerTemp.child(rq.getKey()).setValue(rq);
-
-
-
-
-                } else if (rq.isPatient() == false){
-
-                    DoctorProfile user = new DoctorProfile(rq.getFirstName(), rq.getLastName(), rq.getAddress(), rq.getPhoneNumber(), rq.getEmail(), rq.getEmployeeNumber(), rq.getSpecialties());
-
-                    firebaseDB = FirebaseDatabase.getInstance();
-
-                    DatabaseReference usersRef = firebaseDB.getReference("users");
-
-                    usersRef.child(rq.getKey()).setValue(user);
-
-                    rq.setStatus(RegistrationStatus.approved);
-                    DatabaseReference registerTemp = firebaseDB.getReference("registration_requests");
-                    registerTemp.child(rq.getKey()).setValue(rq);
-
-
-
-                } else {
-
+                if (rq == null) {
                     Toast.makeText(PendingRejectedActivity.this, "ERROR: THE USER IS NULL", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                UserProfile user = null;
+
+                if (rq.isPatient()) {
+
+                    user = new PatientProfile(rq.getFirstName(), rq.getLastName(), rq.getAddress(), rq.getPhoneNumber(), rq.getEmail(), rq.getHealthCardNumber());
+
+                } else  {
+
+                    user = new DoctorProfile(rq.getFirstName(), rq.getLastName(), rq.getAddress(), rq.getPhoneNumber(), rq.getEmail(), rq.getEmployeeNumber(), rq.getSpecialties());
 
                 }
+
+                firebaseDB = FirebaseDatabase.getInstance();
+
+                DatabaseReference usersRef = firebaseDB.getReference("users");
+                usersRef.child(rq.getKey()).setValue(user);
+
+                rq.setStatus(RegistrationStatus.approved);
+                DatabaseReference registerTemp = firebaseDB.getReference("registration_requests");
+                registerTemp.child(rq.getKey()).setValue(rq);
 
             }
         });

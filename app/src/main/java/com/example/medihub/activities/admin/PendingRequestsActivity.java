@@ -230,11 +230,11 @@ public class PendingRequestsActivity extends AppCompatActivity
 
                 UserProfile user = null;
 
-                if (rq.isPatient() == true) {
+                if (rq.isPatient()) {
 
                     user = new PatientProfile(rq.getFirstName(), rq.getLastName(), rq.getAddress(), rq.getPhoneNumber(), rq.getEmail(), rq.getHealthCardNumber());
 
-                } else if (rq.isPatient() == false){
+                } else {
 
                     user = new DoctorProfile(rq.getFirstName(), rq.getLastName(), rq.getAddress(), rq.getPhoneNumber(), rq.getEmail(), rq.getEmployeeNumber(), rq.getSpecialties());
 
