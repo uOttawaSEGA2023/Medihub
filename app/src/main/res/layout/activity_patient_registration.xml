@@ -5,141 +5,160 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/firstLastText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Last Name"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/emailText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstNameText" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/acitvity_registration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:gravity="center"
-        android:maxLines="3"
-        android:text="PATIENT REGISTRATION"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/firstNameText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.444" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/firstNameText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="First Name"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/firstLastText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/acitvity_registration" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/emailText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/passwordText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstLastText" />
+                <TextView
+                    android:id="@+id/acitvity_registration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:text="PATIENT REGISTRATION"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textSize="30sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/passwordText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/passwordConfirmationText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailText" />
+                <EditText
+                    android:id="@+id/firstNameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="101dp"
+                    android:ems="10"
+                    android:hint="First Name"
+                    android:inputType="text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/acitvity_registration" />
 
-    <EditText
-        android:id="@+id/passwordConfirmationText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Confirm Password"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/phoneText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordText" />
+                <EditText
+                    android:id="@+id/firstLastText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="101dp"
+                    android:ems="10"
+                    android:hint="Last Name"
+                    android:inputType="text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/firstNameText" />
 
-    <EditText
-        android:id="@+id/phoneText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:ems="10"
-        android:hint="Phone Number"
-        android:inputType="phone"
-        app:layout_constraintBottom_toTopOf="@+id/addressText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmationText" />
+                <EditText
+                    android:id="@+id/emailText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="101dp"
+                    android:ems="10"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/firstLastText" />
 
-    <EditText
-        android:id="@+id/addressText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Address"
-        android:inputType="textPostalAddress"
-        app:layout_constraintBottom_toTopOf="@+id/healthCardNumber"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneText" />
+                <EditText
+                    android:id="@+id/passwordText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="101dp"
+                    android:ems="10"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/emailText" />
 
-    <EditText
-        android:id="@+id/healthCardNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="148dp"
-        android:ems="10"
-        android:hint="Health Card Number"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+                <EditText
+                    android:id="@+id/passwordConfirmationText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="101dp"
+                    android:ems="10"
+                    android:hint="Confirm Password"
+                    android:inputType="textPassword"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/passwordText" />
 
-    <Button
-        android:id="@+id/buttonRegister"
-        android:layout_width="140dp"
-        android:layout_height="93dp"
-        android:layout_marginBottom="28dp"
-        android:background="@drawable/round_corner_green"
-        android:text="Register"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+                <EditText
+                    android:id="@+id/phoneText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="101dp"
+                    android:ems="10"
+                    android:hint="Phone Number"
+                    android:inputType="phone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/passwordConfirmationText" />
+
+                <EditText
+                    android:id="@+id/addressText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="101dp"
+                    android:ems="10"
+                    android:hint="Address"
+                    android:inputType="textPostalAddress"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/phoneText" />
+
+                <EditText
+                    android:id="@+id/healthCardNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="101dp"
+                    android:ems="10"
+                    android:hint="Health Card Number"
+                    android:inputType="number"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addressText" />
+
+                <Button
+                    android:id="@+id/buttonRegister"
+                    android:layout_width="130dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="140dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="141dp"
+                    android:background="@drawable/round_corner_green"
+                    android:text="Register"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/healthCardNumber" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

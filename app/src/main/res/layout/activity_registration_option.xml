@@ -7,7 +7,7 @@
 
     <Button
         android:id="@+id/buttonPatient"
-        android:layout_width="204dp"
+        android:layout_width="225dp"
         android:layout_height="103dp"
         android:layout_marginBottom="156dp"
         android:background="@drawable/round_corner_red"
@@ -20,7 +20,7 @@
 
     <Button
         android:id="@+id/buttonDoc"
-        android:layout_width="204dp"
+        android:layout_width="225dp"
         android:layout_height="103dp"
         android:layout_marginBottom="52dp"
         android:background="@drawable/round_corner_blue"
@@ -35,7 +35,7 @@
 
     <TextView
         android:id="@+id/acitvity_registration_option"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="120dp"
         android:gravity="center"
