@@ -72,6 +72,7 @@ public class PendingRequestsActivity extends AppCompatActivity
         pendingRequestsQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                pendingRequests.clear();
                 if (snapshot.exists()) {
                     for (DataSnapshot requestSnapshot : snapshot.getChildren()) {
                         RegistrationRequest rq = requestSnapshot.getValue(RegistrationRequest.class);
@@ -222,44 +223,31 @@ public class PendingRequestsActivity extends AppCompatActivity
                 hideOverlay(); // Hide the overlay when the Confirm button is clicked
                 Toast.makeText(PendingRequestsActivity.this, "Approved Registration", Toast.LENGTH_SHORT).show();
 
+                if (rq == null) {
+                    Toast.makeText(PendingRequestsActivity.this, "ERROR: THE USER IS NULL", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                UserProfile user = null;
+
                 if (rq.isPatient() == true) {
 
-                    PatientProfile user = new PatientProfile(rq.getFirstName(), rq.getLastName(), rq.getAddress(), rq.getPhoneNumber(), rq.getEmail(), rq.getHealthCardNumber());
-
-                    firebaseDB = FirebaseDatabase.getInstance();
-
-                    DatabaseReference usersRef = firebaseDB.getReference("users");
-                    usersRef.child(rq.getKey()).setValue(user);
-
-                    rq.setStatus(RegistrationStatus.approved);
-                    DatabaseReference registerTemp = firebaseDB.getReference("registration_requests");
-                    registerTemp.child(rq.getKey()).setValue(rq);
-
-
-
+                    user = new PatientProfile(rq.getFirstName(), rq.getLastName(), rq.getAddress(), rq.getPhoneNumber(), rq.getEmail(), rq.getHealthCardNumber());
 
                 } else if (rq.isPatient() == false){
 
-                    DoctorProfile user = new DoctorProfile(rq.getFirstName(), rq.getLastName(), rq.getAddress(), rq.getPhoneNumber(), rq.getEmail(), rq.getEmployeeNumber(), rq.getSpecialties());
-
-                    firebaseDB = FirebaseDatabase.getInstance();
-
-                    DatabaseReference usersRef = firebaseDB.getReference("users");
-
-                    usersRef.child(rq.getKey()).setValue(user);
-
-                    rq.setStatus(RegistrationStatus.approved);
-                    DatabaseReference registerTemp = firebaseDB.getReference("registration_requests");
-                    registerTemp.child(rq.getKey()).setValue(rq);
-
-
-
-                } else {
-
-                    Toast.makeText(PendingRequestsActivity.this, "ERROR: THE USER IS NULL", Toast.LENGTH_SHORT).show();
+                    user = new DoctorProfile(rq.getFirstName(), rq.getLastName(), rq.getAddress(), rq.getPhoneNumber(), rq.getEmail(), rq.getEmployeeNumber(), rq.getSpecialties());
 
                 }
 
+                firebaseDB = FirebaseDatabase.getInstance();
+
+                DatabaseReference usersRef = firebaseDB.getReference("users");
+                usersRef.child(rq.getKey()).setValue(user);
+
+                rq.setStatus(RegistrationStatus.approved);
+                DatabaseReference registerTemp = firebaseDB.getReference("registration_requests");
+                registerTemp.child(rq.getKey()).setValue(rq);
             }
         });
 
@@ -275,6 +263,8 @@ public class PendingRequestsActivity extends AppCompatActivity
                     Toast.makeText(PendingRequestsActivity.this, "Denied Registration", Toast.LENGTH_SHORT).show();
 
                     rq.setStatus(RegistrationStatus.declined);
+
+                    firebaseDB = FirebaseDatabase.getInstance();
 
                     DatabaseReference registrationRequestRef = firebaseDB.getReference("registration_requests");
                     registrationRequestRef.child(rq.getKey()).setValue(rq);

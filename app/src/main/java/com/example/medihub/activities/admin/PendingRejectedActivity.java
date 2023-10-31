@@ -72,6 +72,7 @@ public class PendingRejectedActivity extends AppCompatActivity
         pendingRequestsQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                pendingRequests.clear();
                 if (snapshot.exists()) {
                     for (DataSnapshot requestSnapshot : snapshot.getChildren()) {
                         RegistrationRequest rq = requestSnapshot.getValue(RegistrationRequest.class);
