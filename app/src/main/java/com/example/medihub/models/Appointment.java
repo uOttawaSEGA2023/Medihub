@@ -28,6 +28,21 @@ public class Appointment implements Model {
 
 
 
+    public String getPatient_id() { return patient_id; }
+    public String getDoctor_id() {
+        return doctor_id;
+    }
+    public RequestStatus getStatus() {
+        return status;
+    }
+    public Date getStartDate() {
+        return startDate;
+    }
+    public Date getEndDate() {
+        return endDate;
+    }
+
+
 
     @Override
     public String getKey() {
