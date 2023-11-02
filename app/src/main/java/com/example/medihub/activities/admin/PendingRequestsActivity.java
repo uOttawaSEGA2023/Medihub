@@ -23,8 +23,7 @@ import android.widget.Toast;
 
 import com.example.medihub.R;
 import com.example.medihub.adapters.recycleAdapter;
-import com.example.medihub.enums.DoctorSpecialty;
-import com.example.medihub.enums.RegistrationStatus;
+import com.example.medihub.enums.RequestStatus;
 import com.example.medihub.models.DoctorProfile;
 import com.example.medihub.models.PatientProfile;
 import com.example.medihub.models.RegistrationRequest;
@@ -65,7 +64,7 @@ public class PendingRequestsActivity extends AppCompatActivity
 
         pendingRequests = new ArrayList<>();
         dbReference = FirebaseDatabase.getInstance().getReference();
-        pendingRequestsQuery = dbReference.child("registration_requests").orderByChild("status").equalTo(RegistrationStatus.pending.toString());
+        pendingRequestsQuery = dbReference.child("registration_requests").orderByChild("status").equalTo(RequestStatus.pending.toString());
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -197,12 +196,12 @@ public class PendingRequestsActivity extends AppCompatActivity
 
         final AlertDialog alertDialog = builder.create();
 
-        if (rq.getStatus() == RegistrationStatus.declined) {
+        if (rq.getStatus() == RequestStatus.declined) {
 
             authorize.setVisibility(View.GONE);
 
 
-        } else if (rq.getStatus() == RegistrationStatus.approved) {
+        } else if (rq.getStatus() == RequestStatus.approved) {
 
             deny.setVisibility(View.GONE);
             authorize.setVisibility(View.GONE);
@@ -214,7 +213,7 @@ public class PendingRequestsActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 pendingRequests.get(position).approve();
-                adapter.updateStatus(position, RegistrationStatus.approved);
+                adapter.updateStatus(position, RequestStatus.approved);
                 alertDialog.dismiss();
                 hideOverlay(); // Hide the overlay when the Confirm button is clicked
                 Toast.makeText(PendingRequestsActivity.this, "Approved Registration", Toast.LENGTH_SHORT).show();
@@ -241,7 +240,7 @@ public class PendingRequestsActivity extends AppCompatActivity
                 DatabaseReference usersRef = firebaseDB.getReference("users");
                 usersRef.child(rq.getKey()).setValue(user);
 
-                rq.setStatus(RegistrationStatus.approved);
+                rq.setStatus(RequestStatus.approved);
                 DatabaseReference registerTemp = firebaseDB.getReference("registration_requests");
                 registerTemp.child(rq.getKey()).setValue(rq);
             }
@@ -250,15 +249,15 @@ public class PendingRequestsActivity extends AppCompatActivity
         deny.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (pendingRequests.get(position).getStatus()!=RegistrationStatus.approved)
+                if (pendingRequests.get(position).getStatus()!= RequestStatus.approved)
                 {
-                    adapter.updateStatus(position, RegistrationStatus.declined);
+                    adapter.updateStatus(position, RequestStatus.declined);
                     pendingRequests.get(position).decline();
                     alertDialog.dismiss();
                     hideOverlay(); // Hide the overlay when the Confirm button is clicked
                     Toast.makeText(PendingRequestsActivity.this, "Denied Registration", Toast.LENGTH_SHORT).show();
 
-                    rq.setStatus(RegistrationStatus.declined);
+                    rq.setStatus(RequestStatus.declined);
 
                     firebaseDB = FirebaseDatabase.getInstance();
 

@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medihub.R;
-import com.example.medihub.enums.RegistrationStatus;
+import com.example.medihub.enums.RequestStatus;
 import com.example.medihub.enums.UserRole;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button buttonLogin;
     private EditText textEmail;
     private EditText textPassword;
-    private RegistrationStatus registrationStatus = null;
+    private RequestStatus registrationStatus = null;
     private FirebaseDatabase firebaseDB;
 
     @Override
@@ -132,15 +132,15 @@ public class LoginActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
                     String rStatus = snapshot.child("status").getValue(String.class);
-                    registrationStatus = RegistrationStatus.valueOf(rStatus);
+                    registrationStatus = RequestStatus.valueOf(rStatus);
 
-                    if(registrationStatus==RegistrationStatus.approved){
+                    if(registrationStatus== RequestStatus.approved){
                         openWelcomeActivity();
                     }
-                    else if(registrationStatus==RegistrationStatus.pending){
+                    else if(registrationStatus== RequestStatus.pending){
                         Toast.makeText(getApplicationContext(), "The current registration has not been approved yet. Status: " + registrationStatus.toString(), Toast.LENGTH_SHORT).show();
                     }
-                    else if(registrationStatus==RegistrationStatus.declined){
+                    else if(registrationStatus== RequestStatus.declined){
                         Toast.makeText(getApplicationContext(), "The current registration has been rejected. You can contact the Administrator by phone at 1011011001", Toast.LENGTH_SHORT).show();
                     }
                 }

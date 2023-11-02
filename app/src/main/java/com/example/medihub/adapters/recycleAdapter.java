@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medihub.R;
-import com.example.medihub.enums.RegistrationStatus;
+import com.example.medihub.enums.RequestStatus;
 import com.example.medihub.models.RegistrationRequest;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class recycleAdapter extends RecyclerView.Adapter<recycleAdapter.MyViewHo
         this.listener = listener;
     }
 
-    public void updateStatus(int position, RegistrationStatus newStatus) {
+    public void updateStatus(int position, RequestStatus newStatus) {
         if (position >= 0 && position < requestList.size()) {
             requestList.get(position).setStatus(newStatus);
             notifyItemChanged(position);
