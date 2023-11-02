@@ -47,7 +47,6 @@ public class Shift implements Model {
     @Override
     public HashMap<String, String> validate() {
         // TODO: Make sure start and end dates are same day and that end is not before start
-        // TODO (maybe): validate that reference of patient_id is a patient
         // TODO (maybe): validate that reference of doctor_id is a doctor
 
         HashMap<String, String> errors = new HashMap<>();
