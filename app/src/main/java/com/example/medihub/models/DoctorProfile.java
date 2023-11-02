@@ -14,6 +14,7 @@ public class DoctorProfile extends UserProfile implements Model, Serializable {
     // INSTANCE VARIABLES
     private String employeeNumber;
     private List<DoctorSpecialty> specialties;
+    private boolean autoApprove;
 
     // CONSTRUCTORS
     public DoctorProfile() {
@@ -25,6 +26,7 @@ public class DoctorProfile extends UserProfile implements Model, Serializable {
         super(UserRole.doctor, firstName, lastName, address, phoneNumber, email);
         this.employeeNumber = employeeNumber;
         this.specialties = specialties;
+        this.autoApprove = false;
     }
 
     // GETTERS
@@ -34,6 +36,7 @@ public class DoctorProfile extends UserProfile implements Model, Serializable {
     public List<DoctorSpecialty> getSpecialties() {
         return specialties;
     }
+    public boolean isAutoApprove() { return autoApprove; }
 
     // SETTERS
     public void setEmployeeNumber(String employeeNumber) {
@@ -50,6 +53,7 @@ public class DoctorProfile extends UserProfile implements Model, Serializable {
     public void removeSpecialty(DoctorSpecialty specialty) {
         this.specialties.remove(specialty);
     }
+    public void setAutoApprove(boolean b) { this.autoApprove = b; }
 
     // METHODS
     @Override

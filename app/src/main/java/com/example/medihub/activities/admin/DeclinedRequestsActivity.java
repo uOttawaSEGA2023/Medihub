@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.example.medihub.R;
 import com.example.medihub.adapters.recycleAdapter;
-import com.example.medihub.enums.RegistrationStatus;
+import com.example.medihub.enums.RequestStatus;
 import com.example.medihub.models.DoctorProfile;
 import com.example.medihub.models.PatientProfile;
 import com.example.medihub.models.RegistrationRequest;
@@ -64,7 +64,7 @@ public class DeclinedRequestsActivity extends AppCompatActivity
 
         pendingRequests = new ArrayList<>();
         dbReference = FirebaseDatabase.getInstance().getReference();
-        pendingRequestsQuery = dbReference.child("registration_requests").orderByChild("status").equalTo(RegistrationStatus.declined.toString());
+        pendingRequestsQuery = dbReference.child("registration_requests").orderByChild("status").equalTo(RequestStatus.declined.toString());
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -196,7 +196,7 @@ public class DeclinedRequestsActivity extends AppCompatActivity
 
         final AlertDialog alertDialog = builder.create();
 
-        if (rq.getStatus() == RegistrationStatus.declined) {
+        if (rq.getStatus() == RequestStatus.declined) {
 
             deny.setVisibility(View.GONE);
 
@@ -208,7 +208,7 @@ public class DeclinedRequestsActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 pendingRequests.get(position).approve();
-                adapter.updateStatus(position, RegistrationStatus.approved);
+                adapter.updateStatus(position, RequestStatus.approved);
                 alertDialog.dismiss();
                 hideOverlay(); // Hide the overlay when the Confirm button is clicked
                 Toast.makeText(DeclinedRequestsActivity.this, "Approved Registration", Toast.LENGTH_SHORT).show();
@@ -235,7 +235,7 @@ public class DeclinedRequestsActivity extends AppCompatActivity
                 DatabaseReference usersRef = firebaseDB.getReference("users");
                 usersRef.child(rq.getKey()).setValue(user);
 
-                rq.setStatus(RegistrationStatus.approved);
+                rq.setStatus(RequestStatus.approved);
                 DatabaseReference registerTemp = firebaseDB.getReference("registration_requests");
                 registerTemp.child(rq.getKey()).setValue(rq);
 

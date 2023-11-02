@@ -1,6 +1,6 @@
 package com.example.medihub.enums;
 
-public enum RegistrationStatus {
+public enum RequestStatus {
     pending,
     approved,
     declined

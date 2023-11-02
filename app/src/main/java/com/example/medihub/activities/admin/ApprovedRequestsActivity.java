@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.example.medihub.R;
 import com.example.medihub.adapters.recycleAdapter;
-import com.example.medihub.enums.RegistrationStatus;
+import com.example.medihub.enums.RequestStatus;
 import com.example.medihub.models.RegistrationRequest;
 import com.example.medihub.models.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
@@ -61,7 +61,7 @@ public class ApprovedRequestsActivity extends AppCompatActivity
 
         pendingRequests = new ArrayList<>();
         dbReference = FirebaseDatabase.getInstance().getReference();
-        pendingRequestsQuery = dbReference.child("registration_requests").orderByChild("status").equalTo(RegistrationStatus.approved.toString());
+        pendingRequestsQuery = dbReference.child("registration_requests").orderByChild("status").equalTo(RequestStatus.approved.toString());
 
         mAuth = FirebaseAuth.getInstance();
 

@@ -3,7 +3,7 @@ package com.example.medihub.models;
 import android.util.Patterns;
 
 import com.example.medihub.enums.DoctorSpecialty;
-import com.example.medihub.enums.RegistrationStatus;
+import com.example.medihub.enums.RequestStatus;
 import com.example.medihub.enums.UserRole;
 import com.example.medihub.interfaces.Model;
 import java.io.Serializable;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class RegistrationRequest implements Model, Serializable {
     private String key;
     private boolean patient;
-    private RegistrationStatus status;
+    private RequestStatus status;
     private String firstName, lastName, address, phoneNumber, healthCardNumber, employeeNumber, email;
     private ArrayList<DoctorSpecialty> specialties;
 
@@ -32,7 +32,7 @@ public class RegistrationRequest implements Model, Serializable {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.status = RegistrationStatus.pending;
+        this.status = RequestStatus.pending;
 
         if (isPatient) {
             this.healthCardNumber = healthCardNumber;
@@ -64,7 +64,7 @@ public class RegistrationRequest implements Model, Serializable {
     public ArrayList<DoctorSpecialty> getSpecialties() {
         return specialties;
     }
-    public RegistrationStatus getStatus() {
+    public RequestStatus getStatus() {
         return status;
     }
     public boolean isPatient() {
@@ -72,8 +72,8 @@ public class RegistrationRequest implements Model, Serializable {
     }
 
     public boolean approve() {
-        if (status != RegistrationStatus.approved) {
-            status = RegistrationStatus.approved;
+        if (status != RequestStatus.approved) {
+            status = RequestStatus.approved;
             return true;
         }
 
@@ -81,8 +81,8 @@ public class RegistrationRequest implements Model, Serializable {
     }
 
     public boolean decline() {
-        if (status == RegistrationStatus.pending) {
-            status = RegistrationStatus.declined;
+        if (status == RequestStatus.pending) {
+            status = RequestStatus.declined;
             return true;
         }
 
@@ -139,7 +139,7 @@ public class RegistrationRequest implements Model, Serializable {
         return user;
     }
 
-    public void setStatus(RegistrationStatus new_status)
+    public void setStatus(RequestStatus new_status)
     {
         this.status = new_status;
     }
