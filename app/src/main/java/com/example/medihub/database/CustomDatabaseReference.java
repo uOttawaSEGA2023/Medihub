@@ -1,5 +1,7 @@
 package com.example.medihub.database;
 
+import android.util.Log;
+
 import com.example.medihub.interfaces.Model;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -50,7 +52,7 @@ public class CustomDatabaseReference {
         Query query = null;
 
         if (reference != null)
-            reference.orderByChild(column).equalTo(value);
+            query = reference.orderByChild(column).equalTo(value);
 
         return query;
     }
@@ -58,7 +60,7 @@ public class CustomDatabaseReference {
         Query query = null;
 
         if (reference != null)
-            reference.orderByChild(column).equalTo(value);
+            query = reference.orderByChild(column).equalTo(value);
 
         return query;
     }
@@ -66,7 +68,7 @@ public class CustomDatabaseReference {
         Query query = null;
 
         if (reference != null)
-            reference.orderByChild(column).equalTo(value);
+            query = reference.orderByChild(column).equalTo(value);
 
         return query;
     }
