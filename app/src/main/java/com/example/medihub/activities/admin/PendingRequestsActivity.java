@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.example.medihub.R;
 import com.example.medihub.adapters.recycleAdapter;
+import com.example.medihub.database.RegistrationRequestReference;
+import com.example.medihub.database.UsersReference;
 import com.example.medihub.enums.RequestStatus;
 import com.example.medihub.models.DoctorProfile;
 import com.example.medihub.models.PatientProfile;
@@ -37,6 +39,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PendingRequestsActivity extends AppCompatActivity
 {
@@ -48,7 +51,6 @@ public class PendingRequestsActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private recycleAdapter.RecyclerViewClickListener listener;
     private UserProfile admin;
-    private DatabaseReference dbReference;
     private Query pendingRequestsQuery;
     private FirebaseAuth mAuth;
 
@@ -63,8 +65,8 @@ public class PendingRequestsActivity extends AppCompatActivity
         setContentView(R.layout.temp_recycler);
 
         pendingRequests = new ArrayList<>();
-        dbReference = FirebaseDatabase.getInstance().getReference();
-        pendingRequestsQuery = dbReference.child("registration_requests").orderByChild("status").equalTo(RequestStatus.pending.toString());
+        RegistrationRequestReference registrationRequestReference = new RegistrationRequestReference();
+        pendingRequestsQuery = registrationRequestReference.where("status", RequestStatus.pending.toString());
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -237,12 +239,13 @@ public class PendingRequestsActivity extends AppCompatActivity
 
                 firebaseDB = FirebaseDatabase.getInstance();
 
-                DatabaseReference usersRef = firebaseDB.getReference("users");
-                usersRef.child(rq.getKey()).setValue(user);
+                UsersReference usersRef = new UsersReference();
+                usersRef.create(rq.getKey(), user);
 
-                rq.setStatus(RequestStatus.approved);
-                DatabaseReference registerTemp = firebaseDB.getReference("registration_requests");
-                registerTemp.child(rq.getKey()).setValue(rq);
+                RegistrationRequestReference registerTemp = new RegistrationRequestReference();
+                registerTemp.patch(rq.getKey(), new HashMap<String, Object>() {{
+                    put("status" , RequestStatus.approved);
+                }});
             }
         });
 
@@ -257,12 +260,12 @@ public class PendingRequestsActivity extends AppCompatActivity
                     hideOverlay(); // Hide the overlay when the Confirm button is clicked
                     Toast.makeText(PendingRequestsActivity.this, "Denied Registration", Toast.LENGTH_SHORT).show();
 
-                    rq.setStatus(RequestStatus.declined);
-
                     firebaseDB = FirebaseDatabase.getInstance();
 
-                    DatabaseReference registrationRequestRef = firebaseDB.getReference("registration_requests");
-                    registrationRequestRef.child(rq.getKey()).setValue(rq);
+                    RegistrationRequestReference registrationRequestReference = new RegistrationRequestReference();
+                    registrationRequestReference.patch(rq.getKey(), new HashMap<String, Object>() {{
+                        put("status", RequestStatus.declined);
+                    }});
 
                     Log.d("Decline", rq.getStatus() + "");
 

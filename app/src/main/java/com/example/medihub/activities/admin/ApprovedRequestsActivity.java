@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.example.medihub.R;
 import com.example.medihub.adapters.recycleAdapter;
+import com.example.medihub.database.RegistrationRequestReference;
 import com.example.medihub.enums.RequestStatus;
 import com.example.medihub.models.RegistrationRequest;
 import com.example.medihub.models.UserProfile;
@@ -45,7 +46,6 @@ public class ApprovedRequestsActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private recycleAdapter.RecyclerViewClickListener listener;
     private UserProfile admin;
-    private DatabaseReference dbReference;
     private Query pendingRequestsQuery;
     private FirebaseAuth mAuth;
 
@@ -60,8 +60,8 @@ public class ApprovedRequestsActivity extends AppCompatActivity
         setContentView(R.layout.temp_recycler);
 
         pendingRequests = new ArrayList<>();
-        dbReference = FirebaseDatabase.getInstance().getReference();
-        pendingRequestsQuery = dbReference.child("registration_requests").orderByChild("status").equalTo(RequestStatus.approved.toString());
+        RegistrationRequestReference registrationRequestReference = new RegistrationRequestReference();
+        pendingRequestsQuery = registrationRequestReference.where("status", RequestStatus.approved.toString());
 
         mAuth = FirebaseAuth.getInstance();
 
