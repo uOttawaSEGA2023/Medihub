@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.example.medihub.R;
 import com.example.medihub.adapters.recycleAdapter;
-import com.example.medihub.database.RegistrationRequestReference;
+import com.example.medihub.database.RegistrationRequestsReference;
 import com.example.medihub.database.UsersReference;
 import com.example.medihub.enums.RequestStatus;
 import com.example.medihub.models.DoctorProfile;
@@ -66,8 +66,8 @@ public class DeclinedRequestsActivity extends AppCompatActivity
         setContentView(R.layout.temp_recycler);
 
         pendingRequests = new ArrayList<>();
-        RegistrationRequestReference registrationRequestReference = new RegistrationRequestReference();
-        pendingRequestsQuery = registrationRequestReference.where("status", RequestStatus.declined.toString());
+        RegistrationRequestsReference registrationRequestsReference = new RegistrationRequestsReference();
+        pendingRequestsQuery = registrationRequestsReference.where("status", RequestStatus.declined.toString());
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -239,7 +239,7 @@ public class DeclinedRequestsActivity extends AppCompatActivity
                 usersRef.create(rq.getKey(), user);
 
                 rq.setStatus(RequestStatus.approved);
-                RegistrationRequestReference registerTemp = new RegistrationRequestReference();
+                RegistrationRequestsReference registerTemp = new RegistrationRequestsReference();
                 registerTemp.patch(rq.getKey(), new HashMap<String, Object>(){{
                     put("status", RequestStatus.approved);
                 }});

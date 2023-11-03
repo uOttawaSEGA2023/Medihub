@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.example.medihub.R;
 import com.example.medihub.adapters.recycleAdapter;
-import com.example.medihub.database.RegistrationRequestReference;
+import com.example.medihub.database.RegistrationRequestsReference;
 import com.example.medihub.database.UsersReference;
 import com.example.medihub.enums.RequestStatus;
 import com.example.medihub.models.DoctorProfile;
@@ -33,7 +33,6 @@ import com.example.medihub.models.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -65,8 +64,8 @@ public class PendingRequestsActivity extends AppCompatActivity
         setContentView(R.layout.temp_recycler);
 
         pendingRequests = new ArrayList<>();
-        RegistrationRequestReference registrationRequestReference = new RegistrationRequestReference();
-        pendingRequestsQuery = registrationRequestReference.where("status", RequestStatus.pending.toString());
+        RegistrationRequestsReference registrationRequestsReference = new RegistrationRequestsReference();
+        pendingRequestsQuery = registrationRequestsReference.where("status", RequestStatus.pending.toString());
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -242,7 +241,7 @@ public class PendingRequestsActivity extends AppCompatActivity
                 UsersReference usersRef = new UsersReference();
                 usersRef.create(rq.getKey(), user);
 
-                RegistrationRequestReference registerTemp = new RegistrationRequestReference();
+                RegistrationRequestsReference registerTemp = new RegistrationRequestsReference();
                 registerTemp.patch(rq.getKey(), new HashMap<String, Object>() {{
                     put("status" , RequestStatus.approved);
                 }});
@@ -262,8 +261,8 @@ public class PendingRequestsActivity extends AppCompatActivity
 
                     firebaseDB = FirebaseDatabase.getInstance();
 
-                    RegistrationRequestReference registrationRequestReference = new RegistrationRequestReference();
-                    registrationRequestReference.patch(rq.getKey(), new HashMap<String, Object>() {{
+                    RegistrationRequestsReference registrationRequestsReference = new RegistrationRequestsReference();
+                    registrationRequestsReference.patch(rq.getKey(), new HashMap<String, Object>() {{
                         put("status", RequestStatus.declined);
                     }});
 
