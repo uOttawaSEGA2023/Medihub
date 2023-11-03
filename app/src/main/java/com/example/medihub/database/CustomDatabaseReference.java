@@ -3,6 +3,7 @@ package com.example.medihub.database;
 import com.example.medihub.interfaces.Model;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.HashMap;
 
@@ -43,6 +44,31 @@ public class CustomDatabaseReference {
             ref = reference.child(key);
 
         return ref;
+    }
+
+    public Query where(String column, String value) {
+        Query query = null;
+
+        if (reference != null)
+            reference.orderByChild(column).equalTo(value);
+
+        return query;
+    }
+    public Query where(String column, boolean value) {
+        Query query = null;
+
+        if (reference != null)
+            reference.orderByChild(column).equalTo(value);
+
+        return query;
+    }
+    public Query where(String column, double value) {
+        Query query = null;
+
+        if (reference != null)
+            reference.orderByChild(column).equalTo(value);
+
+        return query;
     }
 
     /**
