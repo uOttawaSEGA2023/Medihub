@@ -10,27 +10,12 @@ import com.google.firebase.database.Query;
 import java.util.HashMap;
 
 public class CustomDatabaseReference {
-    private static DatabaseReference reference = null;
+    private DatabaseReference reference = null;
     private String tableName = null;
 
     public CustomDatabaseReference(String tableName) {
         this.tableName = tableName;
-        instantiate();
-    }
-
-    /**
-     * Gets an instance of the table being referenced to
-     *
-     * @return the database reference
-     */
-    private DatabaseReference instantiate() {
-        if (tableName == null)
-            return null;
-
-        if (reference == null)
-            reference = FirebaseDatabase.getInstance().getReference(tableName);
-
-        return reference;
+        this.reference = FirebaseDatabase.getInstance().getReference(tableName);
     }
 
     /**
