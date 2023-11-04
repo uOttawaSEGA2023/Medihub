@@ -8,6 +8,7 @@ import com.example.medihub.activities.admin.AdminActivity;
 import com.example.medihub.activities.doctor.DoctorActivity;
 import com.example.medihub.activities.patient.PatientActivity;
 import com.example.medihub.activities.registrations.LoginActivity;
+import com.example.medihub.database.UsersReference;
 import com.example.medihub.enums.UserRole;
 import com.example.medihub.models.DoctorProfile;
 import com.example.medihub.models.PatientProfile;
@@ -130,7 +131,8 @@ public class MainActivity extends AppCompatActivity {
             };
 
             String userId = mAuth.getCurrentUser().getUid();
-            DatabaseReference dbReference = firebaseDB.getReference("users").child(userId);
+            UsersReference usersReference = new UsersReference();
+            DatabaseReference dbReference = usersReference.get(userId);
             Log.i("dbReference",dbReference.toString());
 
             dbReference.addListenerForSingleValueEvent(redirectListener);

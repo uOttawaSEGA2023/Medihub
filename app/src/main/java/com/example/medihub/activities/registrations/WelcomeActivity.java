@@ -13,6 +13,7 @@ import com.example.medihub.R;
 import com.example.medihub.activities.admin.AdminActivity;
 import com.example.medihub.activities.doctor.DoctorActivity;
 import com.example.medihub.activities.patient.PatientActivity;
+import com.example.medihub.database.UsersReference;
 import com.example.medihub.models.DoctorProfile;
 import com.example.medihub.models.PatientProfile;
 import com.example.medihub.models.UserProfile;
@@ -49,7 +50,8 @@ public class WelcomeActivity extends AppCompatActivity {
         homeButton = findViewById(R.id.homeButton);
 
         String userId = auth.getUid();
-        DatabaseReference dbReference = firebaseDB.getReference("users").child(userId);
+        UsersReference usersReference = new UsersReference();
+        DatabaseReference dbReference = usersReference.get(userId);
 
         ValueEventListener userValueEventListener = new ValueEventListener() {
             @Override

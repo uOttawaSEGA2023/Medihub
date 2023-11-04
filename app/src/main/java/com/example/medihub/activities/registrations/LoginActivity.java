@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medihub.R;
+import com.example.medihub.database.RegistrationRequestsReference;
+import com.example.medihub.database.UsersReference;
 import com.example.medihub.enums.RequestStatus;
 import com.example.medihub.enums.UserRole;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -97,9 +99,10 @@ public class LoginActivity extends AppCompatActivity {
 
     public void checkUser() {
         String userId = mAuth.getUid();
-        DatabaseReference userReference = firebaseDB.getReference("users").child(userId);
+        UsersReference usersReference = new UsersReference();
+        DatabaseReference userRef = usersReference.get(userId);
 
-        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -125,9 +128,10 @@ public class LoginActivity extends AppCompatActivity {
 
     public void checkRegistrationRequest() {
         String userId = mAuth.getUid();
-        DatabaseReference registrationRequestReference = firebaseDB.getReference("registration_requests").child(userId);
+        RegistrationRequestsReference registrationRequestsReference = new RegistrationRequestsReference();
+        DatabaseReference registrationRequestRef = registrationRequestsReference.get(userId);
 
-        registrationRequestReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        registrationRequestRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {

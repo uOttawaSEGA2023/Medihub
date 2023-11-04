@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.medihub.R;
+import com.example.medihub.database.RegistrationRequestsReference;
 import com.example.medihub.enums.DoctorSpecialty;
 import com.example.medihub.models.DoctorProfile;
 import com.example.medihub.models.RegistrationRequest;
@@ -242,7 +243,7 @@ public class DoctorRegistrationActivity extends AppCompatActivity  {
      */
     private void addDoctorToDatabase(String userId) {
         firebaseDB = FirebaseDatabase.getInstance();
-        DatabaseReference usersRef = firebaseDB.getReference("registration_requests");
+        RegistrationRequestsReference registrationRequestsReference = new RegistrationRequestsReference();
 
         ArrayList<DoctorSpecialty> doctorSpecialties = new ArrayList<>();
 
@@ -255,6 +256,6 @@ public class DoctorRegistrationActivity extends AppCompatActivity  {
 
         RegistrationRequest temp = new RegistrationRequest(false, doctorProfile.getFirstName(), doctorProfile.getLastName(), doctorProfile.getAddress(), doctorProfile.getPhoneNumber(), doctorProfile.getEmail(), null, employeeNumber.getText().toString(), doctorSpecialties);
 
-        usersRef.child(userId).setValue(temp);
+        registrationRequestsReference.create(userId, temp);
     }
 }

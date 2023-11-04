@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medihub.R;
+import com.example.medihub.database.RegistrationRequestsReference;
 import com.example.medihub.models.PatientProfile;
 import com.example.medihub.models.RegistrationRequest;
 import com.example.medihub.models.UserProfile;
@@ -179,12 +180,12 @@ public class PatientRegistrationActivity extends AppCompatActivity  {
 
         firebaseDB = FirebaseDatabase.getInstance();
 
-        DatabaseReference usersRef = firebaseDB.getReference("registration_requests");
+        RegistrationRequestsReference registrationRequestsReference = new RegistrationRequestsReference();
 
         ArrayList NA = new ArrayList(); //RANDOM ARRAYLIST AS A FILLER SINCE THIS IS A PATIENT
         RegistrationRequest temp = new RegistrationRequest(true, patientProfile.getFirstName(), patientProfile.getLastName(), patientProfile.getAddress(), patientProfile.getPhoneNumber(), email.getText().toString(), healthcard.getText().toString(), "NA", NA);
 
-        usersRef.child(userId).setValue(temp);
+        registrationRequestsReference.create(userId, temp);
     }
 
 
