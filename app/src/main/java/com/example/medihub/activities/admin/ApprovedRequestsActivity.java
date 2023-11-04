@@ -22,13 +22,13 @@ import android.widget.TextView;
 
 import com.example.medihub.R;
 import com.example.medihub.adapters.recycleAdapter;
+import com.example.medihub.database.RegistrationRequestsReference;
 import com.example.medihub.enums.RequestStatus;
 import com.example.medihub.models.RegistrationRequest;
 import com.example.medihub.models.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -45,7 +45,6 @@ public class ApprovedRequestsActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private recycleAdapter.RecyclerViewClickListener listener;
     private UserProfile admin;
-    private DatabaseReference dbReference;
     private Query pendingRequestsQuery;
     private FirebaseAuth mAuth;
 
@@ -60,8 +59,8 @@ public class ApprovedRequestsActivity extends AppCompatActivity
         setContentView(R.layout.temp_recycler);
 
         pendingRequests = new ArrayList<>();
-        dbReference = FirebaseDatabase.getInstance().getReference();
-        pendingRequestsQuery = dbReference.child("registration_requests").orderByChild("status").equalTo(RequestStatus.approved.toString());
+        RegistrationRequestsReference registrationRequestsReference = new RegistrationRequestsReference();
+        pendingRequestsQuery = registrationRequestsReference.where("status", RequestStatus.approved.toString());
 
         mAuth = FirebaseAuth.getInstance();
 
