@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.example.medihub.R;
 import com.example.medihub.activities.registrations.LoginActivity;
+import com.example.medihub.activities.registrations.WelcomeActivity;
 import com.example.medihub.models.DoctorProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -52,6 +53,7 @@ public class DoctorActivity extends AppCompatActivity {
             firebaseAuth.signOut();
 
             Intent loginIntent = new Intent(DoctorActivity.this, LoginActivity.class);
+            loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(loginIntent);
 
             DoctorActivity.this.finish();
