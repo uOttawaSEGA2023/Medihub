@@ -35,6 +35,7 @@ public class DoctorActivity extends AppCompatActivity {
             firebaseAuth.signOut();
 
             Intent loginActivity = new Intent(this, LoginActivity.class);
+            loginActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(loginActivity);
             finish();
         }
