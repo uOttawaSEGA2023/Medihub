@@ -18,7 +18,7 @@ public class Appointment implements Model {
 
     public Appointment() {}
 
-    public Appointment(String patient_id, String doctor_id, String shift_id, RequestStatus status, Date startDate, Date endDate) {
+    public Appointment(String patient_id, String doctor_id, String shift_id, RequestStatus status, Date startDate) {
         this.patient_id = patient_id;
         this.doctor_id = doctor_id;
         this.shift_id = shift_id;
