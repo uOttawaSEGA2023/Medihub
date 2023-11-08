@@ -10,20 +10,20 @@ public class Appointment implements Model {
     private String key;
     private String patient_id;
     private String doctor_id;
+    private String shift_id;
     private RequestStatus status;
     private Date startDate;
-    private Date endDate;
 
 
 
     public Appointment() {}
 
-    public Appointment(String patient_id, String doctor_id, RequestStatus status, Date startDate, Date endDate) {
+    public Appointment(String patient_id, String doctor_id, String shift_id, RequestStatus status, Date startDate) {
         this.patient_id = patient_id;
         this.doctor_id = doctor_id;
+        this.shift_id = shift_id;
         this.status = status;
         this.startDate = startDate;
-        this.endDate = endDate;
     }
 
 
@@ -32,14 +32,12 @@ public class Appointment implements Model {
     public String getDoctor_id() {
         return doctor_id;
     }
+    public String getShift_id() { return shift_id; }
     public RequestStatus getStatus() {
         return status;
     }
     public Date getStartDate() {
         return startDate;
-    }
-    public Date getEndDate() {
-        return endDate;
     }
 
 
@@ -56,9 +54,10 @@ public class Appointment implements Model {
 
     @Override
     public HashMap<String, String> validate() {
-        // TODO: Make sure start and end dates are same day and that end is not before start
+        // TODO: Make sure start date belongs to a shift belonging to the doctor
         // TODO (maybe): validate that reference of patient_id is a patient
         // TODO (maybe): validate that reference of doctor_id is a doctor
+        // TODO (maybe): validate that reference of shift_id is a shift
 
         HashMap<String, String> errors = new HashMap<>();
         return errors;

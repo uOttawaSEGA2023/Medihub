@@ -34,6 +34,7 @@ public class PatientActivity extends AppCompatActivity {
             firebaseAuth.signOut();
 
             Intent loginActivity = new Intent(this, LoginActivity.class);
+            loginActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(loginActivity);
             finish();
         }
@@ -52,6 +53,7 @@ public class PatientActivity extends AppCompatActivity {
             firebaseAuth.signOut();
 
             Intent loginIntent = new Intent(PatientActivity.this, LoginActivity.class);
+            loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(loginIntent);
 
             PatientActivity.this.finish();
