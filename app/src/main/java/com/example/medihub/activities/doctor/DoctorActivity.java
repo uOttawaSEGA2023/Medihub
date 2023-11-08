@@ -21,6 +21,7 @@ public class DoctorActivity extends AppCompatActivity {
 
     // UI elements
     private Button logoutButton;
+    private Button upcomingAppointmentsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +42,21 @@ public class DoctorActivity extends AppCompatActivity {
         }
 
         logoutButton = findViewById(R.id.logoutButton);
+        upcomingAppointmentsButton = findViewById(R.id.btnUpcomingAppointments);
+
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 logout();
+            }
+        });
+
+        upcomingAppointmentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DoctorActivity.this, UpcomingAppointmentsActivity.class);
+                intent.putExtra("current user", user);
+                startActivity(intent);
             }
         });
     }
