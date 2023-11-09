@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.medihub.R;
@@ -176,6 +177,12 @@ public class UpcomingAppointmentsActivity extends AppCompatActivity {
         ConstraintLayout request_window = findViewById(R.id.successConstraintLayout);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_appointment_card, request_window);
 
+        Button authorizeButton = view.findViewById(R.id.buttonConfirm);
+        Button denyButton = view.findViewById(R.id.buttonDeny);
+
+        denyButton.setText("Cancel Appointment");
+        authorizeButton.setVisibility(View.GONE);
+
         Appointment appointment = appointments.get(position);
         PatientProfile patient = patients.get(position);
 
@@ -215,6 +222,8 @@ public class UpcomingAppointmentsActivity extends AppCompatActivity {
         if (alertDialog.getWindow() != null) {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
+
+        // TODO: implement cancel functionality
 
         alertDialog.show();
     }
