@@ -26,11 +26,13 @@ import java.util.ArrayList;
 
 public class appointmentRecycleAdapter extends RecyclerView.Adapter<appointmentRecycleAdapter.MyViewHolder> {
     private ArrayList<Appointment> appointmentsList;
-    private recycleAdapter.RecyclerViewClickListener listener;
+    private ArrayList<PatientProfile> patientsList;
+    private appointmentRecycleAdapter.RecyclerViewClickListener listener;
 
-    public appointmentRecycleAdapter(ArrayList<Appointment> appointmentsList, recycleAdapter.RecyclerViewClickListener listener)
+    public appointmentRecycleAdapter(ArrayList<Appointment> appointmentsList, ArrayList<PatientProfile> patientsList, appointmentRecycleAdapter.RecyclerViewClickListener listener)
     {
         this.appointmentsList = appointmentsList;
+        this.patientsList = patientsList;
         this.listener = listener;
     }
 
@@ -55,40 +57,28 @@ public class appointmentRecycleAdapter extends RecyclerView.Adapter<appointmentR
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public appointmentRecycleAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_appointments, parent, false);
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull appointmentRecycleAdapter.MyViewHolder holder, int position) {
         Appointment appointment = appointmentsList.get(position);
+        PatientProfile patient = patientsList.get(position);
 
-        UsersReference usersReference = new UsersReference();
-        DatabaseReference patientRef = usersReference.get(appointment.getPatient_id());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-        patientRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    PatientProfile patient = snapshot.getValue(PatientProfile.class);
-
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-                    holder.dateText.append(appointment.localStartDate().format(formatter));
-                    holder.patientText.append(patient.getFirstName() + " " + patient.getLastName());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        holder.dateText.append(appointment.localStartDate().format(formatter));
+        holder.patientText.append(patient.getFirstName() + " " + patient.getLastName());
     }
 
     @Override
     public int getItemCount() {
         return appointmentsList.size();
+    }
+
+    public interface RecyclerViewClickListener{
+        void onClick(View v, int position);
     }
 }
