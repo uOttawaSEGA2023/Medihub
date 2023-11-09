@@ -2,20 +2,22 @@ package com.example.medihub.models;
 
 import com.example.medihub.interfaces.Model;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Shift implements Model {
+public class Shift implements Model, Serializable {
     private String key;
     private String doctor_id;
-    private Date startDate;
-    private Date endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
 
 
     public Shift() {}
 
-    public Shift(String doctor_id, Date startDate, Date endDate) {
+    public Shift(String doctor_id, LocalDateTime startDate, LocalDateTime endDate) {
         this.doctor_id = doctor_id;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -25,15 +27,23 @@ public class Shift implements Model {
     public String getDoctor_id() {
         return doctor_id;
     }
-    public Date getStartDate() {
+
+    public String getStartDate() {
+        return startDate.toString();
+    }
+    public String getEndDate() {
+        return endDate.toString();
+    }
+    public LocalDateTime localStartDate() {
         return startDate;
     }
-    public Date getEndDate() {
-        return endDate;
+    public LocalDateTime localEndDate() {
+        return startDate;
     }
 
 
-
+    public void setStartDate(String startDate) { this.startDate = LocalDateTime.parse(startDate); }
+    public void setEndDate(String endDate) { this.endDate = LocalDateTime.parse(endDate); }
     @Override
     public String getKey() {
         return key;
