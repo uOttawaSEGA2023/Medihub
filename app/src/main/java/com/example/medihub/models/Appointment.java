@@ -3,22 +3,25 @@ package com.example.medihub.models;
 import com.example.medihub.enums.RequestStatus;
 import com.example.medihub.interfaces.Model;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Appointment implements Model {
+public class Appointment implements Model, Serializable {
     private String key;
     private String patient_id;
     private String doctor_id;
     private String shift_id;
     private RequestStatus status;
-    private Date startDate;
+    private LocalDateTime startDate;
 
 
 
     public Appointment() {}
 
-    public Appointment(String patient_id, String doctor_id, String shift_id, RequestStatus status, Date startDate) {
+    public Appointment(String patient_id, String doctor_id, String shift_id, RequestStatus status, LocalDateTime startDate) {
         this.patient_id = patient_id;
         this.doctor_id = doctor_id;
         this.shift_id = shift_id;
@@ -36,12 +39,15 @@ public class Appointment implements Model {
     public RequestStatus getStatus() {
         return status;
     }
-    public Date getStartDate() {
+    public String getStartDate() {
+        return startDate.toString();
+    }
+    public LocalDateTime localStartDate() {
         return startDate;
     }
 
 
-
+    public void setStartDate(String startDate) { this.startDate = LocalDateTime.parse(startDate); }
     @Override
     public String getKey() {
         return key;
