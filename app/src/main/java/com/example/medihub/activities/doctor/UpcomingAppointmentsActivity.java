@@ -46,6 +46,7 @@ import org.w3c.dom.Text;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -64,40 +65,52 @@ public class UpcomingAppointmentsActivity extends AbstractAppointmentsActivity {
                 if (snapshot.exists()) {
                     totalChildren = (int)snapshot.getChildrenCount();
 
+                    // fetch appointments
                     for (DataSnapshot appointmentSnapshot : snapshot.getChildren()) {
                         Appointment appointment = appointmentSnapshot.getValue(Appointment.class);
 
                         // check if it's a valid upcoming appointment
                         if (appointment != null && appointment.localStartDate().isAfter(LocalDateTime.now()) && appointment.getStatus() == RequestStatus.approved) {
-                            DatabaseReference patientRef = usersReference.get(appointment.getPatient_id());
+                            // add appointment to list
+                            appointment.setKey(appointmentSnapshot.getKey());
+                            appointments.add(appointment);
+                        }
 
-                            patientRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot patientSnapshot) {
-                                    totalChildren--;
+                        // check if all appointments have been fetched
+                        totalChildren--;
+                        if (totalChildren == 0) {
+                            totalChildren = appointments.size();
 
-                                    if (snapshot.exists()) {
-                                        appointment.setKey(appointmentSnapshot.getKey());
-                                        appointments.add(appointment);
+                            // sort appointments by closest date to today
+                            Collections.sort(appointments);
 
-                                        PatientProfile patient = patientSnapshot.getValue(PatientProfile.class);
-                                        patient.setKey(patientSnapshot.getKey());
-                                        patients.add(patient);
+                            // fetch patients from appointments
+                            for (Appointment appointment1 : appointments) {
+                                DatabaseReference patientRef = usersReference.get(appointment1.getPatient_id());
+
+                                patientRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot patientSnapshot) {
+                                        if (snapshot.exists()) {
+                                            PatientProfile patient = patientSnapshot.getValue(PatientProfile.class);
+                                            patient.setKey(patientSnapshot.getKey());
+                                            patients.add(patient);
+                                        }
+
+                                        totalChildren--;
+                                        if (totalChildren == 0) {
+                                            setAdapter();
+                                        }
                                     }
 
-                                    if (totalChildren == 0)
-                                        setAdapter();
-                                }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
+                                    }
+                                });
+                            }
 
-                                }
-                            });
-                        } else {
-                            totalChildren--;
-                            if (totalChildren == 0)
-                                setAdapter();
+                            break;
                         }
                     }
                 } else {

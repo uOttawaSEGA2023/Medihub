@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 
 public class PastAppointmentsActivity extends AbstractAppointmentsActivity {
     @Override
@@ -41,39 +42,52 @@ public class PastAppointmentsActivity extends AbstractAppointmentsActivity {
                 if (snapshot.exists()) {
                     totalChildren = (int)snapshot.getChildrenCount();
 
+                    // fetch appointments
                     for (DataSnapshot appointmentSnapshot : snapshot.getChildren()) {
                         Appointment appointment = appointmentSnapshot.getValue(Appointment.class);
 
-                        if (appointment != null && appointment.getStatus() == RequestStatus.approved && LocalDateTime.now().isAfter(appointment.localEndDate())) {
-                            DatabaseReference patientRef = usersReference.get(appointment.getPatient_id());
+                        // check if it's a valid past appointment
+                        if (appointment != null && LocalDateTime.now().isAfter(appointment.localEndDate()) && appointment.getStatus() == RequestStatus.approved) {
+                            // add appointment to list
+                            appointment.setKey(appointmentSnapshot.getKey());
+                            appointments.add(appointment);
+                        }
 
-                            patientRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot patientSnapshot) {
-                                    totalChildren--;
+                        // check if all appointments have been fetched
+                        totalChildren--;
+                        if (totalChildren == 0) {
+                            totalChildren = appointments.size();
 
-                                    if (snapshot.exists()) {
-                                        appointment.setKey(appointmentSnapshot.getKey());
-                                        appointments.add(appointment);
+                            // sort appointments by closest date to today
+                            Collections.sort(appointments);
 
-                                        PatientProfile patient = patientSnapshot.getValue(PatientProfile.class);
-                                        patient.setKey(patientSnapshot.getKey());
-                                        patients.add(patient);
+                            // fetch patients from appointments
+                            for (Appointment appointment1 : appointments) {
+                                DatabaseReference patientRef = usersReference.get(appointment1.getPatient_id());
+
+                                patientRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot patientSnapshot) {
+                                        if (snapshot.exists()) {
+                                            PatientProfile patient = patientSnapshot.getValue(PatientProfile.class);
+                                            patient.setKey(patientSnapshot.getKey());
+                                            patients.add(patient);
+                                        }
+
+                                        totalChildren--;
+                                        if (totalChildren == 0) {
+                                            setAdapter();
+                                        }
                                     }
 
-                                    if (totalChildren == 0)
-                                        setAdapter();
-                                }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
+                                    }
+                                });
+                            }
 
-                                }
-                            });
-                        } else {
-                            totalChildren--;
-                            if (totalChildren == 0)
-                                setAdapter();
+                            break;
                         }
                     }
                 } else {
