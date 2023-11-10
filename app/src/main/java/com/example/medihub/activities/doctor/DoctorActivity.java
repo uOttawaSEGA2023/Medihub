@@ -22,6 +22,7 @@ public class DoctorActivity extends AppCompatActivity {
     // UI elements
     private Button logoutButton;
     private Button upcomingAppointmentsButton;
+    private Button btnShifts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,28 @@ public class DoctorActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnShifts = findViewById(R.id.btnShifts);
+        btnShifts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(DoctorActivity.this, ShiftActivity.class);
+                intent.putExtra("current user", user);
+                startActivity(intent);
+
+
+            }
+        });
+
+
+
+
+
+
+
+
+
     }
 
     private void logout() {
@@ -72,4 +95,6 @@ public class DoctorActivity extends AppCompatActivity {
             DoctorActivity.this.finish();
         }
     }
+
+
 }
