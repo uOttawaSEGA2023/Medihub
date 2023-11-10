@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.medihub.R;
 import com.example.medihub.activities.admin.AdminActivity;
@@ -46,6 +47,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class UpcomingAppointmentsActivity extends AbstractAppointmentsActivity {
     @Override
@@ -161,7 +163,18 @@ public class UpcomingAppointmentsActivity extends AbstractAppointmentsActivity {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
 
-        // TODO: implement cancel functionality
+        denyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppointmentsReference appointmentsReference = new AppointmentsReference();
+                appointmentsReference.patch(appointment.getKey(), new HashMap<String, Object>() {{
+                    put("status", RequestStatus.cancelled);
+                }});
+                alertDialog.dismiss();
+                hideOverlay();
+                Toast.makeText(getApplicationContext(), "Successfully cancelled Appointment", Toast.LENGTH_LONG).show();
+            }
+        });
 
         alertDialog.show();
     }
