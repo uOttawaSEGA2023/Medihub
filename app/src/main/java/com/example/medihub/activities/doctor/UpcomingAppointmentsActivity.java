@@ -47,33 +47,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class UpcomingAppointmentsActivity extends AppCompatActivity {
-    Button backButton;
-    View overlay;
-
-    private ArrayList<Appointment> appointments;
-    private ArrayList<PatientProfile> patients;
-    private RecyclerView recyclerView;
-    private appointmentRecycleAdapter.RecyclerViewClickListener listener;
-    private UserProfile doctor;
-    private Query upcomingAppointmentsQuery;
-    private int totalChildren = 0;
-    appointmentRecycleAdapter adapter;
-
+public class UpcomingAppointmentsActivity extends AbstractAppointmentsActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.temp_recycler);
 
-        doctor = (DoctorProfile) getIntent().getSerializableExtra("current user");
-
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        appointments = new ArrayList<>();
-        patients = new ArrayList<>();
-        AppointmentsReference appointmentsReference = new AppointmentsReference();
         UsersReference usersReference = new UsersReference();
-        upcomingAppointmentsQuery = appointmentsReference.where("doctor_id", uid);
 
         upcomingAppointmentsQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -129,51 +108,10 @@ public class UpcomingAppointmentsActivity extends AppCompatActivity {
 
             }
         });
-
-        recyclerView = findViewById(R.id.requestView);
-        overlay = findViewById(R.id.overlay);
-        backButton = findViewById(R.id.backToHomePageFromInboxButton);
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent backIntent = new Intent(UpcomingAppointmentsActivity.this, DoctorActivity.class);
-                backIntent.putExtra("current user", doctor);
-                startActivity(backIntent);
-            }
-        });
     }
 
-    private void setAdapter()
-    {
-        setOnClickListener();
-        adapter = new appointmentRecycleAdapter(appointments, patients, listener);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-    }
-
-    private void setOnClickListener()
-    {
-        listener = new appointmentRecycleAdapter.RecyclerViewClickListener() {
-            @Override
-            public void onClick(View v, int position) {
-                showOverlay();
-                showRequestCard(position);
-            }
-        };
-    }
-
-    private void showOverlay() {
-        overlay.setVisibility(View.VISIBLE); // Show the overlay to dim the background
-    }
-
-    private void hideOverlay() {
-        overlay.setVisibility(View.GONE); // Hide the overlay to restore the original background
-    }
-
-    private void showRequestCard(int position) {
+    @Override
+    protected void showRequestCard(int position) {
         ConstraintLayout request_window = findViewById(R.id.successConstraintLayout);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_appointment_card, request_window);
 
