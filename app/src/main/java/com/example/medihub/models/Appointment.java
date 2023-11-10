@@ -45,6 +45,7 @@ public class Appointment implements Model, Serializable {
     public LocalDateTime localStartDate() {
         return startDate;
     }
+    public LocalDateTime localEndDate() { return startDate.plusMinutes(30); }
 
 
     public void setStartDate(String startDate) { this.startDate = LocalDateTime.parse(startDate); }
