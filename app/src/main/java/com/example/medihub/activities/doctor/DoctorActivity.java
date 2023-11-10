@@ -64,9 +64,9 @@ public class DoctorActivity extends AppCompatActivity {
         pastAppointmentsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(DoctorActivity.this, PastAppointmentsActivity.class);
-//                intent.putExtra("current user", user);
-//                startActivity(intent);
+                Intent intent = new Intent(DoctorActivity.this, PastAppointmentsActivity.class);
+                intent.putExtra("current user", user);
+                startActivity(intent);
             }
         });
     }

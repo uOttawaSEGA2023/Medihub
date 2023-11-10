@@ -47,7 +47,7 @@ public abstract class AbstractAppointmentsActivity extends AppCompatActivity {
     protected RecyclerView recyclerView;
     protected appointmentRecycleAdapter.RecyclerViewClickListener listener;
     protected UserProfile doctor;
-    protected Query upcomingAppointmentsQuery;
+    protected Query appointmentsQuery;
     protected int totalChildren = 0;
     appointmentRecycleAdapter adapter;
 
@@ -63,7 +63,7 @@ public abstract class AbstractAppointmentsActivity extends AppCompatActivity {
         appointments = new ArrayList<>();
         patients = new ArrayList<>();
         AppointmentsReference appointmentsReference = new AppointmentsReference();
-        upcomingAppointmentsQuery = appointmentsReference.where("doctor_id", uid);
+        appointmentsQuery = appointmentsReference.where("doctor_id", uid);
 
         recyclerView = findViewById(R.id.requestView);
         overlay = findViewById(R.id.overlay);
