@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.concurrent.BlockingDeque;
 
 public class PendingAppointmentsActivity extends AbstractAppointmentsActivity{
     @Override
@@ -37,7 +38,7 @@ public class PendingAppointmentsActivity extends AbstractAppointmentsActivity{
 
         UsersReference usersReference = new UsersReference();
 
-        appointmentsQuery.addValueEventListener(new ValueEventListener() {
+        appointmentsQuery.getRef().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 appointments.clear();
@@ -162,9 +163,14 @@ public class PendingAppointmentsActivity extends AbstractAppointmentsActivity{
             @Override
             public void onClick(View view) {
                 AppointmentsReference appointmentsReference = new AppointmentsReference();
+
                 appointmentsReference.patch(appointment.getKey(), new HashMap<String, Object>() {{
                     put("status", RequestStatus.declined);
                 }});
+
+                // remove from recycler
+                appointments.remove(appointment);
+
                 alertDialog.dismiss();
                 hideOverlay();
                 Toast.makeText(getApplicationContext(), "Appointment Rejected", Toast.LENGTH_LONG).show();

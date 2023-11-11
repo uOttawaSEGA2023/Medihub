@@ -37,7 +37,7 @@ public class DeclinedAppointmentsActivity extends AbstractAppointmentsActivity{
 
         UsersReference usersReference = new UsersReference();
 
-        appointmentsQuery.addValueEventListener(new ValueEventListener() {
+        appointmentsQuery.getRef().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 appointments.clear();
