@@ -46,11 +46,6 @@ public class DeclinedAppointmentsActivity extends AbstractAppointmentsActivity{
 
                     totalChildren = (int)snapshot.getChildrenCount();
 
-                    if (totalChildren == 0) {
-                        setAdapter();
-                        return;
-                    }
-
                     // fetch appointments
                     for (DataSnapshot appointmentSnapshot : snapshot.getChildren()) {
                         Appointment appointment = appointmentSnapshot.getValue(Appointment.class);
@@ -66,6 +61,11 @@ public class DeclinedAppointmentsActivity extends AbstractAppointmentsActivity{
                         totalChildren--;
                         if (totalChildren == 0) {
                             totalChildren = appointments.size();
+
+                            if (totalChildren == 0) {
+                                setAdapter();
+                                return;
+                            }
 
                             // sort appointments by closest date to today
                             Collections.sort(appointments);
