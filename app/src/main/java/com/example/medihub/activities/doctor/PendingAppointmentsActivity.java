@@ -51,8 +51,12 @@ public class PendingAppointmentsActivity extends AbstractAppointmentsActivity{
                 appointments.clear();
 
                 if (snapshot.exists()) {
-
                     totalChildren = (int)snapshot.getChildrenCount();
+
+                    if (totalChildren == 0) {
+                        setAdapter();
+                        return;
+                    }
 
                     // fetch appointments
                     for (DataSnapshot appointmentSnapshot : snapshot.getChildren()) {
@@ -201,9 +205,6 @@ public class PendingAppointmentsActivity extends AbstractAppointmentsActivity{
                     put("status", RequestStatus.declined);
                 }});
 
-                // remove from recycler
-                appointments.remove(appointment);
-
                 alertDialog.dismiss();
                 hideOverlay();
                 Toast.makeText(getApplicationContext(), "Appointment Rejected", Toast.LENGTH_LONG).show();
@@ -217,9 +218,6 @@ public class PendingAppointmentsActivity extends AbstractAppointmentsActivity{
                 appointmentsReference.patch(appointment.getKey(), new HashMap<String, Object>() {{
                     put("status", RequestStatus.approved);
                 }});
-
-                // remove from recycler
-                appointments.remove(appointment);
 
                 alertDialog.dismiss();
                 hideOverlay();

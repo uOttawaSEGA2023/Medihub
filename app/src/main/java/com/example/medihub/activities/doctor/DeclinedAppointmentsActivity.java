@@ -46,6 +46,11 @@ public class DeclinedAppointmentsActivity extends AbstractAppointmentsActivity{
 
                     totalChildren = (int)snapshot.getChildrenCount();
 
+                    if (totalChildren == 0) {
+                        setAdapter();
+                        return;
+                    }
+
                     // fetch appointments
                     for (DataSnapshot appointmentSnapshot : snapshot.getChildren()) {
                         Appointment appointment = appointmentSnapshot.getValue(Appointment.class);
