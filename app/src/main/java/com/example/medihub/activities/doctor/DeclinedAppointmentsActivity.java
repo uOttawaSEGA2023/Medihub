@@ -7,12 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.medihub.R;
+import com.example.medihub.database.AppointmentsReference;
 import com.example.medihub.database.UsersReference;
 import com.example.medihub.enums.RequestStatus;
 import com.example.medihub.models.Appointment;
@@ -25,8 +27,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
+import java.util.HashMap;
 
-public class PastAppointmentsActivity extends AbstractAppointmentsActivity {
+public class DeclinedAppointmentsActivity extends AbstractAppointmentsActivity{
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,20 +38,20 @@ public class PastAppointmentsActivity extends AbstractAppointmentsActivity {
         UsersReference usersReference = new UsersReference();
 
         appointmentsQuery.addValueEventListener(new ValueEventListener() {
-
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 appointments.clear();
 
                 if (snapshot.exists()) {
+
                     totalChildren = (int)snapshot.getChildrenCount();
 
                     // fetch appointments
                     for (DataSnapshot appointmentSnapshot : snapshot.getChildren()) {
                         Appointment appointment = appointmentSnapshot.getValue(Appointment.class);
 
-                        // check if it's a valid past appointment
-                        if (appointment != null && LocalDateTime.now().isAfter(appointment.localEndDate()) && appointment.getStatus() == RequestStatus.approved) {
+                        // check if it's a declined appointment
+                        if (appointment != null && appointment.getStatus() == RequestStatus.declined) {
                             // add appointment to list
                             appointment.setKey(appointmentSnapshot.getKey());
                             appointments.add(appointment);
@@ -117,8 +121,8 @@ public class PastAppointmentsActivity extends AbstractAppointmentsActivity {
         Button authorizeButton = view.findViewById(R.id.buttonConfirm);
         Button denyButton = view.findViewById(R.id.buttonDeny);
 
+        denyButton.setText("Back");
         authorizeButton.setVisibility(View.GONE);
-        denyButton.setVisibility(View.GONE);
 
         Appointment appointment = appointments.get(position);
         PatientProfile patient = patients.get(position);
@@ -159,6 +163,15 @@ public class PastAppointmentsActivity extends AbstractAppointmentsActivity {
         if (alertDialog.getWindow() != null) {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
+
+        denyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+                hideOverlay();
+            }
+        });
+
 
         alertDialog.show();
     }

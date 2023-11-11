@@ -81,6 +81,11 @@ public class UpcomingAppointmentsActivity extends AbstractAppointmentsActivity {
                         if (totalChildren == 0) {
                             totalChildren = appointments.size();
 
+                            if (totalChildren == 0) {
+                                setAdapter();
+                                return;
+                            }
+
                             // sort appointments by closest date to today
                             Collections.sort(appointments);
 
@@ -123,6 +128,8 @@ public class UpcomingAppointmentsActivity extends AbstractAppointmentsActivity {
 
             }
         });
+
+        hideAuthorizeAllButton();
     }
 
     @Override

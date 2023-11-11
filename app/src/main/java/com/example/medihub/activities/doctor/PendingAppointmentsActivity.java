@@ -1,22 +1,32 @@
 package com.example.medihub.activities.doctor;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.medihub.R;
+import com.example.medihub.activities.admin.AdminActivity;
+import com.example.medihub.activities.admin.PendingRequestsActivity;
+import com.example.medihub.database.AppointmentsReference;
 import com.example.medihub.database.UsersReference;
 import com.example.medihub.enums.RequestStatus;
 import com.example.medihub.models.Appointment;
 import com.example.medihub.models.PatientProfile;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,16 +35,55 @@ import com.google.firebase.database.ValueEventListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.concurrent.BlockingDeque;
 
-public class PastAppointmentsActivity extends AbstractAppointmentsActivity {
+public class PendingAppointmentsActivity extends AbstractAppointmentsActivity{
+
+    ToggleButton authorizeAll;
+
+    Boolean isAutoApproveOn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         UsersReference usersReference = new UsersReference();
 
-        appointmentsQuery.addValueEventListener(new ValueEventListener() {
+        // code for changing autoApprove toggle button
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference doctorRef = usersReference.get(currentUser.getUid());
+        doctorRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    isAutoApproveOn = dataSnapshot.child("autoApprove").getValue(Boolean.class);
+                    if (isAutoApproveOn)
+                    {
+                        authorizeAll.setBackgroundResource(R.drawable.toggle_authorize_all);
+                        authorizeAll.setText("Disable Auto-Approve");
+                    }
+                    else
+                    {
+                        authorizeAll.setBackgroundResource(R.drawable.toggle_authorize_all);
+                        authorizeAll.setText("Enable Auto-Approve");
+                    }
 
+                    // Set the initial state of the ToggleButton based on isAutoApproveOn
+                    authorizeAll.setChecked(isAutoApproveOn);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle error
+            }
+        });
+        authorizeAll = findViewById(R.id.buttonAuthorizeAll);
+
+
+        appointmentsQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 appointments.clear();
@@ -46,8 +95,8 @@ public class PastAppointmentsActivity extends AbstractAppointmentsActivity {
                     for (DataSnapshot appointmentSnapshot : snapshot.getChildren()) {
                         Appointment appointment = appointmentSnapshot.getValue(Appointment.class);
 
-                        // check if it's a valid past appointment
-                        if (appointment != null && LocalDateTime.now().isAfter(appointment.localEndDate()) && appointment.getStatus() == RequestStatus.approved) {
+                        // check if it's a pending appointment
+                        if (appointment != null && appointment.getStatus() == RequestStatus.pending) {
                             // add appointment to list
                             appointment.setKey(appointmentSnapshot.getKey());
                             appointments.add(appointment);
@@ -106,7 +155,52 @@ public class PastAppointmentsActivity extends AbstractAppointmentsActivity {
             }
         });
 
-        hideAuthorizeAllButton();
+
+        // Set an OnCheckedChangeListener to listen for toggle events
+        authorizeAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppointmentsReference appointmentsReference = new AppointmentsReference();
+                // Handle the toggle state change
+                if (isChecked) {
+                    // Toggle is ON
+                    authorizeAll.setBackgroundResource(R.drawable.toggle_authorize_all);
+                    authorizeAll.setText("Enable Auto-Approve");
+                    Toast.makeText(getApplicationContext(), "Enabled Auto-Approve", Toast.LENGTH_LONG).show();
+
+                    // auto approve all appointments because toggle set to auto-approve true
+                    Iterator<Appointment> iterator = appointments.iterator();
+
+                    while (iterator.hasNext()) {
+                        Appointment appointment = iterator.next();
+
+                        appointmentsReference.patch(appointment.getKey(), new HashMap<String, Object>() {{
+                            put("status", RequestStatus.approved);
+                        }});
+
+                        // remove from recycler using Iterator's remove method
+                        iterator.remove();
+                    }
+
+                    // Notify the adapter if applicable
+                    if (adapter != null) {
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    isAutoApproveOn = true;
+                    doctorRef.child("autoApprove").setValue(isAutoApproveOn);
+                } else {
+                    // Toggle is OFF
+                    authorizeAll.setBackgroundResource(R.drawable.toggle_authorize_all);
+                    authorizeAll.setText("Disable Auto-Approve");
+                    Toast.makeText(getApplicationContext(), "Disabled Auto-Approve", Toast.LENGTH_LONG).show();
+
+                    isAutoApproveOn = false;
+                    doctorRef.child("autoApprove").setValue(isAutoApproveOn);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -117,8 +211,9 @@ public class PastAppointmentsActivity extends AbstractAppointmentsActivity {
         Button authorizeButton = view.findViewById(R.id.buttonConfirm);
         Button denyButton = view.findViewById(R.id.buttonDeny);
 
-        authorizeButton.setVisibility(View.GONE);
-        denyButton.setVisibility(View.GONE);
+        denyButton.setText("Reject Appointment");
+        authorizeButton.setText("Approve Appointment");
+//        authorizeButton.setVisibility(View.GONE);
 
         Appointment appointment = appointments.get(position);
         PatientProfile patient = patients.get(position);
@@ -159,6 +254,35 @@ public class PastAppointmentsActivity extends AbstractAppointmentsActivity {
         if (alertDialog.getWindow() != null) {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
+
+        denyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppointmentsReference appointmentsReference = new AppointmentsReference();
+
+                appointmentsReference.patch(appointment.getKey(), new HashMap<String, Object>() {{
+                    put("status", RequestStatus.declined);
+                }});
+
+                alertDialog.dismiss();
+                hideOverlay();
+                Toast.makeText(getApplicationContext(), "Appointment Rejected", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        authorizeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppointmentsReference appointmentsReference = new AppointmentsReference();
+                appointmentsReference.patch(appointment.getKey(), new HashMap<String, Object>() {{
+                    put("status", RequestStatus.approved);
+                }});
+
+                alertDialog.dismiss();
+                hideOverlay();
+                Toast.makeText(getApplicationContext(), "Appointment Approved", Toast.LENGTH_LONG).show();
+            }
+        });
 
         alertDialog.show();
     }

@@ -39,7 +39,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public abstract class AbstractAppointmentsActivity extends AppCompatActivity {
-    Button backButton;
+    Button backButton, authorizeAllButton;
     View overlay;
 
     protected ArrayList<Appointment> appointments;
@@ -68,6 +68,7 @@ public abstract class AbstractAppointmentsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.requestView);
         overlay = findViewById(R.id.overlay);
         backButton = findViewById(R.id.backToHomePageFromInboxButton);
+        authorizeAllButton = findViewById(R.id.buttonAuthorizeAll);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +107,10 @@ public abstract class AbstractAppointmentsActivity extends AppCompatActivity {
 
     protected void hideOverlay() {
         overlay.setVisibility(View.GONE); // Hide the overlay to restore the original background
+    }
+
+    protected void hideAuthorizeAllButton(){
+        authorizeAllButton.setVisibility(View.GONE);
     }
 
     protected abstract void showRequestCard(int position);
