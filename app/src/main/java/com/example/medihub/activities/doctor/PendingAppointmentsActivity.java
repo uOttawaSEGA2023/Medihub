@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -23,6 +25,8 @@ import com.example.medihub.database.UsersReference;
 import com.example.medihub.enums.RequestStatus;
 import com.example.medihub.models.Appointment;
 import com.example.medihub.models.PatientProfile;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,14 +41,48 @@ import java.util.concurrent.BlockingDeque;
 
 public class PendingAppointmentsActivity extends AbstractAppointmentsActivity{
 
-    Button authorizeAll;
+    ToggleButton authorizeAll;
+
+    Boolean isAutoApproveOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         UsersReference usersReference = new UsersReference();
+
+        // code for changing autoApprove toggle button
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference doctorRef = usersReference.get(currentUser.getUid());
+        doctorRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    isAutoApproveOn = dataSnapshot.child("autoApprove").getValue(Boolean.class);
+                    if (isAutoApproveOn)
+                    {
+                        authorizeAll.setBackgroundResource(R.drawable.toggle_authorize_all);
+                        authorizeAll.setText("Disable Auto_Approve");
+                    }
+                    else
+                    {
+                        authorizeAll.setBackgroundResource(R.drawable.toggle_authorize_all);
+                        authorizeAll.setText("Enable Auto-Approve");
+                    }
+
+                    // Set the initial state of the ToggleButton based on isAutoApproveOn
+                    authorizeAll.setChecked(isAutoApproveOn);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle error
+            }
+        });
         authorizeAll = findViewById(R.id.buttonAuthorizeAll);
+
+
         appointmentsQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -117,31 +155,53 @@ public class PendingAppointmentsActivity extends AbstractAppointmentsActivity{
             }
         });
 
-        authorizeAll.setOnClickListener(new View.OnClickListener() {
+
+        // Set an OnCheckedChangeListener to listen for toggle events
+        authorizeAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 AppointmentsReference appointmentsReference = new AppointmentsReference();
+                // Handle the toggle state change
+                if (isChecked) {
+                    // Toggle is ON
+                    authorizeAll.setBackgroundResource(R.drawable.toggle_authorize_all);
+                    authorizeAll.setText("Enable Auto-Approve");
+                    Toast.makeText(getApplicationContext(), "Enabled Auto-Approve", Toast.LENGTH_LONG).show();
 
-                Iterator<Appointment> iterator = appointments.iterator();
-                while (iterator.hasNext()) {
-                    Appointment appointment = iterator.next();
+                    // auto approve all appointments because toggle set to auto-approve true
+                    Iterator<Appointment> iterator = appointments.iterator();
 
-                    appointmentsReference.patch(appointment.getKey(), new HashMap<String, Object>() {{
-                        put("status", RequestStatus.approved);
-                    }});
+                    while (iterator.hasNext()) {
+                        Appointment appointment = iterator.next();
 
-                    // remove from recycler using Iterator's remove method
-                    iterator.remove();
+                        appointmentsReference.patch(appointment.getKey(), new HashMap<String, Object>() {{
+                            put("status", RequestStatus.approved);
+                        }});
+
+                        // remove from recycler using Iterator's remove method
+                        iterator.remove();
+                    }
+
+                    // Notify the adapter if applicable
+                    if (adapter != null) {
+                        adapter.notifyDataSetChanged();
+                    }
+                    Toast.makeText(getApplicationContext(), "ALL Appointments Approved", Toast.LENGTH_LONG).show();
+
+                    isAutoApproveOn = true;
+                    doctorRef.child("autoApprove").setValue(isAutoApproveOn);
+                } else {
+                    // Toggle is OFF
+                    authorizeAll.setBackgroundResource(R.drawable.toggle_authorize_all);
+                    authorizeAll.setText("Disable Auto_Approve");
+                    Toast.makeText(getApplicationContext(), "Disabled Auto-Approve", Toast.LENGTH_LONG).show();
+
+                    isAutoApproveOn = false;
+                    doctorRef.child("autoApprove").setValue(isAutoApproveOn);
                 }
-
-                // Notify the adapter if applicable
-                if (adapter != null) {
-                    adapter.notifyDataSetChanged();
-                }
-
-                Toast.makeText(getApplicationContext(), "ALL Appointments Approved", Toast.LENGTH_LONG).show();
             }
         });
+
     }
 
     @Override

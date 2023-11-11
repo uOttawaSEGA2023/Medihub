@@ -57,24 +57,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
+            <ToggleButton
                 android:id="@+id/buttonAuthorizeAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="133dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="134dp"
-                android:background="@drawable/round_corner_green"
                 android:paddingLeft="20sp"
                 android:paddingTop="20sp"
                 android:paddingRight="20sp"
                 android:paddingBottom="20sp"
-                android:text="AUTHORIZE ALL"
+                android:textOn="Disable Auto-Approve"
+                android:textOff="Enable Auto-Approve"
                 android:textSize="14sp"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:checked="false"/>
 
             <Button
                 android:id="@+id/backToHomePageFromInboxButton"
