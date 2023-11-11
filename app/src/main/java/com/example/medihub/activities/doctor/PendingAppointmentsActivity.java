@@ -58,8 +58,8 @@ public class PendingAppointmentsActivity extends AbstractAppointmentsActivity{
                     for (DataSnapshot appointmentSnapshot : snapshot.getChildren()) {
                         Appointment appointment = appointmentSnapshot.getValue(Appointment.class);
 
-                        // check if it's a valid upcoming appointment
-                        if (appointment != null && appointment.localStartDate().isAfter(LocalDateTime.now()) && appointment.getStatus() == RequestStatus.pending) {
+                        // check if it's a pending appointment
+                        if (appointment != null && appointment.getStatus() == RequestStatus.pending) {
                             // add appointment to list
                             appointment.setKey(appointmentSnapshot.getKey());
                             appointments.add(appointment);
