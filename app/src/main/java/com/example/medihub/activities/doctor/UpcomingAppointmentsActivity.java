@@ -123,6 +123,8 @@ public class UpcomingAppointmentsActivity extends AbstractAppointmentsActivity {
 
             }
         });
+
+        hideAuthorizeAllButton();
     }
 
     @Override

@@ -100,6 +100,8 @@ public class PastAppointmentsActivity extends AbstractAppointmentsActivity {
 
             }
         });
+
+        hideAuthorizeAllButton();
     }
 
     @Override

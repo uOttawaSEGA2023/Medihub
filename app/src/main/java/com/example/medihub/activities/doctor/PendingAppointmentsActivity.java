@@ -1,6 +1,7 @@
 package com.example.medihub.activities.doctor;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.medihub.R;
+import com.example.medihub.activities.admin.AdminActivity;
+import com.example.medihub.activities.admin.PendingRequestsActivity;
 import com.example.medihub.database.AppointmentsReference;
 import com.example.medihub.database.UsersReference;
 import com.example.medihub.enums.RequestStatus;
@@ -29,15 +32,19 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.concurrent.BlockingDeque;
 
 public class PendingAppointmentsActivity extends AbstractAppointmentsActivity{
+
+    Button authorizeAll;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         UsersReference usersReference = new UsersReference();
-
+        authorizeAll = findViewById(R.id.buttonAuthorizeAll);
         appointmentsQuery.getRef().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -103,6 +110,32 @@ public class PendingAppointmentsActivity extends AbstractAppointmentsActivity{
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        authorizeAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppointmentsReference appointmentsReference = new AppointmentsReference();
+
+                Iterator<Appointment> iterator = appointments.iterator();
+                while (iterator.hasNext()) {
+                    Appointment appointment = iterator.next();
+
+                    appointmentsReference.patch(appointment.getKey(), new HashMap<String, Object>() {{
+                        put("status", RequestStatus.approved);
+                    }});
+
+                    // remove from recycler using Iterator's remove method
+                    iterator.remove();
+                }
+
+                // Notify the adapter if applicable
+                if (adapter != null) {
+                    adapter.notifyDataSetChanged();
+                }
+
+                Toast.makeText(getApplicationContext(), "ALL Appointments Approved", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -184,6 +217,10 @@ public class PendingAppointmentsActivity extends AbstractAppointmentsActivity{
                 appointmentsReference.patch(appointment.getKey(), new HashMap<String, Object>() {{
                     put("status", RequestStatus.approved);
                 }});
+
+                // remove from recycler
+                appointments.remove(appointment);
+
                 alertDialog.dismiss();
                 hideOverlay();
                 Toast.makeText(getApplicationContext(), "Appointment Approved", Toast.LENGTH_LONG).show();

@@ -104,6 +104,8 @@ public class DeclinedAppointmentsActivity extends AbstractAppointmentsActivity{
 
             }
         });
+
+        hideAuthorizeAllButton();
     }
 
     @Override

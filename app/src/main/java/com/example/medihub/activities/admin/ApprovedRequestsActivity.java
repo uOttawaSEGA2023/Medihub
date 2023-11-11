@@ -38,7 +38,7 @@ import java.util.ArrayList;
 public class ApprovedRequestsActivity extends AppCompatActivity
 {
 
-    Button backButton;
+    Button backButton, authorizeAllButton;
     View overlay; // for dimming effect
 
     private ArrayList<RegistrationRequest> pendingRequests;
@@ -79,6 +79,7 @@ public class ApprovedRequestsActivity extends AppCompatActivity
                     }
                 }
                 setAdapter();
+
             }
 
             @Override
@@ -88,6 +89,10 @@ public class ApprovedRequestsActivity extends AppCompatActivity
         });
 
         backButton = findViewById(R.id.backToHomePageFromInboxButton);
+
+        authorizeAllButton = findViewById(R.id.buttonAuthorizeAll);
+        hideAuthorizeAllButton();
+
         overlay = findViewById(R.id.overlay);
 
         // Retrieve current user from intent
@@ -132,6 +137,10 @@ public class ApprovedRequestsActivity extends AppCompatActivity
 
     private void hideOverlay() {
         overlay.setVisibility(View.GONE); // Hide the overlay to restore the original background
+    }
+
+    protected void hideAuthorizeAllButton(){
+        authorizeAllButton.setVisibility(View.GONE);
     }
 
     private void showRequestCard(int position) {
