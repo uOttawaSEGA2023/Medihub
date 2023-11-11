@@ -21,7 +21,7 @@ public class DoctorActivity extends AppCompatActivity {
 
     // UI elements
     private Button logoutButton;
-    private Button upcomingAppointmentsButton, pastAppointmentsButton;
+    private Button upcomingAppointmentsButton, pastAppointmentsButton, pendingAppointmentsButton, declinedAppintmentsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,8 @@ public class DoctorActivity extends AppCompatActivity {
         logoutButton = findViewById(R.id.logoutButton);
         upcomingAppointmentsButton = findViewById(R.id.btnUpcomingAppointments);
         pastAppointmentsButton = findViewById(R.id.btnPastAppointments);
+        pendingAppointmentsButton = findViewById(R.id.btnPendingAppointments);
+        declinedAppintmentsButton = findViewById(R.id.btnDeclinedAppointments);
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +67,24 @@ public class DoctorActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DoctorActivity.this, PastAppointmentsActivity.class);
+                intent.putExtra("current user", user);
+                startActivity(intent);
+            }
+        });
+
+        pendingAppointmentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DoctorActivity.this, PendingAppointmentsActivity.class);
+                intent.putExtra("current user", user);
+                startActivity(intent);
+            }
+        });
+
+        declinedAppintmentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DoctorActivity.this, DeclinedAppointmentsActivity.class);
                 intent.putExtra("current user", user);
                 startActivity(intent);
             }
