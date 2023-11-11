@@ -45,7 +45,7 @@ public class PendingAppointmentsActivity extends AbstractAppointmentsActivity{
 
         UsersReference usersReference = new UsersReference();
         authorizeAll = findViewById(R.id.buttonAuthorizeAll);
-        appointmentsQuery.getRef().addValueEventListener(new ValueEventListener() {
+        appointmentsQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 appointments.clear();
