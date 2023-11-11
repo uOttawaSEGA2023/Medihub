@@ -62,7 +62,7 @@ public class PendingAppointmentsActivity extends AbstractAppointmentsActivity{
                     if (isAutoApproveOn)
                     {
                         authorizeAll.setBackgroundResource(R.drawable.toggle_authorize_all);
-                        authorizeAll.setText("Disable Auto_Approve");
+                        authorizeAll.setText("Disable Auto-Approve");
                     }
                     else
                     {
@@ -186,14 +186,13 @@ public class PendingAppointmentsActivity extends AbstractAppointmentsActivity{
                     if (adapter != null) {
                         adapter.notifyDataSetChanged();
                     }
-                    Toast.makeText(getApplicationContext(), "ALL Appointments Approved", Toast.LENGTH_LONG).show();
 
                     isAutoApproveOn = true;
                     doctorRef.child("autoApprove").setValue(isAutoApproveOn);
                 } else {
                     // Toggle is OFF
                     authorizeAll.setBackgroundResource(R.drawable.toggle_authorize_all);
-                    authorizeAll.setText("Disable Auto_Approve");
+                    authorizeAll.setText("Disable Auto-Approve");
                     Toast.makeText(getApplicationContext(), "Disabled Auto-Approve", Toast.LENGTH_LONG).show();
 
                     isAutoApproveOn = false;
