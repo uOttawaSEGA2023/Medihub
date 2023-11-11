@@ -17,6 +17,12 @@
         <activity
             android:name=".activities.doctor.UpcomingAppointmentsActivity"
             android:exported="false" />
+        <activity android:name=".activities.doctor.PastAppointmentsActivity"
+            android:exported="false" />
+        <activity android:name=".activities.doctor.PendingAppointmentsActivity"
+            android:exported="false" />
+        <activity android:name=".activities.doctor.DeclinedAppointmentsActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.admin.PendingRequestsActivity"
             android:exported="false" />

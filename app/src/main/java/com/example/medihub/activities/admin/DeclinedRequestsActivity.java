@@ -44,7 +44,7 @@ import java.util.HashMap;
 public class DeclinedRequestsActivity extends AppCompatActivity
 {
 
-    Button backButton;
+    Button backButton, authorizeAllButton;
     View overlay; // for dimming effect
 
     private ArrayList<RegistrationRequest> pendingRequests;
@@ -95,6 +95,10 @@ public class DeclinedRequestsActivity extends AppCompatActivity
         });
 
         backButton = findViewById(R.id.backToHomePageFromInboxButton);
+
+        authorizeAllButton = findViewById(R.id.buttonAuthorizeAll);
+        hideAuthorizeAllButton();
+
         overlay = findViewById(R.id.overlay);
 
         // Retrieve current user from intent
@@ -139,6 +143,10 @@ public class DeclinedRequestsActivity extends AppCompatActivity
 
     private void hideOverlay() {
         overlay.setVisibility(View.GONE); // Hide the overlay to restore the original background
+    }
+
+    protected void hideAuthorizeAllButton(){
+        authorizeAllButton.setVisibility(View.GONE);
     }
 
     private void showRequestCard(int position) {
