@@ -6,10 +6,11 @@ import com.example.medihub.interfaces.Model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Appointment implements Model, Serializable {
+public class Appointment implements Model, Serializable, Comparable<Appointment> {
     private String key;
     private String patient_id;
     private String doctor_id;
@@ -45,6 +46,7 @@ public class Appointment implements Model, Serializable {
     public LocalDateTime localStartDate() {
         return startDate;
     }
+    public LocalDateTime localEndDate() { return startDate.plusMinutes(30); }
 
 
     public void setStartDate(String startDate) { this.startDate = LocalDateTime.parse(startDate); }
@@ -67,5 +69,16 @@ public class Appointment implements Model, Serializable {
 
         HashMap<String, String> errors = new HashMap<>();
         return errors;
+    }
+
+    // Sorts appointments from closest date to furthest date to the device's current date
+    // Use Collections.sort() to utilize this sorting
+    @Override
+    public int compareTo(Appointment appointment) {
+        LocalDateTime currentDate = LocalDateTime.now();
+
+        long thisDiff = Math.abs(currentDate.compareTo(this.localStartDate()));
+        long otherDiff = Math.abs(currentDate.compareTo(appointment.localStartDate()));
+        return Long.compare(thisDiff, otherDiff);
     }
 }
