@@ -36,6 +36,9 @@
             android:name=".activities.admin.ApprovedRequestsActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.doctor.ShiftActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.admin.DeclinedRequestsActivity"
             android:exported="false" />
         <activity

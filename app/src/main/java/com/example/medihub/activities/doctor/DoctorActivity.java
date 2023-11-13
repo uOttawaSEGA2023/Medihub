@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -21,14 +22,16 @@ public class DoctorActivity extends AppCompatActivity {
 
     // UI elements
     private Button logoutButton;
-    private Button upcomingAppointmentsButton, pastAppointmentsButton, pendingAppointmentsButton, declinedAppintmentsButton;
+    private Button upcomingAppointmentsButton, pastAppointmentsButton, pendingAppointmentsButton, declinedAppintmentsButton, btnShifts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor);
 
+
         user = (DoctorProfile) getIntent().getSerializableExtra("current user");
+        Log.d("key1", user.getKey() + "");
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDB = FirebaseDatabase.getInstance();
 
@@ -60,6 +63,19 @@ public class DoctorActivity extends AppCompatActivity {
                 Intent intent = new Intent(DoctorActivity.this, UpcomingAppointmentsActivity.class);
                 intent.putExtra("current user", user);
                 startActivity(intent);
+            }
+        });
+
+        btnShifts = findViewById(R.id.btnShifts);
+        btnShifts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(DoctorActivity.this, ShiftActivity.class);
+                intent.putExtra("current user", user);
+                startActivity(intent);
+
+
             }
         });
 
@@ -102,4 +118,6 @@ public class DoctorActivity extends AppCompatActivity {
             DoctorActivity.this.finish();
         }
     }
+
+
 }

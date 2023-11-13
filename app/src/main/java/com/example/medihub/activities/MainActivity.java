@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         // pass the user object as an extra
+                        currentUserProfile.setKey(snapshot.getKey());
                         newIntent.putExtra("current user", currentUserProfile);
 
                         startActivity(newIntent);
