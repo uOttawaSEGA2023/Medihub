@@ -235,6 +235,9 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
 
             }
 
+        } else if (day < currentDay && month <= currentMonth && year <= currentYear) {
+
+            return false;
         }
 
          if (selectedEndTime <= selectedStartTime) {
