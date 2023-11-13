@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medihub.R;
 import com.example.medihub.models.DoctorProfile;
+import com.example.medihub.models.Shift;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import android.util.Log;
@@ -20,26 +22,22 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.Button;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 public class ShiftActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private DoctorProfile user;
     private FirebaseAuth firebaseAuth;
-    private FirebaseDatabase firebaseDB;
     private String startTime;
     private String endTime;
     private Button btnCreate;
     private boolean isStartInputted = false;
     private boolean isEndInputted = false;
     private CalendarView calendarView;
-    private Calendar calendar;
     private int day;
     private int month;
     private int year;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +46,6 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
 
         user = (DoctorProfile) getIntent().getSerializableExtra("current user");
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseDB = FirebaseDatabase.getInstance();
         Calendar calendar = Calendar.getInstance();
 
         Spinner spinnerStart = findViewById(R.id.spinnerStart);
@@ -71,6 +68,10 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
         long m = calendar.getTimeInMillis();
         calendarView.setDate(m);
 
+        day = Calendar.DAY_OF_MONTH;
+        month = Calendar.MONTH;
+        year = Calendar.YEAR;
+
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
@@ -80,25 +81,36 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
                 month = i1 + 1;
                 year = i;
 
-                Log.d("date", "Day: " + day + " Month: " + month + " Day: " + year); //TESTING
-
-
             }
         });
-
-
-
-
-
-
 
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (check()) {
+                if (check() == true) {
 
-                    // Save the shift
+                    String[] temp = startTime.split(":");
+                    int tempHour = Integer.parseInt(temp[0]);
+                    int tempMinute = Integer.parseInt(temp[1]);
+
+                    LocalDateTime tempStart = LocalDateTime.of(year, month, day, tempHour, tempMinute);
+
+                    temp = endTime.split(":");
+                    tempHour = Integer.parseInt(temp[0]);
+                    tempMinute = Integer.parseInt(temp[1]);
+
+                    LocalDateTime tempEnd = LocalDateTime.of(year, month, day, tempHour, tempMinute);
+                    Shift tempShift = new Shift(user.getKey(), tempStart, tempEnd);
+
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                    DatabaseReference objectsReference = databaseReference.child("shifts");
+                    String objectId = objectsReference.push().getKey();
+                    objectsReference.child(objectId).setValue(tempShift);
+
+                    Intent intent = new Intent(ShiftActivity.this, DoctorActivity.class);
+                    intent.putExtra("current user", user);
+                    startActivity(intent);
 
                     Toast.makeText(ShiftActivity.this, "Shift saved successfully", Toast.LENGTH_SHORT).show();
                 } else {
@@ -113,27 +125,14 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
 
     }
 
+
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-
 
         if (adapterView.getId() == R.id.spinnerStart) {
 
             startTime = adapterView.getItemAtPosition(i).toString();
             isStartInputted = true;
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         } else if (adapterView.getId() == R.id.spinnerEnd) {
@@ -142,9 +141,6 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
             isEndInputted = true;
 
         }
-
-
-
 
     }
 
@@ -158,7 +154,7 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
 
-        String date = String.format("%04d/%02d/%02d %02d:%02d:%02d", year, month, day, hour, minute);
+        String date = String.format("%04d/%02d/%02d/%02d/%02d", year, month, day, hour, minute);
 
         return date;
     }
@@ -175,11 +171,12 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
 
         String[] date = date().split("/");
         String[] s = startTime.split(":");
-        String[] e = startTime.split(":");
+        String[] e = endTime.split(":");
 
-        int currentTime = Integer.parseInt(date[3]) + (Integer.parseInt(date[4]) / 10);
-        int startTime = Integer.parseInt(s[0]) + (Integer.parseInt(s[1]) / 10);
-        int endTime = Integer.parseInt(e[0]) + (Integer.parseInt(e[1]) / 10);
+        int currentTime = Integer.parseInt(date[3]) + (Integer.parseInt(date[4]) / 100);
+        double startTime = Integer.parseInt(s[0]) + (Double.parseDouble(s[1]) / 100);
+        double endTime = Integer.parseInt(e[0]) + (Double.parseDouble(e[1]) / 100);
+
 
 
         if (firstCheck(date) == false) {
@@ -190,11 +187,11 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
 
             return false;
 
-        } else if ()
+        } else {
 
+            return true;
 
-
-
+        }
 
     }
 
@@ -224,7 +221,7 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
     }
 
     //Checks for invalid input with the start, end, and current time
-    private boolean secondCheck(int currentTime, int selectedStartTime, int selectedEndTime, String[] date) {
+    private boolean secondCheck(int currentTime, double selectedStartTime, double selectedEndTime, String[] date) {
 
         int currentYear = Integer.parseInt(date[0]);
         int currentMonth = Integer.parseInt(date[1]);
@@ -246,13 +243,9 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
 
         }
 
-
         return true;
 
         }
-
-
-
 
 
 
