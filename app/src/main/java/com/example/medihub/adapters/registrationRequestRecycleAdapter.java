@@ -14,12 +14,12 @@ import com.example.medihub.models.RegistrationRequest;
 
 import java.util.ArrayList;
 
-public class recycleAdapter extends RecyclerView.Adapter<recycleAdapter.MyViewHolder> {
+public class registrationRequestRecycleAdapter extends RecyclerView.Adapter<registrationRequestRecycleAdapter.MyViewHolder> {
 
     private ArrayList<RegistrationRequest> requestList;
     private RecyclerViewClickListener listener;
 
-    public recycleAdapter(ArrayList<RegistrationRequest> requestList, RecyclerViewClickListener listener)
+    public registrationRequestRecycleAdapter(ArrayList<RegistrationRequest> requestList, RecyclerViewClickListener listener)
     {
         this.requestList = requestList;
         this.listener = listener;
@@ -52,13 +52,13 @@ public class recycleAdapter extends RecyclerView.Adapter<recycleAdapter.MyViewHo
     }
     @NonNull
     @Override
-    public recycleAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public registrationRequestRecycleAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_requests,parent, false);
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull recycleAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull registrationRequestRecycleAdapter.MyViewHolder holder, int position) {
         String doctor = "Doctor: ";
         String patient = "Patient: ";
         String name;
