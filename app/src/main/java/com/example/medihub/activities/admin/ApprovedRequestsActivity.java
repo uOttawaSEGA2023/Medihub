@@ -21,7 +21,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.medihub.R;
-import com.example.medihub.adapters.recycleAdapter;
+import com.example.medihub.adapters.registrationRequestRecycleAdapter;
 import com.example.medihub.database.RegistrationRequestsReference;
 import com.example.medihub.enums.RequestStatus;
 import com.example.medihub.models.RegistrationRequest;
@@ -43,14 +43,14 @@ public class ApprovedRequestsActivity extends AppCompatActivity
 
     private ArrayList<RegistrationRequest> pendingRequests;
     private RecyclerView recyclerView;
-    private recycleAdapter.RecyclerViewClickListener listener;
+    private registrationRequestRecycleAdapter.RecyclerViewClickListener listener;
     private UserProfile admin;
     private Query pendingRequestsQuery;
     private FirebaseAuth mAuth;
 
     private FirebaseDatabase firebaseDB;
 
-    recycleAdapter adapter;
+    registrationRequestRecycleAdapter adapter;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -113,7 +113,7 @@ public class ApprovedRequestsActivity extends AppCompatActivity
     private void setAdapter()
     {
         setOnClickListener();
-        adapter = new recycleAdapter(pendingRequests, listener);
+        adapter = new registrationRequestRecycleAdapter(pendingRequests, listener);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -122,7 +122,7 @@ public class ApprovedRequestsActivity extends AppCompatActivity
 
     private void setOnClickListener()
     {
-        listener = new recycleAdapter.RecyclerViewClickListener() {
+        listener = new registrationRequestRecycleAdapter.RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int position) {
                 showOverlay();
