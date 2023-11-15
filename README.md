@@ -39,7 +39,7 @@
 
 ## Project Deliverable 3 Checklist
 - [X] The updated UML Class diagram of your domain model is valid. (15/100)
-- [ ] The APK is submitted. (5/100)
+- [X] The APK is submitted. (5/100)
 - [X] The Doctor can view a list of upcoming appointments. (5/100)
 - [X] The Doctor can view the information of a Patient that requested an appointment. (10/100)
 - [X] The Doctor can approve or reject an appointment request. (10/100)
@@ -56,7 +56,7 @@
 - [ ] The APK is submitted. (5/100)
 - [ ] The 4 Unit test cases (simple local tests) are implemented. There is no need to include instrumentation or Espresso Tests (UI). (10/100)
 - [ ] The final report is submitted (30/100)
-- [ ] The application supports the requirements of Deliverables 1, 2, and 3 (In case these deliverables were not previously completed, they still need to be implemented for this deliverable) (20/100)
+- [X] The application supports the requirements of Deliverables 1, 2, and 3 (In case these deliverables were not previously completed, they still need to be implemented for this deliverable) (20/100)
 - [ ] The Patient can view a list of upcoming appointments. (5/100)
 - [ ] The Patient can cancel an upcoming appointment. Cancellations should only be possible if the appointment is not scheduled to start in the next 60 minutes. (5/100)
 - [ ] The Patient can view their past appointments. (5/100)
