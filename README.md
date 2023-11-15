@@ -46,9 +46,9 @@
 - [X] The Doctor can cancel a previously approved appointment. (10/100)
 - [X] The Doctor can view a list of past appointments. (5/100)
 - [X] The Doctor may enable a setting so that all appointment requests are automatically approved by the system without further action on their part. (10/100)
-- [ ] The Doctor can view the list of upcoming shifts they are working. (10/100)
-- [ ] The Doctor can add a new shift by specifying the date, start-time, and end-time of the shift. All fields must be validated. Hence, the Doctor cannot enter a date that has already passed or a shift that conflicts with another one they had previously added. (10/100)
-- [ ] The Doctor can delete an existing shift. (10/100)
+- [X] The Doctor can view the list of upcoming shifts they are working. (10/100)
+- [X] The Doctor can add a new shift by specifying the date, start-time, and end-time of the shift. All fields must be validated. Hence, the Doctor cannot enter a date that has already passed or a shift that conflicts with another one they had previously added. (10/100)
+- [X] The Doctor can delete an existing shift. (10/100)
 - [ ] Optional BONUS - The group integrates with CircleCI to see the automated builds and test unit execution. (5/100)
 
 ## Project Deliverable 4 Checklist
