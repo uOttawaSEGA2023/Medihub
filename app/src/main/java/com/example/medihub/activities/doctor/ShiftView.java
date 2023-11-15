@@ -69,6 +69,7 @@ public class ShiftView extends AbstractShiftActivity{
                         // check if all appointments have been fetched
                         totalChildren--;
                         if (totalChildren == 0) {
+                            Collections.sort(shifts);
                             setAdapter();
                             break;
                         }

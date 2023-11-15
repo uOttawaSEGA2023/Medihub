@@ -47,6 +47,7 @@ public abstract class AbstractShiftActivity extends AppCompatActivity {
     protected ArrayList<Shift> shifts;
     protected RecyclerView recyclerView;
     protected shiftAdapter.RecyclerViewClickListener listener;
+    protected Button backButton;
     protected UserProfile doctor;
     protected Query shiftQuery;
     protected int totalChildren = 0;
@@ -70,7 +71,15 @@ public abstract class AbstractShiftActivity extends AppCompatActivity {
         Button approve = findViewById(R.id.buttonAuthorizeAll);
         approve.setVisibility(View.GONE);
 
-
+        backButton = findViewById(R.id.backToHomePageFromInboxButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent backIntent = new Intent(AbstractShiftActivity.this, DoctorActivity.class);
+                backIntent.putExtra("current user", doctor);
+                startActivity(backIntent);
+            }
+        });
     }
 
     protected void setAdapter()

@@ -98,8 +98,8 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (check() == true) {
+                String result = check();
+                if (result.isEmpty()) {
 
                     String[] temp = startTime.split(":");
                     int tempHour = Integer.parseInt(temp[0]);
@@ -132,7 +132,7 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
                     Toast.makeText(ShiftActivity.this, "Shift saved successfully", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    Toast.makeText(ShiftActivity.this, "Invalid input. Please check the selected time.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShiftActivity.this, result, Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -214,13 +214,11 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
     }
 
     //Checks if there's any invalid input
-    private boolean check() {
+    private String check() {
 
         //The user didn't select a start or end time
         if (isStartInputted == false || isEndInputted == false) {
-
-            return false;
-
+            return "Please select the time for the shift";
         }
 
         String[] date = date().split("/");
@@ -231,29 +229,21 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
         double startTime = Integer.parseInt(s[0]) + (Double.parseDouble(s[1]) / 100);
         double endTime = Integer.parseInt(e[0]) + (Double.parseDouble(e[1]) / 100);
 
-
-
-
-
         if (firstCheck(date) == false) {
 
-            return false;
+            return "Please select a valid date (can't be a past date)";
 
         } else if (secondCheck(currentTime, startTime, endTime, date) == false) {
 
-            return false;
+            return "Please select a valid date (can't be a past date)";
 
         } else if (thirdCheck() == false) {
 
-            return false;
+            return "The inputted shift conflicts with another existing shift";
 
         }
 
-        return true;
-
-
-
-
+        return "";
     }
 
     //Checks for invalid input with the calendar
@@ -309,40 +299,38 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
 
         return true;
 
-        }
+    }
 
-        //Checks if there's an existing shift
-        private boolean thirdCheck() {
+    //Checks if there's an existing shift
+    private boolean thirdCheck() {
 
-            String[] temp = startTime.split(":");
-            int tempHour = Integer.parseInt(temp[0]);
-            int tempMinute = Integer.parseInt(temp[1]);
+        String[] temp = startTime.split(":");
+        int tempHour = Integer.parseInt(temp[0]);
+        int tempMinute = Integer.parseInt(temp[1]);
 
-            LocalDateTime tempStart = LocalDateTime.of(year, month, day, tempHour, tempMinute);
+        LocalDateTime tempStart = LocalDateTime.of(year, month, day, tempHour, tempMinute);
 
-            temp = endTime.split(":");
-            tempHour = Integer.parseInt(temp[0]);
-            tempMinute = Integer.parseInt(temp[1]);
+        temp = endTime.split(":");
+        tempHour = Integer.parseInt(temp[0]);
+        tempMinute = Integer.parseInt(temp[1]);
 
-            LocalDateTime tempEnd = LocalDateTime.of(year, month, day, tempHour, tempMinute);
-            Shift tempShift = new Shift(user.getKey(), tempStart, tempEnd);
+        LocalDateTime tempEnd = LocalDateTime.of(year, month, day, tempHour, tempMinute);
+        Shift tempShift = new Shift(user.getKey(), tempStart, tempEnd);
 
-            for (int i = 0; i < shifts.size(); i++) {
+        for (int i = 0; i < shifts.size(); i++) {
 
-                if (tempShift.localStartDate().isBefore(shifts.get(i).localEndDate()) && tempShift.localEndDate().isAfter(shifts.get(i).localStartDate()) || (shifts.get(i).localStartDate().isBefore(tempShift.localEndDate()) && shifts.get(i).localEndDate().isAfter(tempShift.localStartDate()))) {
+            if (tempShift.localStartDate().isBefore(shifts.get(i).localEndDate()) && tempShift.localEndDate().isAfter(shifts.get(i).localStartDate()) || (shifts.get(i).localStartDate().isBefore(tempShift.localEndDate()) && shifts.get(i).localEndDate().isAfter(tempShift.localStartDate()))) {
 
-                    return false;
-
-                }
+                return false;
 
             }
 
-            return true;
-
-
         }
 
+        return true;
 
+
+    }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
