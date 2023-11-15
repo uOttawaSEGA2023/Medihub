@@ -7,11 +7,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medihub.R;
+import com.example.medihub.database.ShiftsReference;
 import com.example.medihub.models.DoctorProfile;
 import com.example.medihub.models.Shift;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import android.util.Log;
 import android.view.View;
@@ -23,6 +28,7 @@ import android.widget.Toast;
 import android.widget.Button;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ShiftActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -38,6 +44,10 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
     private int day;
     private int month;
     private int year;
+    private Query shiftQuery;
+    private ArrayList<Shift> shifts;
+    private int totalChildren = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +82,7 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
         month = Calendar.MONTH;
         year = Calendar.YEAR;
 
+
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
@@ -102,13 +113,19 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
 
                     LocalDateTime tempEnd = LocalDateTime.of(year, month, day, tempHour, tempMinute);
                     Shift tempShift = new Shift(user.getKey(), tempStart, tempEnd);
+                    Log.d("StartDate", tempShift.localStartDate() + "");
+                    Log.d("EndDate", tempShift.localEndDate() + "");
+
+                    Log.d("Start Date: " , tempShift.getStartDate() + "");
+                    Log.d("End Date: " , tempShift.getEndDate() + "");
+
 
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                     DatabaseReference objectsReference = databaseReference.child("shifts");
                     String objectId = objectsReference.push().getKey();
                     objectsReference.child(objectId).setValue(tempShift);
 
-                    Intent intent = new Intent(ShiftActivity.this, DoctorActivity.class);
+                    Intent intent = new Intent(ShiftActivity.this, ShiftMenu.class);
                     intent.putExtra("current user", user);
                     startActivity(intent);
 
@@ -121,6 +138,43 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
             }
         });
 
+        ShiftsReference shiftsReference = new ShiftsReference();
+        shiftQuery = shiftsReference.where("doctor_id", user.getKey());
+        shifts = new ArrayList<>();
+
+        shiftQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                shifts.clear();
+
+                if (snapshot.exists()) {
+                    totalChildren = (int)snapshot.getChildrenCount();
+
+                    // fetch shifts
+                    for (DataSnapshot shiftSnapshot : snapshot.getChildren()) {
+                        Shift shift = shiftSnapshot.getValue(Shift.class);
+
+                        // check if it's not null
+                        if (shift != null) {
+                            // add shift to list
+                            shift.setKey(shiftSnapshot.getKey());
+                            shifts.add(shift);
+                        }
+
+                        // check if all appointments have been fetched
+                        totalChildren--;
+                        if (totalChildren == 0) {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
     }
@@ -179,6 +233,8 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
 
 
 
+
+
         if (firstCheck(date) == false) {
 
             return false;
@@ -187,11 +243,16 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
 
             return false;
 
-        } else {
+        } else if (thirdCheck() == false) {
 
-            return true;
+            return false;
 
         }
+
+        return true;
+
+
+
 
     }
 
@@ -247,6 +308,37 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
         }
 
         return true;
+
+        }
+
+        //Checks if there's an existing shift
+        private boolean thirdCheck() {
+
+            String[] temp = startTime.split(":");
+            int tempHour = Integer.parseInt(temp[0]);
+            int tempMinute = Integer.parseInt(temp[1]);
+
+            LocalDateTime tempStart = LocalDateTime.of(year, month, day, tempHour, tempMinute);
+
+            temp = endTime.split(":");
+            tempHour = Integer.parseInt(temp[0]);
+            tempMinute = Integer.parseInt(temp[1]);
+
+            LocalDateTime tempEnd = LocalDateTime.of(year, month, day, tempHour, tempMinute);
+            Shift tempShift = new Shift(user.getKey(), tempStart, tempEnd);
+
+            for (int i = 0; i < shifts.size(); i++) {
+
+                if (tempShift.localStartDate().isBefore(shifts.get(i).localEndDate()) && tempShift.localEndDate().isAfter(shifts.get(i).localStartDate()) || (shifts.get(i).localStartDate().isBefore(tempShift.localEndDate()) && shifts.get(i).localEndDate().isAfter(tempShift.localStartDate()))) {
+
+                    return false;
+
+                }
+
+            }
+
+            return true;
+
 
         }
 

@@ -71,7 +71,7 @@ public class DoctorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(DoctorActivity.this, ShiftActivity.class);
+                Intent intent = new Intent(DoctorActivity.this, ShiftMenu.class);
                 intent.putExtra("current user", user);
                 startActivity(intent);
 

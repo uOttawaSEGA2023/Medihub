@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Shift implements Model, Serializable {
+public class Shift implements Model, Serializable, Comparable<Shift> {
     private String key;
     private String doctor_id;
     private LocalDateTime startDate;
@@ -38,7 +38,7 @@ public class Shift implements Model, Serializable {
         return startDate;
     }
     public LocalDateTime localEndDate() {
-        return startDate;
+        return endDate;
     }
 
 
@@ -62,5 +62,14 @@ public class Shift implements Model, Serializable {
 
         HashMap<String, String> errors = new HashMap<>();
         return errors;
+    }
+
+    @Override
+    public int compareTo(Shift shift) {
+        LocalDateTime currentDate = LocalDateTime.now();
+
+        long thisDiff = Math.abs(currentDate.compareTo(this.localStartDate()));
+        long otherDiff = Math.abs(currentDate.compareTo(shift.localStartDate()));
+        return Long.compare(thisDiff, otherDiff);
     }
 }

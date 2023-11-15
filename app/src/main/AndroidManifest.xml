@@ -42,6 +42,12 @@
             android:name=".activities.admin.DeclinedRequestsActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.doctor.ShiftMenu"
+            android:exported="false" />
+        <activity
+            android:name=".activities.doctor.ShiftView"
+            android:exported="false" />
+        <activity
             android:name=".activities.patient.PatientActivity"
             android:exported="false" />
         <activity
