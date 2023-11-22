@@ -15,6 +15,7 @@ public class Appointment implements Model, Serializable, Comparable<Appointment>
     private String patient_id;
     private String doctor_id;
     private String shift_id;
+    private Integer patientRating;
     private RequestStatus status;
     private LocalDateTime startDate;
 
@@ -28,6 +29,7 @@ public class Appointment implements Model, Serializable, Comparable<Appointment>
         this.shift_id = shift_id;
         this.status = status;
         this.startDate = startDate;
+        this.patientRating = null;
     }
 
 
@@ -43,6 +45,7 @@ public class Appointment implements Model, Serializable, Comparable<Appointment>
     public String getStartDate() {
         return startDate.toString();
     }
+    public Integer getPatientRating() { return this.patientRating; }
     public LocalDateTime localStartDate() {
         return startDate;
     }
@@ -50,6 +53,7 @@ public class Appointment implements Model, Serializable, Comparable<Appointment>
 
 
     public void setStartDate(String startDate) { this.startDate = LocalDateTime.parse(startDate); }
+    public void setPatientRating(int rating) { this.patientRating = rating; }
     @Override
     public String getKey() {
         return key;
