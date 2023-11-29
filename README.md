@@ -52,7 +52,7 @@
 - [ ] Optional BONUS - The group integrates with CircleCI to see the automated builds and test unit execution. (5/100)
 
 ## Project Deliverable 4 Checklist
-- [ ] The updated UML Class diagram of your domain model is valid. (10/100)
+- [X] The updated UML Class diagram of your domain model is valid. (10/100)
 - [ ] The APK is submitted. (5/100)
 - [ ] The 4 Unit test cases (simple local tests) are implemented. There is no need to include instrumentation or Espresso Tests (UI). (10/100)
 - [ ] The final report is submitted (30/100)
@@ -64,7 +64,7 @@
 - [ ] The Patient can search for appointments by specifying a medical specialty and selecting a time slot from the available ones. An appointment is a 30-minute time slot. (5/100)
 - [ ] Once booked, the appointment appears in the Patient’s list of upcoming appointments. (5/100)
 - [ ] A booked time slot is not listed when Patients look for appointments. (5/100)
-- [ ] The Doctor cannot delete a shift if it is associated with one or more Patient appointments. (5/100)
+- [X] The Doctor cannot delete a shift if it is associated with one or more Patient appointments. (5/100)
 - [ ] Optional BONUS - Rather than searching for appointments by specifying a medical
                        specialty, the Patient can opt to search for a Doctor by name (i.e., first name, last
                        name, or both). If the search yields only one Doctor, then that Doctor’s available
