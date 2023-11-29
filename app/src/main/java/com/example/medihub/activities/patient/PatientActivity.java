@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.medihub.R;
+import com.example.medihub.activities.doctor.DoctorActivity;
+import com.example.medihub.activities.doctor.UpcomingAppointmentsActivity;
 import com.example.medihub.activities.registrations.LoginActivity;
 import com.example.medihub.models.PatientProfile;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,6 +22,7 @@ public class PatientActivity extends AppCompatActivity {
 
     // UI elements
     private Button logoutButton;
+    private Button searchAppointButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,18 @@ public class PatientActivity extends AppCompatActivity {
             finish();
         }
 
+        // button handling
         logoutButton = findViewById(R.id.logoutButton);
+        searchAppointButton = findViewById(R.id.btnBookAppointments);
+
+        searchAppointButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PatientActivity.this, SearchAppointmentsActivity.class);
+                startActivity(intent);
+            }
+        });
+
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
