@@ -18,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.medihub.R;
+import com.google.firebase.database.Query;
 import com.example.medihub.activities.admin.AdminActivity;
 import com.example.medihub.activities.admin.PendingRequestsActivity;
 import com.example.medihub.database.AppointmentsReference;
@@ -127,12 +128,28 @@ public class ShiftView extends AbstractShiftActivity{
             @Override
             public void onClick(View view) {
                 ShiftsReference shiftReference = new ShiftsReference();
+                AppointmentsReference appointmentsReference = new AppointmentsReference();
 
-                shiftReference.delete(shift.getKey());
+                Query appointmentsQuery = appointmentsReference.where("shift_id", shift.getKey());
+                appointmentsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.getChildrenCount() == 0) {
+                            shiftReference.delete(shift.getKey());
+                            Toast.makeText(getApplicationContext(), "Shift deleted", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Shift can't be deleted (has appointments)", Toast.LENGTH_LONG).show();
+                        }
 
-                alertDialog.dismiss();
-                hideOverlay();
-                Toast.makeText(getApplicationContext(), "Shift deleted", Toast.LENGTH_LONG).show();
+                        alertDialog.dismiss();
+                        hideOverlay();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
 
