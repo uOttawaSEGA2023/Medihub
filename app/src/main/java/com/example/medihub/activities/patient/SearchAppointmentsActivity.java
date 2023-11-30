@@ -4,12 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.medihub.R;
 import com.example.medihub.enums.DoctorSpecialty;
@@ -40,22 +38,10 @@ public class SearchAppointmentsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ArrayList<Integer> checkedIndexes = checkCheckBoxes();
 
+                Intent intent = new Intent(SearchAppointmentsActivity.this, SelectAppointmentActivity.class);
+                intent.putExtra("selected specialties", checkedIndexes);
+                startActivity(intent);
 
-//                Log.d("asdasd", checkedIndexes.toString());
-//                // Display a Toast with the checked indexes
-//                StringBuilder message = new StringBuilder("Checked Indexes: ");
-//                for (Integer index : checkedIndexes) {
-//                    message.append(index).append(", ");
-//                }
-//
-//                if (checkedIndexes.size() > 0) {
-//                    // Remove the trailing comma and space
-//                    message.delete(message.length() - 2, message.length());
-//                } else {
-//                    message.append("None");
-//                }
-//
-//                Toast.makeText(SearchAppointmentsActivity.this, message.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
