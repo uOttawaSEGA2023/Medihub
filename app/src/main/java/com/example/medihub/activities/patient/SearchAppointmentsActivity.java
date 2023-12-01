@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 
 import com.example.medihub.R;
 import com.example.medihub.enums.DoctorSpecialty;
+import com.example.medihub.models.DoctorProfile;
+import com.example.medihub.models.PatientProfile;
 
 import java.util.ArrayList;
 
@@ -18,6 +20,8 @@ public class SearchAppointmentsActivity extends AppCompatActivity {
 
     private LinearLayout specialtiesLayout;
     private Button searchButton;
+    private Button backButton;
+    private PatientProfile user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,9 @@ public class SearchAppointmentsActivity extends AppCompatActivity {
 
         this.specialtiesLayout = findViewById(R.id.specialtyLayout);
         this.searchButton = findViewById(R.id.searchButton);
+        this.backButton = findViewById(R.id.backButton);
+
+        user = (PatientProfile) getIntent().getSerializableExtra("current user");
 
         for (DoctorSpecialty spec : DoctorSpecialty.values()) {
             CheckBox checkBox = new CheckBox(this);
@@ -42,6 +49,15 @@ public class SearchAppointmentsActivity extends AppCompatActivity {
                 intent.putExtra("selected specialties", checkedIndexes);
                 startActivity(intent);
 
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SearchAppointmentsActivity.this, PatientActivity.class);
+                intent.putExtra("current user", user);
+                startActivity(intent);
             }
         });
     }

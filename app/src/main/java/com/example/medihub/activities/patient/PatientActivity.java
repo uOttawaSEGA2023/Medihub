@@ -50,6 +50,7 @@ public class PatientActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(PatientActivity.this, SearchAppointmentsActivity.class);
+                intent.putExtra("current user", user);
                 startActivity(intent);
             }
         });
