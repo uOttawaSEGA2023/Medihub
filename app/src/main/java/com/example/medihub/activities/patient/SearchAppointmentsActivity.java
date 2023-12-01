@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -19,7 +20,6 @@ import java.util.ArrayList;
 
 public class SearchAppointmentsActivity extends AppCompatActivity {
 
-    private LinearLayout specialtiesLayout;
     private Button searchButton;
     private Button backButton;
     private RadioGroup radioGroup;
@@ -30,7 +30,6 @@ public class SearchAppointmentsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_appointments);
 
-        this.specialtiesLayout = findViewById(R.id.specialtyLayout);
         this.searchButton = findViewById(R.id.searchButton);
         this.backButton = findViewById(R.id.backButton);
         this.radioGroup = findViewById(R.id.specialtiesRadioGroup);
@@ -46,10 +45,10 @@ public class SearchAppointmentsActivity extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int checkedIndex = checkCheckBoxes();
+                String checkedSpecialty = checkCheckBoxes();
 
                 Intent intent = new Intent(SearchAppointmentsActivity.this, SelectAppointmentActivity.class);
-                intent.putExtra("selected specialties", checkedIndex);
+                intent.putExtra("selected specialty", checkedSpecialty);
                 startActivity(intent);
 
             }
@@ -65,9 +64,9 @@ public class SearchAppointmentsActivity extends AppCompatActivity {
         });
     }
 
-    private int checkCheckBoxes() {
+    private String checkCheckBoxes() {
 
-        for (int i = 0; i < specialtiesLayout.getChildCount(); i++)
+        for (int i = 0; i < radioGroup.getChildCount(); i++)
         {
             View childView = radioGroup.getChildAt(i);
 
@@ -77,13 +76,11 @@ public class SearchAppointmentsActivity extends AppCompatActivity {
 
                 // Check the state of each CheckBox
                 if (radioButton.isChecked()) {
-                    if (i-1>=0) {
-                        return i-1;
-                    }
+                    return radioButton.getText().toString();
                 }
             }
         }
 
-        return -1;
+        return "";
     }
 }
