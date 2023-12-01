@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.medihub.R;
 import com.example.medihub.activities.doctor.DoctorActivity;
 import com.example.medihub.adapters.appointmentRecycleAdapter;
+import com.example.medihub.adapters.bookingRecyclerAdapter;
 import com.example.medihub.database.AppointmentsReference;
 import com.example.medihub.database.UsersReference;
 import com.example.medihub.enums.RequestStatus;
@@ -45,12 +46,14 @@ public abstract class AbstractBookingActivity extends AppCompatActivity {
 
     protected ArrayList<Appointment> appointments;
     protected ArrayList<PatientProfile> patients;
+
+    protected ArrayList<DoctorProfile> doctors;
     protected RecyclerView recyclerView;
-    protected appointmentRecycleAdapter.RecyclerViewClickListener listener;
+    protected bookingRecyclerAdapter.RecyclerViewClickListener listener;
     protected UserProfile doctor;
     protected Query appointmentsQuery;
     protected int totalChildren = 0;
-    appointmentRecycleAdapter adapter;
+    bookingRecyclerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,7 @@ public abstract class AbstractBookingActivity extends AppCompatActivity {
 
         appointments = new ArrayList<>();
         patients = new ArrayList<>();
+        doctors = new ArrayList<>();
         AppointmentsReference appointmentsReference = new AppointmentsReference();
         appointmentsQuery = appointmentsReference.where("doctor_id", uid);
 
@@ -85,7 +89,7 @@ public abstract class AbstractBookingActivity extends AppCompatActivity {
     protected void setAdapter()
     {
         setOnClickListener();
-        adapter = new appointmentRecycleAdapter(appointments, patients, listener);
+        adapter = new bookingRecyclerAdapter(appointments, patients, listener);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -95,7 +99,7 @@ public abstract class AbstractBookingActivity extends AppCompatActivity {
 
     protected void setOnClickListener()
     {
-        listener = new appointmentRecycleAdapter.RecyclerViewClickListener() {
+        listener = new bookingRecyclerAdapter.RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int position) {
                 showOverlay();

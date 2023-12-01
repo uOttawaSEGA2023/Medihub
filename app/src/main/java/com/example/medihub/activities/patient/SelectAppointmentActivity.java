@@ -50,6 +50,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 public class SelectAppointmentActivity extends AbstractBookingActivity{
 
@@ -149,6 +150,7 @@ public class SelectAppointmentActivity extends AbstractBookingActivity{
                             DatabaseReference appointmentsRef = database.getReference("appointments");
 
                             Iterator<Appointment> iterator = all_open_shifts_for_booking.iterator();
+                            List<Appointment> appointmentsToRemove = new ArrayList<>();
 
                             while (iterator.hasNext())
                             {
@@ -156,27 +158,36 @@ public class SelectAppointmentActivity extends AbstractBookingActivity{
                                 appointmentsRef.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
+                                        boolean shouldRemove = false;
                                         for (DataSnapshot appointmentSnapshot : dataSnapshot.getChildren()) {
                                             // Get appointment details
-                                            String appointmentId = appointmentSnapshot.getKey();
-                                            String doctorId = appointmentSnapshot.child("doctor_id").getValue(String.class);
-                                            String patientId = appointmentSnapshot.child("patient_id").getValue(String.class);
-                                            String shiftId = appointmentSnapshot.child("shift_id").getValue(String.class);
                                             String startDate = appointmentSnapshot.child("startDate").getValue(String.class);
-                                            String status = appointmentSnapshot.child("status").getValue(String.class);
+
 
                                             LocalDateTime start_time = LocalDateTime.parse(startDate);
 
                                             // check if current app is already booked
-                                            if (app.localStartDate().isAfter(start_time) && app.localStartDate().isBefore(start_time.plusMinutes(30)))
-                                            {
-                                                iterator.remove();
+
+                                            // check if current app is already booked
+                                            if (app.localStartDate().isAfter(start_time.minusMinutes(1)) &&
+                                                    app.localStartDate().isBefore(start_time.plusMinutes(30))) {
+                                                    shouldRemove = true;
+                                                    break; // No need to check further once we decide to remove
                                             }
 
                                         }
 
-                                        appointments = all_open_shifts_for_booking;
-                                        Collections.sort(appointments);
+                                        if (shouldRemove) {
+                                            appointmentsToRemove.add(app);
+                                        }
+
+                                        // Perform removal after checking all appointments
+                                        if (!iterator.hasNext()) {
+                                            all_open_shifts_for_booking.removeAll(appointmentsToRemove);
+                                            appointments = all_open_shifts_for_booking;
+                                            Collections.sort(appointments);
+                                        }
+
 
                                         // doctor parsing
                                         for (int i = 0; i < appointments.size(); i++) {
@@ -194,14 +205,7 @@ public class SelectAppointmentActivity extends AbstractBookingActivity{
                                                         PatientProfile currDoc = new PatientProfile(firstName, lastName, null, null, null, null);
 
                                                         patients.add(currDoc);
-                                                        Log.d("asdasd", patients.toString());
-
-                                                        // Check if this is the last doctor data retrieval
-                                                        if (patients.size() == appointments.size()) {
-                                                            // All data retrieved, update the adapter
-
-                                                            setAdapter();
-                                                        }
+                                                        setAdapter();
                                                     }
                                                 }
 
@@ -211,7 +215,10 @@ public class SelectAppointmentActivity extends AbstractBookingActivity{
                                                 }
                                             });
                                         }
+
+
                                     }
+
 
                                     @Override
                                     public void onCancelled(DatabaseError databaseError) {
@@ -229,8 +236,6 @@ public class SelectAppointmentActivity extends AbstractBookingActivity{
                     });
                 }
             }
-
-
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
