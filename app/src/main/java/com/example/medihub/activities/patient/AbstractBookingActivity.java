@@ -45,8 +45,6 @@ public abstract class AbstractBookingActivity extends AppCompatActivity {
     View overlay;
 
     protected ArrayList<Appointment> appointments;
-    protected ArrayList<PatientProfile> patients;
-
     protected ArrayList<DoctorProfile> doctors;
     protected RecyclerView recyclerView;
     protected bookingRecyclerAdapter.RecyclerViewClickListener listener;
@@ -66,7 +64,6 @@ public abstract class AbstractBookingActivity extends AppCompatActivity {
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         appointments = new ArrayList<>();
-        patients = new ArrayList<>();
         doctors = new ArrayList<>();
         AppointmentsReference appointmentsReference = new AppointmentsReference();
         appointmentsQuery = appointmentsReference.where("doctor_id", uid);
@@ -79,7 +76,7 @@ public abstract class AbstractBookingActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent backIntent = new Intent(com.example.medihub.activities.patient.AbstractBookingActivity.this, SearchAppointmentsActivity.class);
+                Intent backIntent = new Intent(AbstractBookingActivity.this, SearchAppointmentsActivity.class);
 //                backIntent.putExtra("current user", doctor);
                 startActivity(backIntent);
             }
@@ -89,7 +86,7 @@ public abstract class AbstractBookingActivity extends AppCompatActivity {
     protected void setAdapter()
     {
         setOnClickListener();
-        adapter = new bookingRecyclerAdapter(appointments, patients, listener);
+        adapter = new bookingRecyclerAdapter(appointments, doctors, listener);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.medihub.R;
 import com.example.medihub.database.UsersReference;
 import com.example.medihub.models.Appointment;
-import com.example.medihub.models.PatientProfile;
+import com.example.medihub.models.DoctorProfile;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,24 +26,24 @@ import java.util.ArrayList;
 
 public class bookingRecyclerAdapter extends RecyclerView.Adapter<bookingRecyclerAdapter.MyViewHolder> {
     private ArrayList<Appointment> appointmentsList;
-    private ArrayList<PatientProfile> patientsList;
+    private ArrayList<DoctorProfile> doctorsList;
     private bookingRecyclerAdapter.RecyclerViewClickListener listener;
 
-    public bookingRecyclerAdapter(ArrayList<Appointment> appointmentsList, ArrayList<PatientProfile> patientsList, bookingRecyclerAdapter.RecyclerViewClickListener listener)
+    public bookingRecyclerAdapter(ArrayList<Appointment> appointmentsList, ArrayList<DoctorProfile> doctorsList, bookingRecyclerAdapter.RecyclerViewClickListener listener)
     {
         this.appointmentsList = appointmentsList;
-        this.patientsList = patientsList;
+        this.doctorsList = doctorsList;
         this.listener = listener;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private TextView patientText;
+        private TextView doctorText;
         private TextView dateText;
 
         public MyViewHolder(final View view)
         {
             super(view);
-            patientText = view.findViewById(R.id.textView4);
+            doctorText = view.findViewById(R.id.textView4);
             dateText = view.findViewById(R.id.textView5);
 
             view.setOnClickListener(this);
@@ -65,18 +65,18 @@ public class bookingRecyclerAdapter extends RecyclerView.Adapter<bookingRecycler
     @Override
     public void onBindViewHolder(@NonNull bookingRecyclerAdapter.MyViewHolder holder, int position) {
         Appointment appointment = appointmentsList.get(position);
-        PatientProfile patient = patientsList.get(position);
+        DoctorProfile doctor = doctorsList.get(position);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         holder.dateText.setText("Date: ");
         holder.dateText.append(appointment.localStartDate().format(formatter));
 
-        holder.patientText.setText("Doctor: ");
-        if (patient != null) {
-            holder.patientText.append(patient.getFirstName() + " " + patient.getLastName());
+        holder.doctorText.setText("Doctor: ");
+        if (doctor != null) {
+            holder.doctorText.append(doctor.getFirstName() + " " + doctor.getLastName());
         } else {
-            holder.patientText.append("No Doctor Assigned");
+            holder.doctorText.append("No Doctor Assigned");
         }
     }
 

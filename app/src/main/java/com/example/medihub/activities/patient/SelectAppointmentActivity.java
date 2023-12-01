@@ -202,9 +202,6 @@ public class SelectAppointmentActivity extends AbstractBookingActivity{
                                                         String firstName = dataSnapshot.child("firstName").getValue(String.class);
                                                         String lastName = dataSnapshot.child("lastName").getValue(String.class);
 
-                                                        PatientProfile currDoc = new PatientProfile(firstName, lastName, null, null, null, null);
-
-                                                        patients.add(currDoc);
                                                         setAdapter();
                                                     }
                                                 }
