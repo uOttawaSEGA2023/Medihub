@@ -17,6 +17,8 @@ import com.example.medihub.models.PatientProfile;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
@@ -27,13 +29,11 @@ import java.util.ArrayList;
 
 public class appointmentRecycleAdapterPatient extends RecyclerView.Adapter<appointmentRecycleAdapterPatient.MyViewHolder> {
     private ArrayList<Appointment> appointmentsList;
-    private ArrayList<DoctorProfile> doctorList;
     private appointmentRecycleAdapterPatient.RecyclerViewClickListener listener;
 
-    public appointmentRecycleAdapterPatient(ArrayList<Appointment> appointmentsList, ArrayList<DoctorProfile> doctorList, appointmentRecycleAdapterPatient.RecyclerViewClickListener listener)
+    public appointmentRecycleAdapterPatient(ArrayList<Appointment> appointmentsList, appointmentRecycleAdapterPatient.RecyclerViewClickListener listener)
     {
         this.appointmentsList = appointmentsList;
-        this.doctorList = doctorList;
         this.listener = listener;
     }
 
@@ -65,14 +65,39 @@ public class appointmentRecycleAdapterPatient extends RecyclerView.Adapter<appoi
 
     @Override
     public void onBindViewHolder(@NonNull appointmentRecycleAdapterPatient.MyViewHolder holder, int position) {
+
         Appointment appointment = appointmentsList.get(position);
-        DoctorProfile doctor = doctorList.get(position);
+
+        //FINDS THE DOCTOR's NAME FROM THEIR KEY
+        String doctorId = (appointment.getDoctor_id());
+        UsersReference userReference = new UsersReference();
+        DatabaseReference doctorRef = userReference.get(doctorId);
+        doctorRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+
+                    String doctorFirstName = dataSnapshot.child("firstName").getValue(String.class);
+                    String doctorLastName = dataSnapshot.child("lastName").getValue(String.class);
+                    holder.doctorText.append(doctorFirstName + " " + doctorLastName);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle errors here
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+
+
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         holder.dateText.append(appointment.localStartDate().format(formatter));
 
-        holder.doctorText.append(doctor.getFirstName() + " " + doctor.getLastName());
+
     }
 
     @Override

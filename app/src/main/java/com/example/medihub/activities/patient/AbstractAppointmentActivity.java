@@ -76,7 +76,7 @@ public abstract class AbstractAppointmentActivity extends AppCompatActivity {
     protected void setAdapter()
     {
         setOnClickListener();
-        adapter = new appointmentRecycleAdapterPatient(appointments, doctors, listener);
+        adapter = new appointmentRecycleAdapterPatient(appointments, listener);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

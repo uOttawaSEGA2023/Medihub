@@ -56,10 +56,12 @@ public class ViewAppointments extends AbstractAppointmentActivity {
 
                 if (snapshot.exists()) {
                     totalChildren = (int)snapshot.getChildrenCount();
-
-                    // fetch shifts
+                    
+                    // fetch appointments
                     for (DataSnapshot appointmentSnapshot : snapshot.getChildren()) {
                         Appointment appointment = appointmentSnapshot.getValue(Appointment.class);
+
+
 
                         // check if it's not null
                         if (appointment != null) {
@@ -74,11 +76,13 @@ public class ViewAppointments extends AbstractAppointmentActivity {
                             Collections.sort(appointments);
                             setAdapter();
                             break;
+
                         }
                     }
                 } else {
                     setAdapter();
                 }
+
             }
 
             @Override
