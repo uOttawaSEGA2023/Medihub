@@ -85,7 +85,7 @@ public class PatientActivity extends AppCompatActivity {
         });
     }
 
-    private void logout() {
+    public void logout() {
         if (firebaseAuth.getCurrentUser() != null) {
             firebaseAuth.signOut();
 
