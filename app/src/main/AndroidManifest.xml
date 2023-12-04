@@ -15,13 +15,22 @@
         android:theme="@style/Theme.MediHub"
         tools:targetApi="31">
         <activity
+            android:name=".activities.patient.SelectAppointmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.patient.SearchAppointmentsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.doctor.UpcomingAppointmentsActivity"
             android:exported="false" />
-        <activity android:name=".activities.doctor.PastAppointmentsActivity"
+        <activity
+            android:name=".activities.doctor.PastAppointmentsActivity"
             android:exported="false" />
-        <activity android:name=".activities.doctor.PendingAppointmentsActivity"
+        <activity
+            android:name=".activities.doctor.PendingAppointmentsActivity"
             android:exported="false" />
-        <activity android:name=".activities.doctor.DeclinedAppointmentsActivity"
+        <activity
+            android:name=".activities.doctor.DeclinedAppointmentsActivity"
             android:exported="false" />
         <activity
             android:name=".activities.admin.PendingRequestsActivity"
@@ -43,6 +52,15 @@
             android:exported="false" />
         <activity
             android:name=".activities.doctor.ShiftMenu"
+            android:exported="false" />
+        <activity
+            android:name=".activities.patient.AbstractAppointmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.patient.ViewAppointments"
+            android:exported="false" />
+        <activity
+            android:name=".activities.patient.ViewPastAppointments"
             android:exported="false" />
         <activity
             android:name=".activities.doctor.ShiftView"

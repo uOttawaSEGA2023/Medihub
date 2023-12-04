@@ -24,12 +24,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class appointmentRecycleAdapter extends RecyclerView.Adapter<appointmentRecycleAdapter.MyViewHolder> {
+public class bookingRecyclerAdapter extends RecyclerView.Adapter<bookingRecyclerAdapter.MyViewHolder> {
     private ArrayList<Appointment> appointmentsList;
     private ArrayList<PatientProfile> patientsList;
-    private appointmentRecycleAdapter.RecyclerViewClickListener listener;
+    private bookingRecyclerAdapter.RecyclerViewClickListener listener;
 
-    public appointmentRecycleAdapter(ArrayList<Appointment> appointmentsList, ArrayList<PatientProfile> patientsList, appointmentRecycleAdapter.RecyclerViewClickListener listener)
+    public bookingRecyclerAdapter(ArrayList<Appointment> appointmentsList, ArrayList<PatientProfile> patientsList, bookingRecyclerAdapter.RecyclerViewClickListener listener)
     {
         this.appointmentsList = appointmentsList;
         this.patientsList = patientsList;
@@ -57,21 +57,27 @@ public class appointmentRecycleAdapter extends RecyclerView.Adapter<appointmentR
 
     @NonNull
     @Override
-    public appointmentRecycleAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public bookingRecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_appointments, parent, false);
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull appointmentRecycleAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull bookingRecyclerAdapter.MyViewHolder holder, int position) {
         Appointment appointment = appointmentsList.get(position);
         PatientProfile patient = patientsList.get(position);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
+        holder.dateText.setText("Date: ");
         holder.dateText.append(appointment.localStartDate().format(formatter));
 
-        holder.patientText.append(patient.getFirstName() + " " + patient.getLastName());
+        holder.patientText.setText("Doctor: ");
+        if (patient != null) {
+            holder.patientText.append(patient.getFirstName() + " " + patient.getLastName());
+        } else {
+            holder.patientText.append("No Doctor Assigned");
+        }
     }
 
     @Override
@@ -83,3 +89,5 @@ public class appointmentRecycleAdapter extends RecyclerView.Adapter<appointmentR
         void onClick(View v, int position);
     }
 }
+
+
