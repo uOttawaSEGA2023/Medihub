@@ -120,125 +120,9 @@ public class SelectAppointmentActivity extends AbstractBookingActivity{
 
                     // Parse all available appointments
                     if (numDoctors == 0) {
-                        Log.i("matching doctors: ", doctors_matching_with_specialties.toString());
+                        parseShifts(currentUser);
                     }
                 }
-
-                // parsing available appointments
-//                for (String doctor_id : doctors_matching_with_specialties)
-//                {
-//                    DatabaseReference shiftsRef = database.getReference("shifts");
-//
-//                    shiftsRef.orderByChild("doctor_id").equalTo(doctor_id).addListenerForSingleValueEvent(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(DataSnapshot dataSnapshot) {
-//                            for (DataSnapshot shiftSnapshot : dataSnapshot.getChildren()) {
-//                                // Access shift data for the specific doctor
-//                                String shift_id = shiftSnapshot.getKey();
-//                                LocalDateTime start = LocalDateTime.parse(shiftSnapshot.child("startDate").getValue(String.class));
-//                                LocalDateTime end = LocalDateTime.parse(shiftSnapshot.child("endDate").getValue(String.class));
-//                                Shift shift = new Shift(doctor_id, start, end);
-//                                LocalDateTime currentDateTime = start;
-//                                while (currentDateTime.isBefore(end)) {
-//                                    LocalDateTime blockEndDateTime = currentDateTime.plusMinutes(30);
-//
-//                                    // Create an Appointment object for the current 30-minute block
-//                                    Appointment app = new Appointment(currentUser.getUid(), doctor_id, shift_id, RequestStatus.pending, blockEndDateTime);
-//
-//                                    // Add the appointment to the list
-//                                    all_open_shifts_for_booking.add(app);
-//
-//                                    // Move to the next 30-minute block
-//                                    currentDateTime = blockEndDateTime;
-//                                }
-//
-//                            }
-//                            // removing appointments that have already been booked / are pending
-//                            DatabaseReference appointmentsRef = database.getReference("appointments");
-//
-//                            Iterator<Appointment> iterator = all_open_shifts_for_booking.iterator();
-//                            List<Appointment> appointmentsToRemove = new ArrayList<>();
-//
-//                            while (iterator.hasNext())
-//                            {
-//                                Appointment app = iterator.next();
-//                                appointmentsRef.addValueEventListener(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                                        boolean shouldRemove = false;
-//                                        for (DataSnapshot appointmentSnapshot : dataSnapshot.getChildren()) {
-//                                            // Get appointment details
-//                                            String startDate = appointmentSnapshot.child("startDate").getValue(String.class);
-//
-//
-//                                            LocalDateTime start_time = LocalDateTime.parse(startDate);
-//
-//                                            // check if current app is already booked
-//
-//                                            // check if current app is already booked
-//                                            if (app.localStartDate().isAfter(start_time.minusMinutes(1)) &&
-//                                                    app.localStartDate().isBefore(start_time.plusMinutes(30))) {
-//                                                    shouldRemove = true;
-//                                                    break; // No need to check further once we decide to remove
-//                                            }
-//
-//                                        }
-//
-//                                        if (shouldRemove) {
-//                                            appointmentsToRemove.add(app);
-//                                        }
-//
-//                                        // Perform removal after checking all appointments
-//                                        if (!iterator.hasNext()) {
-//                                            all_open_shifts_for_booking.removeAll(appointmentsToRemove);
-//                                            appointments = all_open_shifts_for_booking;
-//                                            Collections.sort(appointments);
-//                                        }
-//
-//
-//                                        // doctor parsing
-//                                        for (int i = 0; i < appointments.size(); i++) {
-//                                            String doctor_id = appointments.get(i).getDoctor_id();
-//                                            DatabaseReference doctorsRef = FirebaseDatabase.getInstance().getReference().child("users").child(doctor_id);
-//
-//                                            doctorsRef.addValueEventListener(new ValueEventListener() {
-//                                                @Override
-//                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                                    // Retrieve doctor data
-//                                                    if (dataSnapshot.exists()) {
-//                                                        String firstName = dataSnapshot.child("firstName").getValue(String.class);
-//                                                        String lastName = dataSnapshot.child("lastName").getValue(String.class);
-//
-//                                                        setAdapter();
-//                                                    }
-//                                                }
-//
-//                                                @Override
-//                                                public void onCancelled(@NonNull DatabaseError databaseError) {
-//                                                    // Handle error
-//                                                }
-//                                            });
-//                                        }
-//
-//
-//                                    }
-//
-//
-//                                    @Override
-//                                    public void onCancelled(DatabaseError databaseError) {
-//                                        System.err.println("Error getting appointments: " + databaseError.getMessage());
-//                                    }
-//                                });
-//                            }
-//
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(DatabaseError databaseError) {
-//                            System.err.println("Error getting shifts: " + databaseError.getMessage());
-//                        }
-//                    });
-//                }
             }
 
             @Override
@@ -276,7 +160,122 @@ public class SelectAppointmentActivity extends AbstractBookingActivity{
 
     }
 
+    public void parseShifts(FirebaseUser currentUser) {
+        for (String doctor_id : doctors_matching_with_specialties)
+        {
+            DatabaseReference shiftsRef = database.getReference("shifts");
 
+            shiftsRef.orderByChild("doctor_id").equalTo(doctor_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot shiftSnapshot : dataSnapshot.getChildren()) {
+                        // Access shift data for the specific doctor
+                        String shift_id = shiftSnapshot.getKey();
+                        LocalDateTime start = LocalDateTime.parse(shiftSnapshot.child("startDate").getValue(String.class));
+                        LocalDateTime end = LocalDateTime.parse(shiftSnapshot.child("endDate").getValue(String.class));
+                        Shift shift = new Shift(doctor_id, start, end);
+                        LocalDateTime currentDateTime = start;
+                        while (currentDateTime.isBefore(end)) {
+                            LocalDateTime blockEndDateTime = currentDateTime.plusMinutes(30);
+
+                            // Create an Appointment object for the current 30-minute block
+                            Appointment app = new Appointment(currentUser.getUid(), doctor_id, shift_id, RequestStatus.pending, blockEndDateTime);
+
+                            // Add the appointment to the list
+                            all_open_shifts_for_booking.add(app);
+
+                            // Move to the next 30-minute block
+                            currentDateTime = blockEndDateTime;
+                        }
+
+                    }
+                    // removing appointments that have already been booked / are pending
+                    DatabaseReference appointmentsRef = database.getReference("appointments");
+
+                    Iterator<Appointment> iterator = all_open_shifts_for_booking.iterator();
+                    List<Appointment> appointmentsToRemove = new ArrayList<>();
+
+                    while (iterator.hasNext())
+                    {
+                        Appointment app = iterator.next();
+                        appointmentsRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                boolean shouldRemove = false;
+                                for (DataSnapshot appointmentSnapshot : dataSnapshot.getChildren()) {
+                                    // Get appointment details
+                                    String startDate = appointmentSnapshot.child("startDate").getValue(String.class);
+
+
+                                    LocalDateTime start_time = LocalDateTime.parse(startDate);
+
+                                    // check if current app is already booked
+
+                                    // check if current app is already booked
+                                    if (app.localStartDate().isAfter(start_time.minusMinutes(1)) &&
+                                            app.localStartDate().isBefore(start_time.plusMinutes(30))) {
+                                        shouldRemove = true;
+                                        break; // No need to check further once we decide to remove
+                                    }
+
+                                }
+
+                                if (shouldRemove) {
+                                    appointmentsToRemove.add(app);
+                                }
+
+                                // Perform removal after checking all appointments
+                                if (!iterator.hasNext()) {
+                                    all_open_shifts_for_booking.removeAll(appointmentsToRemove);
+                                    appointments = all_open_shifts_for_booking;
+                                    Collections.sort(appointments);
+                                }
+
+
+                                // doctor parsing
+                                for (int i = 0; i < appointments.size(); i++) {
+                                    String doctor_id = appointments.get(i).getDoctor_id();
+                                    DatabaseReference doctorsRef = FirebaseDatabase.getInstance().getReference().child("users").child(doctor_id);
+
+                                    doctorsRef.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            // Retrieve doctor data
+                                            if (dataSnapshot.exists()) {
+                                                String firstName = dataSnapshot.child("firstName").getValue(String.class);
+                                                String lastName = dataSnapshot.child("lastName").getValue(String.class);
+
+                                                setAdapter();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                            // Handle error
+                                        }
+                                    });
+                                }
+
+
+                            }
+
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                System.err.println("Error getting appointments: " + databaseError.getMessage());
+                            }
+                        });
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    System.err.println("Error getting shifts: " + databaseError.getMessage());
+                }
+            });
+        }
+    }
 
     @Override
     protected void showRequestCard(int position) {
