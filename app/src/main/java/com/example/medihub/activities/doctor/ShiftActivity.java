@@ -7,7 +7,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medihub.R;
+import com.example.medihub.database.AppointmentsReference;
 import com.example.medihub.database.ShiftsReference;
+import com.example.medihub.enums.RequestStatus;
+import com.example.medihub.models.Appointment;
 import com.example.medihub.models.DoctorProfile;
 import com.example.medihub.models.Shift;
 import com.google.firebase.auth.FirebaseAuth;
@@ -124,6 +127,16 @@ public class ShiftActivity extends AppCompatActivity implements AdapterView.OnIt
                     DatabaseReference objectsReference = databaseReference.child("shifts");
                     String objectId = objectsReference.push().getKey();
                     objectsReference.child(objectId).setValue(tempShift);
+
+                    // create appointments
+                    AppointmentsReference appointmentsReference = new AppointmentsReference();
+                    LocalDateTime current = tempShift.localStartDate();
+                    while (current.isBefore(tempShift.localEndDate())) {
+                        Appointment app = new Appointment("", tempShift.getDoctor_id(), objectId, RequestStatus.pending, current);
+                        appointmentsReference.create(app);
+
+                        current = current.plusMinutes(30);
+                    }
 
                     Intent intent = new Intent(ShiftActivity.this, ShiftMenu.class);
                     intent.putExtra("current user", user);

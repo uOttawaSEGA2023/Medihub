@@ -47,7 +47,7 @@ public class PastAppointmentsActivity extends AbstractAppointmentsActivity {
                         Appointment appointment = appointmentSnapshot.getValue(Appointment.class);
 
                         // check if it's a valid past appointment
-                        if (appointment != null && LocalDateTime.now().isAfter(appointment.localEndDate()) && appointment.getStatus() == RequestStatus.approved) {
+                        if (appointment != null && appointment.isBooked() && LocalDateTime.now().isAfter(appointment.localEndDate()) && appointment.getStatus() == RequestStatus.approved) {
                             // add appointment to list
                             appointment.setKey(appointmentSnapshot.getKey());
                             appointments.add(appointment);

@@ -49,7 +49,7 @@ public class UpcomingAppointmentsActivity extends AbstractAppointmentsActivity {
                         Appointment appointment = appointmentSnapshot.getValue(Appointment.class);
 
                         // check if it's a valid upcoming appointment
-                        if (appointment != null && appointment.localStartDate().isAfter(LocalDateTime.now()) && appointment.getStatus() == RequestStatus.approved) {
+                        if (appointment != null && appointment.isBooked() && appointment.localStartDate().isAfter(LocalDateTime.now()) && appointment.getStatus() == RequestStatus.approved) {
                             // add appointment to list
                             appointment.setKey(appointmentSnapshot.getKey());
                             appointments.add(appointment);

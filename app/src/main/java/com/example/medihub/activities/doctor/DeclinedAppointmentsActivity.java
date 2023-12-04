@@ -51,7 +51,7 @@ public class DeclinedAppointmentsActivity extends AbstractAppointmentsActivity{
                         Appointment appointment = appointmentSnapshot.getValue(Appointment.class);
 
                         // check if it's a declined appointment
-                        if (appointment != null && (appointment.getStatus() == RequestStatus.declined || appointment.getStatus() == RequestStatus.cancelled)) {
+                        if (appointment != null && appointment.isBooked() && (appointment.getStatus() == RequestStatus.declined || appointment.getStatus() == RequestStatus.cancelled)) {
                             // add appointment to list
                             appointment.setKey(appointmentSnapshot.getKey());
                             appointments.add(appointment);

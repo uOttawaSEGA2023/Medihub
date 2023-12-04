@@ -18,6 +18,7 @@ public class Appointment implements Model, Serializable, Comparable<Appointment>
     private Integer patientRating;
     private RequestStatus status;
     private LocalDateTime startDate;
+    private boolean isBooked;
 
 
 
@@ -30,6 +31,7 @@ public class Appointment implements Model, Serializable, Comparable<Appointment>
         this.status = status;
         this.startDate = startDate;
         this.patientRating = null;
+        this.isBooked = false;
     }
 
 
@@ -46,6 +48,15 @@ public class Appointment implements Model, Serializable, Comparable<Appointment>
         return startDate.toString();
     }
     public Integer getPatientRating() { return this.patientRating; }
+
+    public boolean isBooked() {
+        return isBooked;
+    }
+
+    public void setBooked(boolean booked) {
+        isBooked = booked;
+    }
+
     public LocalDateTime localStartDate() {
         return startDate;
     }

@@ -96,7 +96,7 @@ public class PendingAppointmentsActivity extends AbstractAppointmentsActivity{
                         Appointment appointment = appointmentSnapshot.getValue(Appointment.class);
 
                         // check if it's a pending appointment
-                        if (appointment != null && appointment.getStatus() == RequestStatus.pending) {
+                        if (appointment != null && appointment.isBooked() && appointment.getStatus() == RequestStatus.pending) {
                             // add appointment to list
                             appointment.setKey(appointmentSnapshot.getKey());
                             appointments.add(appointment);
