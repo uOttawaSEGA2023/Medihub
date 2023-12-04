@@ -54,6 +54,15 @@
             android:name=".activities.doctor.ShiftMenu"
             android:exported="false" />
         <activity
+            android:name=".activities.patient.AbstractAppointmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.patient.ViewAppointments"
+            android:exported="false" />
+        <activity
+            android:name=".activities.patient.ViewPastAppointments"
+            android:exported="false" />
+        <activity
             android:name=".activities.doctor.ShiftView"
             android:exported="false" />
         <activity

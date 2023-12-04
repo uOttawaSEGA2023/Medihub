@@ -23,6 +23,8 @@ public class PatientActivity extends AppCompatActivity {
     // UI elements
     private Button logoutButton;
     private Button searchAppointButton;
+    private Button upcoming;
+    private Button past;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +47,31 @@ public class PatientActivity extends AppCompatActivity {
         // button handling
         logoutButton = findViewById(R.id.logoutButton);
         searchAppointButton = findViewById(R.id.btnBookAppointments);
+        upcoming = findViewById(R.id.btnUpcomingAppointmentsPatient);
+        past = findViewById(R.id.btnPastAppointmentsPatient);
 
         searchAppointButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(PatientActivity.this, SearchAppointmentsActivity.class);
+                intent.putExtra("current user", user);
+                startActivity(intent);
+            }
+        });
+
+        upcoming.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PatientActivity.this, ViewAppointments.class);
+                intent.putExtra("current user", user);
+                startActivity(intent);
+            }
+        });
+
+        past.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PatientActivity.this, ViewPastAppointments.class);
                 intent.putExtra("current user", user);
                 startActivity(intent);
             }
@@ -63,7 +85,7 @@ public class PatientActivity extends AppCompatActivity {
         });
     }
 
-    private void logout() {
+    public void logout() {
         if (firebaseAuth.getCurrentUser() != null) {
             firebaseAuth.signOut();
 
