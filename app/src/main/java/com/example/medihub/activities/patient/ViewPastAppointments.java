@@ -13,9 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import java.time.temporal.ChronoUnit;
-import java.util.Calendar;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -47,7 +44,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.BlockingDeque;
 
-public class ViewAppointments extends AbstractAppointmentActivity {
+public class ViewPastAppointments extends AbstractAppointmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,15 +56,18 @@ public class ViewAppointments extends AbstractAppointmentActivity {
 
                 if (snapshot.exists()) {
                     totalChildren = (int)snapshot.getChildrenCount();
-                    
+
                     // fetch appointments
                     for (DataSnapshot appointmentSnapshot : snapshot.getChildren()) {
                         Appointment appointment = appointmentSnapshot.getValue(Appointment.class);
 
                         // check if it's not null
                         if (appointment != null) {
-                            // add shift to list
 
+                            //Check if it's a past appointment
+
+
+                            // add shift to list
                             appointment.setKey(appointmentSnapshot.getKey());
                             appointments.add(appointment);
                         }
@@ -134,58 +134,32 @@ public class ViewAppointments extends AbstractAppointmentActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AppointmentsReference appointmentReference = new AppointmentsReference();
+                AppointmentsReference appointmentsReference = new AppointmentsReference();
 
-                LocalDateTime currentDateTime = LocalDateTime.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-                String formattedDateTime = currentDateTime.format(formatter);
+                Query appointmentsQuery = appointmentsReference.where("appointment_id", appointment.getKey());
+                appointmentsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.getChildrenCount() == 0) {
+                            appointmentReference.delete(appointment.getKey());
+                            Toast.makeText(getApplicationContext(), "Appointment deleted", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Appointment can't be deleted (has appointments)", Toast.LENGTH_LONG).show();
+                        }
 
-                LocalDateTime dateTime1 = LocalDateTime.parse(formattedDateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-                LocalDateTime dateTime2 = LocalDateTime.parse(appointment.getStartDate(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-
-                boolean isSameDate = dateTime1.toLocalDate().isEqual(dateTime2.toLocalDate());
-
-                    // Compare the time part if the date is the same
-                    long minutesDifference = Math.abs(dateTime1.until(dateTime2, java.time.temporal.ChronoUnit.MINUTES));
-
-                    // Check if the time is within 60 minutes
-                    if (minutesDifference <= 60 && isSameDate == true) {
-
-                        Toast.makeText(getApplicationContext(), "Appointment within 60 minutes. Can't be deleted!", Toast.LENGTH_LONG).show();
-
-                    } else {
-
-                        AppointmentsReference appointmentReference = new AppointmentsReference();
-                        AppointmentsReference appointmentsReference = new AppointmentsReference();
-
-                        Query appointmentsQuery = appointmentsReference.where("appointment_id", appointment.getKey());
-                        appointmentsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.getChildrenCount() == 0) {
-                                    appointmentReference.delete(appointment.getKey());
-                                    Toast.makeText(getApplicationContext(), "Appointment deleted", Toast.LENGTH_LONG).show();
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Appointment can't be deleted (has appointments)", Toast.LENGTH_LONG).show();
-                                }
-
-                                alertDialog.dismiss();
-                                hideOverlay();
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
+                        alertDialog.dismiss();
+                        hideOverlay();
                     }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-
-                }
-
+                    }
+                });
+            }
         });
 
         alertDialog.show();
     }
-
 }
