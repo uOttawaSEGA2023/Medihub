@@ -133,49 +133,6 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/appointmentRequestsLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="30dp"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/appointmentsLayout">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/textView6"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Appointment Requests"
-                            android:textSize="20sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <Button
-                            android:id="@+id/btnRateDoc"
-                            android:layout_width="150dp"
-                            android:layout_height="55dp"
-                            android:layout_marginStart="130dp"
-                            android:layout_marginTop="24dp"
-                            android:layout_marginEnd="131dp"
-                            android:background="@drawable/round_corner_blue"
-                            android:text="Rate Doctors"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </LinearLayout>
-
                 <Button
                     android:id="@+id/logoutButton"
                     android:layout_width="wrap_content"
@@ -188,7 +145,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.066"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/appointmentRequestsLayout" />
+                    app:layout_constraintTop_toBottomOf="@+id/appointmentsLayout" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -50,6 +50,8 @@ public abstract class AbstractAppointmentActivity extends AppCompatActivity {
     protected UserProfile patient;
     protected Query appointmentsQuery;
     protected int totalChildren = 0;
+    protected Button backButton;
+
     appointmentRecycleAdapterPatient adapter;
 
     @Override
@@ -65,12 +67,22 @@ public abstract class AbstractAppointmentActivity extends AppCompatActivity {
         doctors = new ArrayList<>();
         AppointmentsReference appointmentsReference = new AppointmentsReference();
         appointmentsQuery = appointmentsReference.where("patient_id", uid);
+        backButton = findViewById(R.id.backToHomePageFromInboxButton);
 
         recyclerView = findViewById(R.id.requestView);
         overlay = findViewById(R.id.overlay);
         authorizeAllButton = findViewById(R.id.buttonAuthorizeAll);
 
         authorizeAllButton.setVisibility(View.GONE);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent patientIntent = new Intent(AbstractAppointmentActivity.this, PatientActivity.class);
+                patientIntent.putExtra("current user", patient);
+                startActivity(patientIntent);
+            }
+        });
     }
 
     protected void setAdapter()
