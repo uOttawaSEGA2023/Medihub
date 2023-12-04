@@ -71,7 +71,7 @@ public class PatientActivity extends AppCompatActivity {
         past.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PatientActivity.this, SearchAppointmentsActivity.class);
+                Intent intent = new Intent(PatientActivity.this, ViewPastAppointments.class);
                 intent.putExtra("current user", user);
                 startActivity(intent);
             }

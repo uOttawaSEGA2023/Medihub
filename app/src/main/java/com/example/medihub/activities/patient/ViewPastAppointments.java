@@ -13,6 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -64,12 +67,24 @@ public class ViewPastAppointments extends AbstractAppointmentActivity {
                         // check if it's not null
                         if (appointment != null) {
 
-                            //Check if it's a past appointment
+                            //CURRENT TIME & DATE
+                            LocalDateTime currentDateTime = LocalDateTime.now();
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+                            String formattedDateTime = currentDateTime.format(formatter);
 
+                            LocalDateTime dateTime1 = LocalDateTime.parse(formattedDateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                            LocalDateTime dateTime2 = LocalDateTime.parse(appointment.getStartDate(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
-                            // add shift to list
-                            appointment.setKey(appointmentSnapshot.getKey());
-                            appointments.add(appointment);
+                            Log.d("Current", dateTime1.toString());
+                            Log.d("Appointment", dateTime2.toString());
+
+                            if (dateTime2.isBefore(dateTime1)) {
+
+                                appointment.setKey(appointmentSnapshot.getKey());
+                                appointments.add(appointment);
+
+                            }
+
                         }
 
                         // check if all appointments have been fetched
@@ -100,9 +115,62 @@ public class ViewPastAppointments extends AbstractAppointmentActivity {
         ConstraintLayout request_window = findViewById(R.id.successConstraintLayout);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_appointment_card_patient, request_window);
 
-        Button delete = view.findViewById(R.id.buttonDelete);
+        Button one = view.findViewById(R.id.button1Star);
+        Button two = view.findViewById(R.id.button2Star);
+        Button three = view.findViewById(R.id.button3Star);
+        Button four = view.findViewById(R.id.button4Star);
+        Button five = view.findViewById(R.id.button5Star);
 
         Appointment appointment = appointments.get(position);
+
+        one.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Rated 1 star!", Toast.LENGTH_LONG).show();
+                appointment.setPatientRating(1);
+
+            }
+        });
+
+        two.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Rated 2 stars!", Toast.LENGTH_LONG).show();
+                appointment.setPatientRating(2);
+
+            }
+        });
+
+        three.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Rated 3 stars!", Toast.LENGTH_LONG).show();
+                appointment.setPatientRating(3);
+
+            }
+        });
+
+        four.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Rated 4 stars!", Toast.LENGTH_LONG).show();
+                appointment.setPatientRating(4);
+
+            }
+        });
+
+        five.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Rated 5 stars!", Toast.LENGTH_LONG).show();
+                appointment.setPatientRating(5);
+
+            }
+        });
+
+
+        Button delete = view.findViewById(R.id.buttonDelete);
+        delete.setVisibility(View.GONE);
 
         if (appointment != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -134,32 +202,58 @@ public class ViewPastAppointments extends AbstractAppointmentActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppointmentsReference appointmentReference = new AppointmentsReference();
-                AppointmentsReference appointmentsReference = new AppointmentsReference();
 
-                Query appointmentsQuery = appointmentsReference.where("appointment_id", appointment.getKey());
-                appointmentsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.getChildrenCount() == 0) {
-                            appointmentReference.delete(appointment.getKey());
-                            Toast.makeText(getApplicationContext(), "Appointment deleted", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Appointment can't be deleted (has appointments)", Toast.LENGTH_LONG).show();
+                LocalDateTime currentDateTime = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+                String formattedDateTime = currentDateTime.format(formatter);
+
+                LocalDateTime dateTime1 = LocalDateTime.parse(formattedDateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                LocalDateTime dateTime2 = LocalDateTime.parse(appointment.getStartDate(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+                boolean isSameDate = dateTime1.toLocalDate().isEqual(dateTime2.toLocalDate());
+
+                // Compare the time part if the date is the same
+                long minutesDifference = Math.abs(dateTime1.until(dateTime2, java.time.temporal.ChronoUnit.MINUTES));
+
+                // Check if the time is within 60 minutes
+                if (minutesDifference <= 60 && isSameDate == true) {
+
+                    Toast.makeText(getApplicationContext(), "Appointment within 60 minutes. Can't be deleted!", Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    AppointmentsReference appointmentReference = new AppointmentsReference();
+                    AppointmentsReference appointmentsReference = new AppointmentsReference();
+
+                    Query appointmentsQuery = appointmentsReference.where("appointment_id", appointment.getKey());
+                    appointmentsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.getChildrenCount() == 0) {
+                                appointmentReference.delete(appointment.getKey());
+                                Toast.makeText(getApplicationContext(), "Appointment deleted", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Appointment can't be deleted (has appointments)", Toast.LENGTH_LONG).show();
+                            }
+
+                            alertDialog.dismiss();
+                            hideOverlay();
                         }
 
-                        alertDialog.dismiss();
-                        hideOverlay();
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
+                }
 
-                    }
-                });
+
+
             }
+
         });
 
         alertDialog.show();
     }
+
 }

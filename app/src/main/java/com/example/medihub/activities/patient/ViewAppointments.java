@@ -66,10 +66,22 @@ public class ViewAppointments extends AbstractAppointmentActivity {
 
                         // check if it's not null
                         if (appointment != null) {
-                            // add shift to list
 
-                            appointment.setKey(appointmentSnapshot.getKey());
-                            appointments.add(appointment);
+                            //CURRENT TIME & DATE
+                            LocalDateTime currentDateTime = LocalDateTime.now();
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+                            String formattedDateTime = currentDateTime.format(formatter);
+
+                            LocalDateTime dateTime1 = LocalDateTime.parse(formattedDateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                            LocalDateTime dateTime2 = LocalDateTime.parse(appointment.getStartDate(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+                            if (dateTime2.isAfter(dateTime1)) {
+                                // add shift to list
+
+                                appointment.setKey(appointmentSnapshot.getKey());
+                                appointments.add(appointment);
+
+                            }
                         }
 
                         // check if all appointments have been fetched
@@ -99,6 +111,20 @@ public class ViewAppointments extends AbstractAppointmentActivity {
     protected void showRequestCard(int position) {
         ConstraintLayout request_window = findViewById(R.id.successConstraintLayout);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_appointment_card_patient, request_window);
+
+        TextView rateText = view.findViewById(R.id.textView7);
+        Button one = view.findViewById(R.id.button1Star);
+        Button two = view.findViewById(R.id.button2Star);
+        Button three = view.findViewById(R.id.button3Star);
+        Button four = view.findViewById(R.id.button4Star);
+        Button five = view.findViewById(R.id.button5Star);
+
+        rateText.setVisibility(View.GONE);
+        one.setVisibility(View.GONE);
+        two.setVisibility(View.GONE);
+        three.setVisibility(View.GONE);
+        four.setVisibility(View.GONE);
+        five.setVisibility(View.GONE);
 
         Button delete = view.findViewById(R.id.buttonDelete);
 
