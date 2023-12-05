@@ -65,7 +65,7 @@ public class ViewAppointments extends AbstractAppointmentActivity {
                         Appointment appointment = appointmentSnapshot.getValue(Appointment.class);
 
                         // check if it's not null
-                        if (appointment != null) {
+                        if (appointment != null && appointment.getStatus() == RequestStatus.approved) {
 
                             //CURRENT TIME & DATE
                             LocalDateTime currentDateTime = LocalDateTime.now();
