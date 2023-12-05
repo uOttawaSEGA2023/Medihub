@@ -53,9 +53,9 @@
 
 ## Project Deliverable 4 Checklist
 - [X] The updated UML Class diagram of your domain model is valid. (10/100)
-- [ ] The APK is submitted. (5/100)
+- [X] The APK is submitted. (5/100)
 - [X] The 4 Unit test cases (simple local tests) are implemented. There is no need to include instrumentation or Espresso Tests (UI). (10/100)
-- [ ] The final report is submitted (30/100)
+- [X] The final report is submitted (30/100)
 - [X] The application supports the requirements of Deliverables 1, 2, and 3 (In case these deliverables were not previously completed, they still need to be implemented for this deliverable) (20/100)
 - [X] The Patient can view a list of upcoming appointments. (5/100)
 - [X] The Patient can cancel an upcoming appointment. Cancellations should only be possible if the appointment is not scheduled to start in the next 60 minutes. (5/100)
