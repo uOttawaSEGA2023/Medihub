@@ -147,8 +147,12 @@ public class SelectAppointmentActivity extends AbstractBookingActivity{
                         numShifts--;
 
                         Shift shift = shiftSnapshot.getValue(Shift.class);
-                        if (LocalDateTime.now().isAfter(shift.localStartDate()))
+                        if (LocalDateTime.now().isAfter(shift.localStartDate())) {
+                            if (numShifts == 0) {
+                                parseAppointments(doctor_id);
+                            }
                             continue;
+                        }
 
                         all_valid_shifts.add(shiftSnapshot.getKey());
 
@@ -188,8 +192,13 @@ public class SelectAppointmentActivity extends AbstractBookingActivity{
                                 Appointment app = appointmentSnapshot.getValue(Appointment.class);
                                 Log.i("app: ", String.valueOf(app.isBooked()));
                                 app.setKey(appointmentSnapshot.getKey());
-                                if (app.isBooked())
+                                if (app.isBooked()) {
+                                    if (numAppointments == 0) {
+                                        Collections.sort(appointments);
+                                        setAdapter();
+                                    }
                                     continue;
+                                }
 
                                 appointments.add(app);
                                 doctors.add(doctor);
