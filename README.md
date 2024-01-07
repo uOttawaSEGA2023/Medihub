@@ -1,73 +1,58 @@
-# project-project-group-24
+# Medihub App (Project Group 24)
 
 ## Table of Contents
+- [App Description](#app-description)
+- [How we built it](#how-we-built-it)
+- [Challenges we ran into](#challenges-we-ran-into)
+- [What we learned](#what-we-learned)
+- [App Screenshots](#app-screenshots)
+- [The Team](#the-team)
 - [Admin Credentials](#admin-credentials)
-- [Project Deliverable 1 Checklist](#project-deliverable-1-checklist)
-- [Project Deliverable 2 Checklist](#project-deliverable-2-checklist)
-- [Project Deliverable 3 Checklist](#project-deliverable-3-checklist)
-- [Project Deliverable 4 Checklist](#project-deliverable-4-checklist)
+
+## App Description
+Medihub is a mobile Healthcare Appoinment Management System (HAMS) which manages appointments between doctors and patients. Users can request to create a Patient or Doctor account and can access various app features upon account approval by an Admin. 
+
+### Patient Features
+- Search & Create appointment requests by medical specialties
+- View upcoming & past appointments
+- Rate a past appointment (1 to 5 stars)
+
+### Doctor Features
+- Manage work shifts
+- Accept, decline, or cancel appointment requests from patients
+- View upcoming & past appointments
+
+### Admin Features
+- Accept or decline user registration requests
+
+## How we built it
+This mobile app was made using [Android Studio](https://developer.android.com/studio), [Firebase](https://firebase.google.com/), and the Java programming language. Android Studio & Java was used to write our source code including the UI and backend. We used Firebase Authentication to handle user authentication (login & registration) and Firebase Realtime Database to store app data. 
+
+## Challenges we ran into
+- Researching how we can use firebase to make app development simpler & quicker
+- Dividing work tasks efficiently & collaborating as a team using git branches
+- Learning how to structure our NoSQL database & make various calls to it
+- Creating & testing various features within a timely manner
+
+## What we learned
+Throughout this project, we learned a lot of new technologies such as Android Studio and Firebase. Aside from learning how to create Android apps, we learned how to work as a team to get a large number of tasks done within a timely manner. One thing we found effective was implementing code review through Github pull requests. By reviewing and testing each other's features, we fixed many bugs which might've been harder to fix later if ignored. Additionally, maintaining communication between each other was vital in order to get this project done. 
+
+## App Screenshots
+![image](https://github.com/uOttawaSEGA2023/Medihub/assets/75919484/7c6ff21c-36b9-4037-b0a8-d494e3c53c0c)
+![image](https://github.com/uOttawaSEGA2023/Medihub/assets/75919484/27981071-efdf-4328-bf34-97109435b8c1)
+![image](https://github.com/uOttawaSEGA2023/Medihub/assets/75919484/a89ee43a-5842-4ffd-ae30-abca58a2adfd)
+![image](https://github.com/uOttawaSEGA2023/Medihub/assets/75919484/05e6f623-baad-4d17-996d-a93f2d962f42)
+![image](https://github.com/uOttawaSEGA2023/Medihub/assets/75919484/1f19e4eb-147d-4458-a568-a3e0e8360fe5)
+![image](https://github.com/uOttawaSEGA2023/Medihub/assets/75919484/59901b8d-b60a-431d-9725-7cbe5bac757f)
+![image](https://github.com/uOttawaSEGA2023/Medihub/assets/75919484/2464e7d1-9037-40a2-a7f0-9f665480d77a)
+![image](https://github.com/uOttawaSEGA2023/Medihub/assets/75919484/0258c666-6446-4355-a2ae-b1dbdd4727be)
+
+## The Team
+- [Charley](https://github.com/Columbium41)
+- [Christopher](https://github.com/ChristopherLit)
+- [Feiyu](https://github.com/feftywacky)
+- [Michael](https://github.com/michaelhum28)
 
 ## Admin Credentials
 - Email: Medihub043@gmail.com
 - Password: admin123
-
-## Project Deliverable 1 Checklist
-- [X] The team created in GitHub classroom contains all members of the group. (10/100)
-- [X] Each member of the group has made at least one commit to the repository. (20/100)
-- [X] The UML Class diagram of your domain model is valid. (5/100)
-- [X] The APK is submitted. (5/100)
-- [X] A user can create a Patient or Doctor account. (15/100)
-- [X] The Administrator, Doctor, or Patient user can see the “welcome screen” after successful authentication. The welcome screen specifies the user role. (15/100)
-- [X] The user can log off. (10/100)
-- [X] All fields are validated. There are appropriate error messages for incorrect inputs. (20/100)
-- [X] Optional BONUS - The group uses a DB (5/100)
-
-## Project Deliverable 2 Checklist
-- [X] The updated UML Class diagram of your domain model is valid. (10/100)
-- [X] The APK is submitted. (5/100)
-- [X] When a Patient or Doctor register, their account information is stored in the DB (along with an indicator of whether their account registration has been approved, rejected, or not processed yet). (15/100)
-- [X] The Administrator can view the list of registration requests. (5/100)
-- [X] The Administrator can view the information associated with each request (the information the user entered during registration). (5/100)
-- [X] The Administrator can approve or reject a registration request. (5/100)
-- [X] If approved, the registration request disappears from the list of registration requests. (7.5/100)
-- [X] If rejected, the registration request is added to the list of rejected registration requests. (7.5/100)
-- [X] The Administrator can view the list of previously rejected registration requests. (7.5/100)
-- [X] The Administrator can approve a previously rejected request. (7.5/100)
-- [X] The registration requests are stored in the DB (10/100)
-- [X] When a Patient or Doctor attempt to login, they are either directed to the welcome page, notified that their registration request was rejected, or informed that their registration request has not been processed yet. (15/100)
-- [ ] Optional BONUS - When a user registration request is approved or rejected, they receive an e-mail and notification on their phone. (5/100)
-
-## Project Deliverable 3 Checklist
-- [X] The updated UML Class diagram of your domain model is valid. (15/100)
-- [X] The APK is submitted. (5/100)
-- [X] The Doctor can view a list of upcoming appointments. (5/100)
-- [X] The Doctor can view the information of a Patient that requested an appointment. (10/100)
-- [X] The Doctor can approve or reject an appointment request. (10/100)
-- [X] The Doctor can cancel a previously approved appointment. (10/100)
-- [X] The Doctor can view a list of past appointments. (5/100)
-- [X] The Doctor may enable a setting so that all appointment requests are automatically approved by the system without further action on their part. (10/100)
-- [X] The Doctor can view the list of upcoming shifts they are working. (10/100)
-- [X] The Doctor can add a new shift by specifying the date, start-time, and end-time of the shift. All fields must be validated. Hence, the Doctor cannot enter a date that has already passed or a shift that conflicts with another one they had previously added. (10/100)
-- [X] The Doctor can delete an existing shift. (10/100)
-- [ ] Optional BONUS - The group integrates with CircleCI to see the automated builds and test unit execution. (5/100)
-
-## Project Deliverable 4 Checklist
-- [X] The updated UML Class diagram of your domain model is valid. (10/100)
-- [X] The APK is submitted. (5/100)
-- [X] The 4 Unit test cases (simple local tests) are implemented. There is no need to include instrumentation or Espresso Tests (UI). (10/100)
-- [X] The final report is submitted (30/100)
-- [X] The application supports the requirements of Deliverables 1, 2, and 3 (In case these deliverables were not previously completed, they still need to be implemented for this deliverable) (20/100)
-- [X] The Patient can view a list of upcoming appointments. (5/100)
-- [X] The Patient can cancel an upcoming appointment. Cancellations should only be possible if the appointment is not scheduled to start in the next 60 minutes. (5/100)
-- [X] The Patient can view their past appointments. (5/100)
-- [X] The Patient can rate a Doctor with whom they previously had an appointment. (5/100)
-- [X] The Patient can search for appointments by specifying a medical specialty and selecting a time slot from the available ones. An appointment is a 30-minute time slot. (5/100)
-- [X] Once booked, the appointment appears in the Patient’s list of upcoming appointments. (5/100)
-- [X] A booked time slot is not listed when Patients look for appointments. (5/100)
-- [X] The Doctor cannot delete a shift if it is associated with one or more Patient appointments. (5/100)
-- [ ] Optional BONUS - Rather than searching for appointments by specifying a medical
-                       specialty, the Patient can opt to search for a Doctor by name (i.e., first name, last
-                       name, or both). If the search yields only one Doctor, then that Doctor’s available
-                       time slots are displayed. If the search returns multiple Doctors, then the user can
-                       tap on a specific Doctor’s name to view their available time slots. The Patient can
-                       then book a time slot. (5/100)
