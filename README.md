@@ -33,6 +33,7 @@ This mobile app was made using [Android Studio](https://developer.android.com/st
 - Dividing work tasks efficiently & collaborating as a team using git branches
 - Learning how to structure our NoSQL database & make various calls to it
 - Creating & testing various features within a timely manner
+- Designing a good UI while ensuring the app's features are functional
 
 ## What we learned
 Throughout this project, we learned a lot of new technologies such as Android Studio and Firebase. Aside from learning how to create Android apps, we learned how to work as a team to get a large number of tasks done within a timely manner. One thing we found effective was implementing code review through Github pull requests. By reviewing and testing each other's features, we fixed many bugs which might've been harder to fix later if ignored. Additionally, maintaining communication between each other was vital in order to get this project done. 
@@ -48,10 +49,10 @@ Throughout this project, we learned a lot of new technologies such as Android St
 ![image](https://github.com/uOttawaSEGA2023/Medihub/assets/75919484/0258c666-6446-4355-a2ae-b1dbdd4727be)
 
 ## The Team
-- [Charley](https://github.com/Columbium41)
-- [Christopher](https://github.com/ChristopherLit)
-- [Feiyu](https://github.com/feftywacky)
-- [Michael](https://github.com/michaelhum28)
+- [Charley](https://github.com/Columbium41) 🦆
+- [Christopher](https://github.com/ChristopherLit) 
+- [Feiyu](https://github.com/feftywacky) 
+- [Michael](https://github.com/michaelhum28) 🥚
 
 ## Admin Credentials
 - Email: Medihub043@gmail.com
