@@ -10,7 +10,7 @@
 - [Admin Credentials](#admin-credentials)
 
 ## App Description
-Medihub is a mobile Healthcare Appoinment Management System (HAMS) which manages appointments between doctors and patients. Users can request to create a Patient or Doctor account and can access various app features upon account approval by an Admin. 
+Medihub is a mobile Healthcare Appointment Management System (HAMS) which manages appointments between doctors and patients. Users can request to create a Patient or Doctor account and can access various app features upon account approval by an Admin. 
 
 ### Patient Features
 - Search & Create appointment requests by medical specialties
