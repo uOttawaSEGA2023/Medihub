@@ -1,4 +1,4 @@
-# Medihub App (Project Group 24)
+# Medihub App
 
 ## Table of Contents
 - [App Description](#app-description)
